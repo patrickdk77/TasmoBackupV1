@@ -10,6 +10,7 @@ if (isset($_POST["name"])) {
 if (isset($_POST["id"])) {
     $id = intval($_POST["id"]);
 }
+$output = '';
 if (isset($_POST["task"])) {
     switch(strtolower($_POST["task"])) {
         case 'delbackup':
@@ -19,7 +20,24 @@ if (isset($_POST["task"])) {
         case 'restorebackup':
             $device=dbDeviceId($id);
             $backup=dbBackupId(intval($_POST["backupid"]));
-            restoreTasmotaBackup($device['ip'],'admin',$device['password'],$backup['filename']);
+            $to=htmlspecialchars($device['ip']);
+            if (restoreTasmotaBackup($device['ip'],'admin',$device['password'],$backup['filename'],$device['type'])) {
+                // Tasmota reboots to apply a restored config, OpenBeken
+                // applies pins and the startup command immediately.
+                if (intval($device['type'])===2) {
+                    $output = '<div class="alert alert-success">'
+                        .sprintf(t('Restore sent to %s and applied'), $to)
+                        .'</div>';
+                } else {
+                    $output = '<div class="alert alert-success">'
+                        .sprintf(t('Restore sent to %s, the device reboots to apply it'), $to)
+                        .'</div>';
+                }
+            } else {
+                $output = '<div class="alert alert-danger">'
+                    .sprintf(t('Restore to %s failed, the device did not accept the upload'), $to)
+                    .'</div>';
+            }
             break;
     }
 }
@@ -42,6 +60,7 @@ $(document).ready(function() {
 
     <div class="container-fluid">
 	<center><h4><a href="index.php">TasmoBackup</a> - <?php echo sprintf(t('Listing for %s'), $name); ?></h4></center>
+<?php if($output !== '') echo $output; ?>
     <table class="table table-striped table-bordered" id="status">
     <thead>
 		    <tr><th><b><?php echo t('DATE'); ?></b></th><th><center><b><?php echo t('NAME'); ?></b></center></th><th><center><b><?php echo t('VERSION'); ?></b></center></th><th><center><b><?php echo t('FILE'); ?></b></center></th><th><center><b><?php echo t('DELETE'); ?></b><center></th><th><center><b><?php echo t('RESTORE'); ?></b></center></th></tr>
@@ -90,7 +109,7 @@ $(document).ready(function() {
     </form>
   </center></td>
 <?php
-        if(intval($type)===0) {
+        if(intval($type)===0 || intval($type)===2) {
 ?>  <td><center>
     <form action='listbackups.php' method='POST'>
     <input type='hidden' name='task' value='restorebackup'>

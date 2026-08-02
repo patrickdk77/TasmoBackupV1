@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"POT-Creation-Date: 2026-08-02 21:20+0000\n"
+"Language: zh-Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: zh-Hans\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: backupall.php:14 index.php:95
@@ -38,37 +39,37 @@ msgstr "所有备份均已成功完成！"
 msgid "Not all backups completed successfully!"
 msgstr "并非所有备份都已成功完成！"
 
-#: edit.php:8
+#: edit.php:9
 #, fuzzy
 msgid "Edit Device"
 msgstr "编辑设备"
 
-#: edit.php:21 index.php:301
+#: edit.php:22 index.php:305
 #, fuzzy
 msgid "Edit"
 msgstr "编辑"
 
-#: edit.php:24 index.php:191
+#: edit.php:25 index.php:191
 #, fuzzy
 msgid "AUTH"
 msgstr "认证"
 
-#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#: edit.php:25 index.php:191 index.php:310 scan.php:36 settings.php:114
 #, fuzzy
 msgid "IP"
 msgstr "IP"
 
-#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#: edit.php:25 index.php:191 listbackups.php:66 scan.php:36
 #, fuzzy
 msgid "NAME"
 msgstr "名称"
 
-#: edit.php:24
+#: edit.php:25
 #, fuzzy
 msgid "SUBMIT"
 msgstr "提交"
 
-#: edit.php:45 settings.php:161
+#: edit.php:46 settings.php:161
 #, fuzzy
 msgid "Submit"
 msgstr "提交"
@@ -123,7 +124,7 @@ msgstr "删除 %1$s 时出错：%2$s"
 msgid "BACKUP"
 msgstr "备份"
 
-#: index.php:191 listbackups.php:47
+#: index.php:191 listbackups.php:66
 #, fuzzy
 msgid "DELETE"
 msgstr "删除"
@@ -148,262 +149,277 @@ msgstr "主机名"
 msgid "LAST BACKUP"
 msgstr "上次备份"
 
-#: index.php:191 index.php:306
+#: index.php:191 index.php:310
 #, fuzzy
 msgid "MAC"
 msgstr "MAC"
 
-#: index.php:191 listbackups.php:47
+#: index.php:191 listbackups.php:66
 #, fuzzy
 msgid "VERSION"
 msgstr "版本"
 
-#: index.php:225 index.php:258
+#: index.php:225 index.php:262
 #, fuzzy
 msgid "Open console in new tab"
 msgstr "在新标签页中打开控制台"
 
-#: index.php:297
+#: index.php:301
 #, fuzzy
 msgid "Open upgrade in new tab"
 msgstr "在新标签页中打开升级页面"
 
-#: index.php:299
+#: index.php:303
 #, fuzzy
 msgid "List backups to download or restore"
 msgstr "列出可下载或恢复的备份"
 
-#: index.php:300
+#: index.php:304
 #, fuzzy
 msgid "Backup"
 msgstr "备份"
 
-#: index.php:302 listbackups.php:89
+#: index.php:306 listbackups.php:108
 #, fuzzy, php-format
 msgid "Are you sure you want to delete %s"
 msgstr "确定要删除 %s 吗"
 
-#: index.php:302 listbackups.php:89
+#: index.php:306 listbackups.php:108
 #, fuzzy
 msgid "Delete"
 msgstr "删除"
 
-#: index.php:306 settings.php:114
+#: index.php:310 settings.php:114
 #, fuzzy
 msgid "Name"
 msgstr "名称"
 
-#: index.php:306
+#: index.php:310
 #, fuzzy
 msgid "Type"
 msgstr "类型"
 
-#: index.php:306 settings.php:114
+#: index.php:310 settings.php:114
 #, fuzzy
 msgid "Version"
 msgstr "版本"
 
-#: index.php:308
+#: index.php:312
 #, fuzzy
 msgid "BuildTag"
 msgstr "构建标签"
 
-#: index.php:309 settings.php:114
+#: index.php:313 settings.php:114
 #, fuzzy
 msgid "Last Backup"
 msgstr "上次备份"
 
-#: index.php:310 index.php:380
+#: index.php:314 index.php:384
 #, fuzzy
 msgid "Close"
 msgstr "关闭"
 
-#: index.php:317
+#: index.php:321
 #, fuzzy
 msgid "Backup All"
 msgstr "全部备份"
 
-#: index.php:318
+#: index.php:322
 #, fuzzy
 msgid "Discover"
 msgstr "发现设备"
 
-#: index.php:318 index.php:321
+#: index.php:322 index.php:325
 #, fuzzy
 msgid "password"
 msgstr "密码"
 
-#: index.php:321
+#: index.php:325
 #, fuzzy
 msgid "MQTT Discover"
 msgstr "MQTT 发现"
 
-#: lib/functions.inc.php:648
+#: lib/functions.inc.php:828
 #, fuzzy, php-format
 msgid "%s: Device not found."
 msgstr "%s：未找到设备。"
 
-#: lib/functions.inc.php:673
+#: lib/functions.inc.php:853
 #, fuzzy, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr "%s：设备未响应 status5 请求。"
 
-#: lib/functions.inc.php:682
+#: lib/functions.inc.php:862
 #, fuzzy, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr "%s：设备未响应 status2 请求。"
 
-#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#: lib/functions.inc.php:871 lib/functions.inc.php:908
 #, fuzzy, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr "%1$s：%2$s 的信息已更新！"
 
-#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#: lib/functions.inc.php:874 lib/functions.inc.php:911
 #, fuzzy, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr "%1$s：%2$s 已存在于数据库中！"
 
-#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#: lib/functions.inc.php:880 lib/functions.inc.php:919
 #, fuzzy, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr "%1$s：%2$s 添加成功！"
 
-#: lib/functions.inc.php:704
+#: lib/functions.inc.php:884
 #, fuzzy, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr "%1$s：%2$s 将设备添加到数据库时出错。"
 
-#: lib/functions.inc.php:707
+#: lib/functions.inc.php:887
 #, fuzzy, php-format
 msgid "%s: Device not responding to status request."
 msgstr "%s：设备未响应 status 请求。"
 
-#: lib/functions.inc.php:744
+#: lib/functions.inc.php:924
 #, fuzzy, php-format
 msgid "%s: This device already exists in the database!"
 msgstr "%s：此设备已存在于数据库中！"
 
-#: lib/functions.inc.php:798
+#: lib/functions.inc.php:978
 #, fuzzy, php-format
 msgid "TasmoBackup: %s"
 msgstr "TasmoBackup：%s"
 
-#: lib/functions.inc.php:840
+#: lib/functions.inc.php:1020
 #, fuzzy, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr "TasmoBackup %s，作者 Dan Medhurst"
 
-#: lib/i18n.inc.php:272
+#: lib/i18n.inc.php:277
 #, fuzzy
 msgid "No data available in table"
 msgstr "表中暂无数据"
 
-#: lib/i18n.inc.php:273
+#: lib/i18n.inc.php:278
 #, fuzzy
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "正在显示第 _START_ 至 _END_ 条，共 _TOTAL_ 条"
 
-#: lib/i18n.inc.php:274
+#: lib/i18n.inc.php:279
 #, fuzzy
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "正在显示第 0 至 0 条，共 0 条"
 
-#: lib/i18n.inc.php:275
+#: lib/i18n.inc.php:280
 #, fuzzy
 msgid "(filtered from _MAX_ total entries)"
 msgstr "（从 _MAX_ 条记录中筛选）"
 
-#: lib/i18n.inc.php:276
+#: lib/i18n.inc.php:281
 #, fuzzy
 msgid "Show _MENU_ entries"
 msgstr "每页显示 _MENU_ 条"
 
-#: lib/i18n.inc.php:277
+#: lib/i18n.inc.php:282
 #, fuzzy
 msgid "Loading..."
 msgstr "加载中..."
 
-#: lib/i18n.inc.php:278
+#: lib/i18n.inc.php:283
 #, fuzzy
 msgid "Processing..."
 msgstr "处理中..."
 
-#: lib/i18n.inc.php:279
+#: lib/i18n.inc.php:284
 #, fuzzy
 msgid "Search:"
 msgstr "搜索："
 
-#: lib/i18n.inc.php:280
+#: lib/i18n.inc.php:285
 #, fuzzy
 msgid "No matching records found"
 msgstr "未找到匹配的记录"
 
-#: lib/i18n.inc.php:282
+#: lib/i18n.inc.php:287
 #, fuzzy
 msgid "First"
 msgstr "首页"
 
-#: lib/i18n.inc.php:283
+#: lib/i18n.inc.php:288
 #, fuzzy
 msgid "Last"
 msgstr "末页"
 
-#: lib/i18n.inc.php:284
+#: lib/i18n.inc.php:289
 #, fuzzy
 msgid "Next"
 msgstr "下一页"
 
-#: lib/i18n.inc.php:285
+#: lib/i18n.inc.php:290
 #, fuzzy
 msgid "Previous"
 msgstr "上一页"
 
-#: lib/i18n.inc.php:288
+#: lib/i18n.inc.php:293
 #, fuzzy
 msgid ": activate to sort column ascending"
 msgstr "：点击以按升序排列此列"
 
-#: lib/i18n.inc.php:289
+#: lib/i18n.inc.php:294
 #, fuzzy
 msgid ": activate to sort column descending"
 msgstr "：点击以按降序排列此列"
 
-#: listbackups.php:27
+#: listbackups.php:29
+#, php-format
+msgid "Restore sent to %s and applied"
+msgstr ""
+
+#: listbackups.php:33
+#, php-format
+msgid "Restore sent to %s, the device reboots to apply it"
+msgstr ""
+
+#: listbackups.php:38
+#, php-format
+msgid "Restore to %s failed, the device did not accept the upload"
+msgstr ""
+
+#: listbackups.php:45
 #, fuzzy
 msgid "List Backups"
 msgstr "备份列表"
 
-#: listbackups.php:44
+#: listbackups.php:62
 #, fuzzy, php-format
 msgid "Listing for %s"
 msgstr "%s 的备份列表"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "DATE"
 msgstr "日期"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "FILE"
 msgstr "文件"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "RESTORE"
 msgstr "恢复"
 
-#: listbackups.php:80
+#: listbackups.php:99
 #, fuzzy
 msgid "Download"
 msgstr "下载"
 
-#: listbackups.php:100
+#: listbackups.php:119
 #, fuzzy, php-format
 msgid "Are you sure you want to restore %s to this device"
 msgstr "确定要将 %s 恢复到此设备吗"
 
-#: listbackups.php:100
+#: listbackups.php:119
 #, fuzzy
 msgid "Restore"
 msgstr "恢复"
@@ -423,17 +439,17 @@ msgstr "扫描结果"
 msgid "ADD"
 msgstr "添加"
 
-#: scan.php:111
+#: scan.php:114
 #, fuzzy
 msgid "Unknown"
 msgstr "未知"
 
-#: scan.php:123
+#: scan.php:126
 #, fuzzy
 msgid "Select All"
 msgstr "全选"
 
-#: scan.php:124
+#: scan.php:127
 #, fuzzy
 msgid "Add Devices"
 msgstr "添加设备"

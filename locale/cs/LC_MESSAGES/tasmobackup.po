@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"POT-Creation-Date: 2026-08-02 21:20+0000\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: cs\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #: backupall.php:14 index.php:95
@@ -40,37 +41,37 @@ msgstr "Všechny zálohy byly úspěšně dokončeny!"
 msgid "Not all backups completed successfully!"
 msgstr "Ne všechny zálohy byly úspěšně dokončeny!"
 
-#: edit.php:8
+#: edit.php:9
 #, fuzzy
 msgid "Edit Device"
 msgstr "Upravit zařízení"
 
-#: edit.php:21 index.php:301
+#: edit.php:22 index.php:305
 #, fuzzy
 msgid "Edit"
 msgstr "Upravit"
 
-#: edit.php:24 index.php:191
+#: edit.php:25 index.php:191
 #, fuzzy
 msgid "AUTH"
 msgstr "OVĚŘENÍ"
 
-#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#: edit.php:25 index.php:191 index.php:310 scan.php:36 settings.php:114
 #, fuzzy
 msgid "IP"
 msgstr "IP"
 
-#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#: edit.php:25 index.php:191 listbackups.php:66 scan.php:36
 #, fuzzy
 msgid "NAME"
 msgstr "NÁZEV"
 
-#: edit.php:24
+#: edit.php:25
 #, fuzzy
 msgid "SUBMIT"
 msgstr "ODESLAT"
 
-#: edit.php:45 settings.php:161
+#: edit.php:46 settings.php:161
 #, fuzzy
 msgid "Submit"
 msgstr "Odeslat"
@@ -125,7 +126,7 @@ msgstr "Chyba při mazání %1$s : %2$s"
 msgid "BACKUP"
 msgstr "ZÁLOHOVAT"
 
-#: index.php:191 listbackups.php:47
+#: index.php:191 listbackups.php:66
 #, fuzzy
 msgid "DELETE"
 msgstr "SMAZAT"
@@ -150,262 +151,277 @@ msgstr "NÁZEV HOSTITELE"
 msgid "LAST BACKUP"
 msgstr "POSLEDNÍ ZÁLOHA"
 
-#: index.php:191 index.php:306
+#: index.php:191 index.php:310
 #, fuzzy
 msgid "MAC"
 msgstr "MAC"
 
-#: index.php:191 listbackups.php:47
+#: index.php:191 listbackups.php:66
 #, fuzzy
 msgid "VERSION"
 msgstr "VERZE"
 
-#: index.php:225 index.php:258
+#: index.php:225 index.php:262
 #, fuzzy
 msgid "Open console in new tab"
 msgstr "Otevřít konzoli na nové kartě"
 
-#: index.php:297
+#: index.php:301
 #, fuzzy
 msgid "Open upgrade in new tab"
 msgstr "Otevřít aktualizaci na nové kartě"
 
-#: index.php:299
+#: index.php:303
 #, fuzzy
 msgid "List backups to download or restore"
 msgstr "Zobrazit zálohy ke stažení nebo obnovení"
 
-#: index.php:300
+#: index.php:304
 #, fuzzy
 msgid "Backup"
 msgstr "Zálohovat"
 
-#: index.php:302 listbackups.php:89
+#: index.php:306 listbackups.php:108
 #, fuzzy, php-format
 msgid "Are you sure you want to delete %s"
 msgstr "Opravdu chcete smazat %s"
 
-#: index.php:302 listbackups.php:89
+#: index.php:306 listbackups.php:108
 #, fuzzy
 msgid "Delete"
 msgstr "Smazat"
 
-#: index.php:306 settings.php:114
+#: index.php:310 settings.php:114
 #, fuzzy
 msgid "Name"
 msgstr "Název"
 
-#: index.php:306
+#: index.php:310
 #, fuzzy
 msgid "Type"
 msgstr "Typ"
 
-#: index.php:306 settings.php:114
+#: index.php:310 settings.php:114
 #, fuzzy
 msgid "Version"
 msgstr "Verze"
 
-#: index.php:308
+#: index.php:312
 #, fuzzy
 msgid "BuildTag"
 msgstr "Značka sestavení"
 
-#: index.php:309 settings.php:114
+#: index.php:313 settings.php:114
 #, fuzzy
 msgid "Last Backup"
 msgstr "Poslední záloha"
 
-#: index.php:310 index.php:380
+#: index.php:314 index.php:384
 #, fuzzy
 msgid "Close"
 msgstr "Zavřít"
 
-#: index.php:317
+#: index.php:321
 #, fuzzy
 msgid "Backup All"
 msgstr "Zálohovat vše"
 
-#: index.php:318
+#: index.php:322
 #, fuzzy
 msgid "Discover"
 msgstr "Vyhledat zařízení"
 
-#: index.php:318 index.php:321
+#: index.php:322 index.php:325
 #, fuzzy
 msgid "password"
 msgstr "heslo"
 
-#: index.php:321
+#: index.php:325
 #, fuzzy
 msgid "MQTT Discover"
 msgstr "Vyhledat přes MQTT"
 
-#: lib/functions.inc.php:648
+#: lib/functions.inc.php:828
 #, fuzzy, php-format
 msgid "%s: Device not found."
 msgstr "%s: Zařízení nenalezeno."
 
-#: lib/functions.inc.php:673
+#: lib/functions.inc.php:853
 #, fuzzy, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr "%s: Zařízení neodpovídá na požadavek status5."
 
-#: lib/functions.inc.php:682
+#: lib/functions.inc.php:862
 #, fuzzy, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr "%s: Zařízení neodpovídá na požadavek status2."
 
-#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#: lib/functions.inc.php:871 lib/functions.inc.php:908
 #, fuzzy, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr "%1$s: Informace o %2$s byly aktualizovány!"
 
-#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#: lib/functions.inc.php:874 lib/functions.inc.php:911
 #, fuzzy, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr "%1$s: %2$s již v databázi existuje!"
 
-#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#: lib/functions.inc.php:880 lib/functions.inc.php:919
 #, fuzzy, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr "%1$s: %2$s bylo úspěšně přidáno!"
 
-#: lib/functions.inc.php:704
+#: lib/functions.inc.php:884
 #, fuzzy, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr "%1$s: %2$s Chyba při přidávání zařízení do databáze."
 
-#: lib/functions.inc.php:707
+#: lib/functions.inc.php:887
 #, fuzzy, php-format
 msgid "%s: Device not responding to status request."
 msgstr "%s: Zařízení neodpovídá na požadavek status."
 
-#: lib/functions.inc.php:744
+#: lib/functions.inc.php:924
 #, fuzzy, php-format
 msgid "%s: This device already exists in the database!"
 msgstr "%s: Toto zařízení již v databázi existuje!"
 
-#: lib/functions.inc.php:798
+#: lib/functions.inc.php:978
 #, fuzzy, php-format
 msgid "TasmoBackup: %s"
 msgstr "TasmoBackup: %s"
 
-#: lib/functions.inc.php:840
+#: lib/functions.inc.php:1020
 #, fuzzy, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr "TasmoBackup %s od Dana Medhursta"
 
-#: lib/i18n.inc.php:272
+#: lib/i18n.inc.php:277
 #, fuzzy
 msgid "No data available in table"
 msgstr "V tabulce nejsou k dispozici žádná data"
 
-#: lib/i18n.inc.php:273
+#: lib/i18n.inc.php:278
 #, fuzzy
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "Zobrazeno _START_ až _END_ z celkem _TOTAL_ záznamů"
 
-#: lib/i18n.inc.php:274
+#: lib/i18n.inc.php:279
 #, fuzzy
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "Zobrazeno 0 až 0 z celkem 0 záznamů"
 
-#: lib/i18n.inc.php:275
+#: lib/i18n.inc.php:280
 #, fuzzy
 msgid "(filtered from _MAX_ total entries)"
 msgstr "(filtrováno z celkem _MAX_ záznamů)"
 
-#: lib/i18n.inc.php:276
+#: lib/i18n.inc.php:281
 #, fuzzy
 msgid "Show _MENU_ entries"
 msgstr "Zobrazit _MENU_ záznamů"
 
-#: lib/i18n.inc.php:277
+#: lib/i18n.inc.php:282
 #, fuzzy
 msgid "Loading..."
 msgstr "Načítání..."
 
-#: lib/i18n.inc.php:278
+#: lib/i18n.inc.php:283
 #, fuzzy
 msgid "Processing..."
 msgstr "Zpracování..."
 
-#: lib/i18n.inc.php:279
+#: lib/i18n.inc.php:284
 #, fuzzy
 msgid "Search:"
 msgstr "Hledat:"
 
-#: lib/i18n.inc.php:280
+#: lib/i18n.inc.php:285
 #, fuzzy
 msgid "No matching records found"
 msgstr "Nebyly nalezeny žádné odpovídající záznamy"
 
-#: lib/i18n.inc.php:282
+#: lib/i18n.inc.php:287
 #, fuzzy
 msgid "First"
 msgstr "První"
 
-#: lib/i18n.inc.php:283
+#: lib/i18n.inc.php:288
 #, fuzzy
 msgid "Last"
 msgstr "Poslední"
 
-#: lib/i18n.inc.php:284
+#: lib/i18n.inc.php:289
 #, fuzzy
 msgid "Next"
 msgstr "Další"
 
-#: lib/i18n.inc.php:285
+#: lib/i18n.inc.php:290
 #, fuzzy
 msgid "Previous"
 msgstr "Předchozí"
 
-#: lib/i18n.inc.php:288
+#: lib/i18n.inc.php:293
 #, fuzzy
 msgid ": activate to sort column ascending"
 msgstr ": aktivujte pro řazení sloupce vzestupně"
 
-#: lib/i18n.inc.php:289
+#: lib/i18n.inc.php:294
 #, fuzzy
 msgid ": activate to sort column descending"
 msgstr ": aktivujte pro řazení sloupce sestupně"
 
-#: listbackups.php:27
+#: listbackups.php:29
+#, php-format
+msgid "Restore sent to %s and applied"
+msgstr ""
+
+#: listbackups.php:33
+#, php-format
+msgid "Restore sent to %s, the device reboots to apply it"
+msgstr ""
+
+#: listbackups.php:38
+#, php-format
+msgid "Restore to %s failed, the device did not accept the upload"
+msgstr ""
+
+#: listbackups.php:45
 #, fuzzy
 msgid "List Backups"
 msgstr "Seznam záloh"
 
-#: listbackups.php:44
+#: listbackups.php:62
 #, fuzzy, php-format
 msgid "Listing for %s"
 msgstr "Seznam pro %s"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "DATE"
 msgstr "DATUM"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "FILE"
 msgstr "SOUBOR"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "RESTORE"
 msgstr "OBNOVIT"
 
-#: listbackups.php:80
+#: listbackups.php:99
 #, fuzzy
 msgid "Download"
 msgstr "Stáhnout"
 
-#: listbackups.php:100
+#: listbackups.php:119
 #, fuzzy, php-format
 msgid "Are you sure you want to restore %s to this device"
 msgstr "Opravdu chcete obnovit %s do tohoto zařízení"
 
-#: listbackups.php:100
+#: listbackups.php:119
 #, fuzzy
 msgid "Restore"
 msgstr "Obnovit"
@@ -425,17 +441,17 @@ msgstr "Výsledky skenování"
 msgid "ADD"
 msgstr "PŘIDAT"
 
-#: scan.php:111
+#: scan.php:114
 #, fuzzy
 msgid "Unknown"
 msgstr "Neznámé"
 
-#: scan.php:123
+#: scan.php:126
 #, fuzzy
 msgid "Select All"
 msgstr "Vybrat vše"
 
-#: scan.php:124
+#: scan.php:127
 #, fuzzy
 msgid "Add Devices"
 msgstr "Přidat zařízení"

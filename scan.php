@@ -91,6 +91,9 @@ if (isset($_POST["task"]) && $_POST["task"]=="scan") {
                 } else if ($type===1) { // WLED
                     if(isset($status['info']['name']))
                         $name=trim($status['info']['name']);
+                } else if ($type===2) { // OpenBeken
+                    if(isset($status['shortName']))
+                        $name=trim($status['shortName']);
                 }
                 echo "<tr valign='middle'><td><center><input type='checkbox' name='ip[]' value='" . $ip . "'></center></td>".
                      "<td>" . $name . "</td>".

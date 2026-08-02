@@ -6,10 +6,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"POT-Creation-Date: 2026-08-02 21:20+0000\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: backupall.php:14 index.php:95
@@ -38,37 +39,37 @@ msgstr "모든 백업이 성공적으로 완료되었습니다!"
 msgid "Not all backups completed successfully!"
 msgstr "일부 백업이 성공적으로 완료되지 않았습니다!"
 
-#: edit.php:8
+#: edit.php:9
 #, fuzzy
 msgid "Edit Device"
 msgstr "장치 편집"
 
-#: edit.php:21 index.php:301
+#: edit.php:22 index.php:305
 #, fuzzy
 msgid "Edit"
 msgstr "편집"
 
-#: edit.php:24 index.php:191
+#: edit.php:25 index.php:191
 #, fuzzy
 msgid "AUTH"
 msgstr "인증"
 
-#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#: edit.php:25 index.php:191 index.php:310 scan.php:36 settings.php:114
 #, fuzzy
 msgid "IP"
 msgstr "IP"
 
-#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#: edit.php:25 index.php:191 listbackups.php:66 scan.php:36
 #, fuzzy
 msgid "NAME"
 msgstr "이름"
 
-#: edit.php:24
+#: edit.php:25
 #, fuzzy
 msgid "SUBMIT"
 msgstr "제출"
 
-#: edit.php:45 settings.php:161
+#: edit.php:46 settings.php:161
 #, fuzzy
 msgid "Submit"
 msgstr "제출"
@@ -123,7 +124,7 @@ msgstr "%1$s 삭제 중 오류가 발생했습니다: %2$s"
 msgid "BACKUP"
 msgstr "백업"
 
-#: index.php:191 listbackups.php:47
+#: index.php:191 listbackups.php:66
 #, fuzzy
 msgid "DELETE"
 msgstr "삭제"
@@ -148,262 +149,277 @@ msgstr "호스트 이름"
 msgid "LAST BACKUP"
 msgstr "마지막 백업"
 
-#: index.php:191 index.php:306
+#: index.php:191 index.php:310
 #, fuzzy
 msgid "MAC"
 msgstr "MAC"
 
-#: index.php:191 listbackups.php:47
+#: index.php:191 listbackups.php:66
 #, fuzzy
 msgid "VERSION"
 msgstr "버전"
 
-#: index.php:225 index.php:258
+#: index.php:225 index.php:262
 #, fuzzy
 msgid "Open console in new tab"
 msgstr "새 탭에서 콘솔 열기"
 
-#: index.php:297
+#: index.php:301
 #, fuzzy
 msgid "Open upgrade in new tab"
 msgstr "새 탭에서 업그레이드 열기"
 
-#: index.php:299
+#: index.php:303
 #, fuzzy
 msgid "List backups to download or restore"
 msgstr "다운로드하거나 복원할 백업 목록 보기"
 
-#: index.php:300
+#: index.php:304
 #, fuzzy
 msgid "Backup"
 msgstr "백업"
 
-#: index.php:302 listbackups.php:89
+#: index.php:306 listbackups.php:108
 #, fuzzy, php-format
 msgid "Are you sure you want to delete %s"
 msgstr "%s을(를) 삭제하시겠습니까"
 
-#: index.php:302 listbackups.php:89
+#: index.php:306 listbackups.php:108
 #, fuzzy
 msgid "Delete"
 msgstr "삭제"
 
-#: index.php:306 settings.php:114
+#: index.php:310 settings.php:114
 #, fuzzy
 msgid "Name"
 msgstr "이름"
 
-#: index.php:306
+#: index.php:310
 #, fuzzy
 msgid "Type"
 msgstr "유형"
 
-#: index.php:306 settings.php:114
+#: index.php:310 settings.php:114
 #, fuzzy
 msgid "Version"
 msgstr "버전"
 
-#: index.php:308
+#: index.php:312
 #, fuzzy
 msgid "BuildTag"
 msgstr "빌드 태그"
 
-#: index.php:309 settings.php:114
+#: index.php:313 settings.php:114
 #, fuzzy
 msgid "Last Backup"
 msgstr "마지막 백업"
 
-#: index.php:310 index.php:380
+#: index.php:314 index.php:384
 #, fuzzy
 msgid "Close"
 msgstr "닫기"
 
-#: index.php:317
+#: index.php:321
 #, fuzzy
 msgid "Backup All"
 msgstr "전체 백업"
 
-#: index.php:318
+#: index.php:322
 #, fuzzy
 msgid "Discover"
 msgstr "장치 검색"
 
-#: index.php:318 index.php:321
+#: index.php:322 index.php:325
 #, fuzzy
 msgid "password"
 msgstr "비밀번호"
 
-#: index.php:321
+#: index.php:325
 #, fuzzy
 msgid "MQTT Discover"
 msgstr "MQTT 검색"
 
-#: lib/functions.inc.php:648
+#: lib/functions.inc.php:828
 #, fuzzy, php-format
 msgid "%s: Device not found."
 msgstr "%s: 장치를 찾을 수 없습니다."
 
-#: lib/functions.inc.php:673
+#: lib/functions.inc.php:853
 #, fuzzy, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr "%s: 장치가 status5 요청에 응답하지 않습니다."
 
-#: lib/functions.inc.php:682
+#: lib/functions.inc.php:862
 #, fuzzy, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr "%s: 장치가 status2 요청에 응답하지 않습니다."
 
-#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#: lib/functions.inc.php:871 lib/functions.inc.php:908
 #, fuzzy, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr "%1$s: %2$s 정보가 업데이트되었습니다!"
 
-#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#: lib/functions.inc.php:874 lib/functions.inc.php:911
 #, fuzzy, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr "%1$s: %2$s이(가) 이미 데이터베이스에 있습니다!"
 
-#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#: lib/functions.inc.php:880 lib/functions.inc.php:919
 #, fuzzy, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr "%1$s: %2$s이(가) 성공적으로 추가되었습니다!"
 
-#: lib/functions.inc.php:704
+#: lib/functions.inc.php:884
 #, fuzzy, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr "%1$s: %2$s 장치를 데이터베이스에 추가하는 중 오류가 발생했습니다."
 
-#: lib/functions.inc.php:707
+#: lib/functions.inc.php:887
 #, fuzzy, php-format
 msgid "%s: Device not responding to status request."
 msgstr "%s: 장치가 status 요청에 응답하지 않습니다."
 
-#: lib/functions.inc.php:744
+#: lib/functions.inc.php:924
 #, fuzzy, php-format
 msgid "%s: This device already exists in the database!"
 msgstr "%s: 이 장치는 이미 데이터베이스에 있습니다!"
 
-#: lib/functions.inc.php:798
+#: lib/functions.inc.php:978
 #, fuzzy, php-format
 msgid "TasmoBackup: %s"
 msgstr "TasmoBackup: %s"
 
-#: lib/functions.inc.php:840
+#: lib/functions.inc.php:1020
 #, fuzzy, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr "TasmoBackup %s, 제작 Dan Medhurst"
 
-#: lib/i18n.inc.php:272
+#: lib/i18n.inc.php:277
 #, fuzzy
 msgid "No data available in table"
 msgstr "테이블에 데이터가 없습니다"
 
-#: lib/i18n.inc.php:273
+#: lib/i18n.inc.php:278
 #, fuzzy
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
 msgstr "전체 _TOTAL_개 항목 중 _START_에서 _END_까지 표시"
 
-#: lib/i18n.inc.php:274
+#: lib/i18n.inc.php:279
 #, fuzzy
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "전체 0개 항목 중 0에서 0까지 표시"
 
-#: lib/i18n.inc.php:275
+#: lib/i18n.inc.php:280
 #, fuzzy
 msgid "(filtered from _MAX_ total entries)"
 msgstr "(전체 _MAX_개 항목에서 필터링됨)"
 
-#: lib/i18n.inc.php:276
+#: lib/i18n.inc.php:281
 #, fuzzy
 msgid "Show _MENU_ entries"
 msgstr "_MENU_개 항목 표시"
 
-#: lib/i18n.inc.php:277
+#: lib/i18n.inc.php:282
 #, fuzzy
 msgid "Loading..."
 msgstr "로드 중..."
 
-#: lib/i18n.inc.php:278
+#: lib/i18n.inc.php:283
 #, fuzzy
 msgid "Processing..."
 msgstr "처리 중..."
 
-#: lib/i18n.inc.php:279
+#: lib/i18n.inc.php:284
 #, fuzzy
 msgid "Search:"
 msgstr "검색:"
 
-#: lib/i18n.inc.php:280
+#: lib/i18n.inc.php:285
 #, fuzzy
 msgid "No matching records found"
 msgstr "일치하는 레코드가 없습니다"
 
-#: lib/i18n.inc.php:282
+#: lib/i18n.inc.php:287
 #, fuzzy
 msgid "First"
 msgstr "처음"
 
-#: lib/i18n.inc.php:283
+#: lib/i18n.inc.php:288
 #, fuzzy
 msgid "Last"
 msgstr "마지막"
 
-#: lib/i18n.inc.php:284
+#: lib/i18n.inc.php:289
 #, fuzzy
 msgid "Next"
 msgstr "다음"
 
-#: lib/i18n.inc.php:285
+#: lib/i18n.inc.php:290
 #, fuzzy
 msgid "Previous"
 msgstr "이전"
 
-#: lib/i18n.inc.php:288
+#: lib/i18n.inc.php:293
 #, fuzzy
 msgid ": activate to sort column ascending"
 msgstr ": 열을 오름차순으로 정렬하려면 클릭하십시오"
 
-#: lib/i18n.inc.php:289
+#: lib/i18n.inc.php:294
 #, fuzzy
 msgid ": activate to sort column descending"
 msgstr ": 열을 내림차순으로 정렬하려면 클릭하십시오"
 
-#: listbackups.php:27
+#: listbackups.php:29
+#, php-format
+msgid "Restore sent to %s and applied"
+msgstr ""
+
+#: listbackups.php:33
+#, php-format
+msgid "Restore sent to %s, the device reboots to apply it"
+msgstr ""
+
+#: listbackups.php:38
+#, php-format
+msgid "Restore to %s failed, the device did not accept the upload"
+msgstr ""
+
+#: listbackups.php:45
 #, fuzzy
 msgid "List Backups"
 msgstr "백업 목록"
 
-#: listbackups.php:44
+#: listbackups.php:62
 #, fuzzy, php-format
 msgid "Listing for %s"
 msgstr "%s의 백업 목록"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "DATE"
 msgstr "날짜"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "FILE"
 msgstr "파일"
 
-#: listbackups.php:47
+#: listbackups.php:66
 #, fuzzy
 msgid "RESTORE"
 msgstr "복원"
 
-#: listbackups.php:80
+#: listbackups.php:99
 #, fuzzy
 msgid "Download"
 msgstr "다운로드"
 
-#: listbackups.php:100
+#: listbackups.php:119
 #, fuzzy, php-format
 msgid "Are you sure you want to restore %s to this device"
 msgstr "%s을(를) 이 장치에 복원하시겠습니까"
 
-#: listbackups.php:100
+#: listbackups.php:119
 #, fuzzy
 msgid "Restore"
 msgstr "복원"
@@ -423,17 +439,17 @@ msgstr "스캔 결과"
 msgid "ADD"
 msgstr "추가"
 
-#: scan.php:111
+#: scan.php:114
 #, fuzzy
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: scan.php:123
+#: scan.php:126
 #, fuzzy
 msgid "Select All"
 msgstr "전체 선택"
 
-#: scan.php:124
+#: scan.php:127
 #, fuzzy
 msgid "Add Devices"
 msgstr "장치 추가"

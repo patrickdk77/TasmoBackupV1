@@ -32,6 +32,28 @@ function tb_stub_clear_requests()
     @unlink(TB_TMP.'/stub.log');
 }
 
+/*
+ * The raw body of the most recent POST the stub received, decoded. For
+ * checking exactly what a restore sent (roles/channels/deviceCommand
+ * for OpenBeken), not just that a request happened.
+ */
+function tb_stub_last_post_body()
+{
+    $log = TB_TMP.'/stub.postlog';
+    if (!file_exists($log))
+        return null;
+    $lines = array_values(array_filter(
+        explode("\n", file_get_contents($log))));
+    if (!$lines)
+        return null;
+    return base64_decode(end($lines));
+}
+
+function tb_stub_clear_post_bodies()
+{
+    @unlink(TB_TMP.'/stub.postlog');
+}
+
 function tb_stub_start($conf = array())
 {
     if ($GLOBALS['tb_stub'] !== null)
@@ -42,6 +64,7 @@ function tb_stub_start($conf = array())
     $env = array(
         'TB_STUB_CONF' => tb_stub_conf_file(),
         'TB_STUB_LOG' => TB_TMP.'/stub.log',
+        'TB_STUB_POSTLOG' => TB_TMP.'/stub.postlog',
         'PATH' => getenv('PATH'),
     );
 

@@ -56,8 +56,32 @@ function jsonTasmotaDecode($json)
     return $data;
 }
 
+/*
+ * OpenBeken (openshwprojects/OpenBK7231T_App) has no fixed brand
+ * string in its page body, the title and h1 are just the user's own
+ * device name, same as a renamed Tasmota. But a bare GET / (no query
+ * args, exactly what a scan sends) 302-redirects to /index instead of
+ * answering directly, unlike Tasmota and WLED which both serve their
+ * root page straight at 200. Checked against the actual firmware
+ * source (src/httpserver/new_http.c, http_fn_empty_url and the fixed
+ * htmlBodyStart github link), not guessed.
+ */
+function looksLikeOpenBeken($ch, $data, $statusCode)
+{
+    if (strpos($data, 'openshwprojects/OpenBK7231T_App') !== false)
+        return true;
+    if ($statusCode >= 300 && $statusCode < 400) {
+        $redirect = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+        if ($redirect !== false && strpos($redirect, '/index') !== false)
+            return true;
+    }
+    return false;
+}
+
 function getTasmotaScan($ip, $user, $password)
 {
+    global $settings;
+
     $url = 'http://'.rawurlencode($user).':'.rawurlencode($password).'@'. $ip . '/';
     $ch = curl_init($url);
     curl_setopt_array($ch, array(
@@ -73,7 +97,15 @@ function getTasmotaScan($ip, $user, $password)
     $data = curl_exec($ch);
     $err = curl_errno($ch);
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $isOpenBeken = looksLikeOpenBeken($ch, $data, $statusCode);
     curl_close($ch);
+    if ($isOpenBeken) {
+        if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
+            addTasmotaDevice($ip, $user, $password, true, false, 2);
+        } else {
+            return 2;
+        }
+    }
     if ($err || $statusCode != 200) {
         return false;
     }
@@ -130,6 +162,15 @@ function getTasmotaScanRange($iprange, $user, $password)
             $statusCode = curl_getinfo($done['handle'], CURLINFO_HTTP_CODE);
             $url = parse_url(curl_getinfo($done['handle'], CURLINFO_EFFECTIVE_URL));
             $data = curl_multi_getcontent($done['handle']);
+            // Checked ahead of the 200-only gate below: OpenBeken's
+            // bare / redirects (302) instead of answering directly.
+            if (looksLikeOpenBeken($done['handle'], $data, $statusCode)) {
+                if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
+                    addTasmotaDevice($url['host'], $user, $password, true, false, 2);
+                } else {
+                    array_push($result,array($url['host'],2));
+                }
+            }
             if ($statusCode == 200) {
                 if (strpos($data, 'Tasmota') !== false) {
                     if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
@@ -172,6 +213,8 @@ function getTasmotaStatus($ip, $user, $password, $type=0)
     $url = 'http://' .rawurlencode($user).':'.rawurlencode($password).'@'. $ip . '/cm?cmnd=status%200&user='.rawurlencode($user).'&password=' . rawurlencode($password);
     if(intval($type)===1)
         $url = 'http://' .rawurlencode($user).':'.rawurlencode($password).'@'. $ip . '/json';
+    if(intval($type)===2)
+        $url = 'http://' .rawurlencode($user).':'.rawurlencode($password).'@'. $ip . '/api/info';
     $options = array(
         CURLOPT_FOLLOWLOCATION => false,
         CURLOPT_TIMEOUT => 30,
@@ -195,6 +238,8 @@ function getTasmotaStatus($ip, $user, $password, $type=0)
     if(isset($json["Status"]))
         return $json;
     if(isset($json["info"]))
+        return $json;
+    if(isset($json["mac"]))
         return $json;
     sleep(1);
     $data=getTasmotaOldStatus($ip, $user, $password);
@@ -282,8 +327,48 @@ function getTasmotaStatus5($ip, $user, $password)
     return jsonTasmotaDecode($data);
 }
 
-function restoreTasmotaBackup($ip, $user, $password, $filename)
+function restoreTasmotaBackup($ip, $user, $password, $filename, $type=0)
 {
+    if (intval($type)===2) { // OpenBeken
+        // One POST to /api/pins with the gpio roles/channels and the
+        // startup command, which OpenBeken executes immediately. No
+        // priming request, no reboot, unlike the Tasmota flow below.
+        $backup = json_decode(file_get_contents($filename), true);
+        if (!is_array($backup) || !isset($backup['pins']))
+            return false;
+
+        $body = array();
+        if (isset($backup['pins']['roles']))
+            $body['roles'] = $backup['pins']['roles'];
+        if (isset($backup['pins']['channels']))
+            $body['channels'] = $backup['pins']['channels'];
+        if (isset($backup['info']['startcmd']) &&
+                strlen($backup['info']['startcmd']) > 0)
+            $body['deviceCommand'] = $backup['info']['startcmd'];
+        if (count($body) < 1)
+            return false;
+
+        $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.'/api/pins';
+        $ch = curl_init($url);
+        curl_setopt_array($ch, array(
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_CONNECTTIMEOUT => 12,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_USERAGENT => 'TasmoBackup '.$GLOBALS['VERSION'],
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => json_encode($body),
+            CURLOPT_HTTPHEADER => array('Content-Type: application/json'),
+            CURLOPT_ENCODING => "",
+            CURLOPT_REFERER => 'http://'.$ip.'/',
+        ));
+        curl_exec($ch);
+        $err = curl_errno($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        return (!$err && $statusCode == 200);
+    }
+
     // GET /rs first to set upload_file_type=UPL_SETTINGS on the device.
     // Tasmota v15.5.0 flipped SetOption128 (disable_referer_chk) to
     // default off, so /rs is now referer-gated by default and a
@@ -440,6 +525,57 @@ function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
             return false;
         $zip->close();
         return true;
+    } else if(intval($type)===2) { // OpenBeken
+        // No Tasmota-dl/WLED-cfg.json equivalent exists: no single
+        // portable settings blob. api/info carries identity plus the
+        // startup command string, api/pins carries the gpio role and
+        // channel assignment a restore actually needs to make the
+        // device work again. Saved together as one json file.
+        $options = array(
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_CONNECTTIMEOUT => 12,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_USERAGENT => 'TasmoBackup '.$GLOBALS['VERSION'],
+            CURLOPT_ENCODING => "",
+            CURLOPT_REFERER => 'http://'.$ip.'/',
+            CURLOPT_HTTPHEADER => array('Origin: http://'.$ip),
+        );
+
+        $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.'/api/info';
+        $ch = curl_init($url);
+        curl_setopt_array($ch, $options);
+        $infoData = curl_exec($ch);
+        $err = curl_errno($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($err || $statusCode != 200)
+            return false;
+        $info = json_decode($infoData, true);
+        if (!is_array($info))
+            return false;
+
+        $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.'/api/pins';
+        $ch = curl_init($url);
+        curl_setopt_array($ch, $options);
+        $pinsData = curl_exec($ch);
+        $err = curl_errno($ch);
+        $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($err || $statusCode != 200)
+            return false;
+        $pins = json_decode($pinsData, true);
+        if (!is_array($pins))
+            return false;
+
+        // states is the live on/off value of every channel at backup
+        // time, not a setting. Dropping it so a restore does not force
+        // outputs to whatever they happened to be during the backup.
+        unset($pins['states']);
+
+        $backup = array('info' => $info, 'pins' => $pins);
+        return (file_put_contents($filename,
+            json_encode($backup, JSON_UNESCAPED_SLASHES)) !== false);
     }
 
     return false;
@@ -489,6 +625,10 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
             if (!isset($status['info']['ver']))
                 return true;
         }
+        if(intval($type)===2) { // OpenBeken
+            if (!isset($status['mac']))
+                return true;
+        }
     } else {
         return true; // Device Offline
     }
@@ -521,6 +661,15 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
             $version=trim($status['info']['ver']);
         if(isset($status['info']['mac']))
             $mac=implode(':',str_split(str_replace(array('.',':'),array('',''),trim($status['info']['mac'])),2));
+    } else if (intval($type)===2) { // OpenBeken
+        if(isset($status['shortName'])) {
+            $name=trim($status['shortName']);
+            $hostname=trim($status['shortName']);
+        }
+        if(isset($status['build']))
+            $version=trim($status['build']);
+        if(isset($status['mac']))
+            $mac=$status['mac'];
     }
 
     // The caller picked this row by address. If the device answering
@@ -548,6 +697,7 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
 
     $ext='.dmp';
     if(intval($type)===1) $ext='.zip';
+    if(intval($type)===2) $ext='.json';
 
 
     $saveto = $backupfolder . $savename . "/" . $savemac . "-" . $savedate . '-v' . $version . $ext;
@@ -653,6 +803,19 @@ function statusIdentity($status, $type, &$name, &$version, &$mac, &$hostname)
             $version=trim($status['info']['ver']);
         if(isset($status['info']['mac']))
             $mac=implode(':',str_split(str_replace(array('.',':'),array('',''),trim($status['info']['mac'])),2));
+    } else if (intval($type)===2) { // OpenBeken
+        // shortName doubles as both the friendly name and the mDNS
+        // hostname, OpenBeken has no separate concept of the two.
+        // mac is already lowercase colon separated, dbNormalizeMac
+        // handles any case/format so no reformatting is needed here.
+        if(isset($status['shortName'])) {
+            $name=trim($status['shortName']);
+            $hostname=trim($status['shortName']);
+        }
+        if(isset($status['build']))
+            $version=trim($status['build']);
+        if(isset($status['mac']))
+            $mac=$status['mac'];
     }
 }
 

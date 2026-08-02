@@ -12,10 +12,18 @@
  *   require_referer  when true, /rs refuses a request with no Referer
  *                header, modelling Tasmota v15.5.0+ default behaviour
  *                (SetOption128 / disable_referer_chk defaults off)
+ *   kind         'wled' or 'openbeken' switches / and /json away from
+ *                the Tasmota defaults
+ *   obk_info_status / obk_pins_status  http status for /api/info and
+ *                GET+POST /api/pins (default 200)
+ *   obk_mac / obk_shortname / obk_build / obk_startcmd / obk_roles /
+ *   obk_channels   override the corresponding /api/info or /api/pins
+ *                field
  */
 
 $conf = array('status' => 200, 'dl' => 200, 'u2' => 200,
-    'require_referer' => false);
+    'require_referer' => false, 'obk_info_status' => 200,
+    'obk_pins_status' => 200);
 $f = getenv('TB_STUB_CONF');
 if ($f && is_readable($f)) {
     $j = json_decode(file_get_contents($f), true);
@@ -30,6 +38,16 @@ if ($log)
         $_SERVER['REQUEST_URI'].
         (empty($_SERVER['HTTP_REFERER']) ? ' referer=0' : ' referer=1').
         "\n", FILE_APPEND);
+
+// Raw request bodies, one base64 line per POST, so a test can check
+// exactly what a restore sent without worrying about embedded
+// newlines. tb_stub_last_post_body() in stub_device.php reads this.
+$postLog = getenv('TB_STUB_POSTLOG');
+if ($postLog && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    file_put_contents($postLog,
+        base64_encode(file_get_contents('php://input'))."\n",
+        FILE_APPEND);
+}
 
 function tb_stub_fail($code)
 {
@@ -137,7 +155,17 @@ if (isset($conf['mac']))
 if (isset($conf['hostname']))
     $status['StatusNET']['Hostname'] = $conf['hostname'];
 
+$obkKind = isset($conf['kind']) && $conf['kind'] === 'openbeken';
+
 if ($path === '/') {
+    if ($obkKind) {
+        // Real OpenBeken 302-redirects a bare / to /index rather than
+        // answering directly (src/httpserver/new_http.c,
+        // http_fn_empty_url), that redirect is the scan signature.
+        http_response_code(302);
+        header('Location: /index');
+        return;
+    }
     // what a scan sees, it only looks for the marker word
     if ($conf['status'] != 200)
         return tb_stub_fail($conf['status']);
@@ -146,6 +174,14 @@ if ($path === '/') {
         ? 'WLED' : 'Tasmota';
     echo '<html><head><title>'.$kind.'</title></head><body>'.
         $kind.'</body></html>';
+    return;
+}
+
+if ($path === '/index') {
+    header('Content-Type: text/html');
+    echo '<html><head><title>obk</title></head><body>'.
+        '<a href="https://github.com/openshwprojects/OpenBK7231T_App/">obk</a>'.
+        '</body></html>';
     return;
 }
 
@@ -179,6 +215,59 @@ if ($path === '/cfg.json' || $path === '/presets.json' ||
         return tb_stub_fail($conf['dl']);
     header('Content-Type: application/json');
     echo '{"stub":"'.trim($path, '/').'"}';
+    return;
+}
+
+if ($path === '/api/info') {
+    // Field names and shape come from
+    // src/httpserver/rest_interface.c:http_rest_get_info(), read
+    // directly from the openshwprojects/OpenBK7231T_App source.
+    if ($conf['obk_info_status'] != 200)
+        return tb_stub_fail($conf['obk_info_status']);
+    header('Content-Type: application/json');
+    echo json_encode(array(
+        'uptime_s' => 3600,
+        'build' => isset($conf['obk_build']) ? $conf['obk_build']
+            : 'OpenBK7231T_1234567_06_02_2026',
+        'ip' => '10.10.10.10',
+        'mac' => isset($conf['obk_mac']) ? $conf['obk_mac']
+            : 'aa:bb:cc:dd:ee:02',
+        'flags' => '0',
+        'mqtthost' => '0.0.0.0:1883',
+        'mqtttopic' => 'obk-kitchen',
+        'chipset' => 'BK7231T',
+        'webapp' => 'lfs',
+        'shortName' => isset($conf['obk_shortname'])
+            ? $conf['obk_shortname'] : 'obk-kitchen',
+        'startcmd' => isset($conf['obk_startcmd']) ? $conf['obk_startcmd']
+            : 'AddChannel 1 0\nSetGPIODirection 6 1',
+        'supportsSSDP' => 0,
+        'supportsClientDeviceDB' => true,
+    ));
+    return;
+}
+
+if ($path === '/api/pins') {
+    if ($conf['obk_pins_status'] != 200)
+        return tb_stub_fail($conf['obk_pins_status']);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Real device replies 200 with {"success":200,"msg":"OK"},
+        // http_rest_error() sets the real HTTP status code, not just
+        // a body flag (rest_interface.c:http_rest_error()).
+        header('Content-Type: application/json');
+        echo '{"success":200, "msg":"OK"}';
+        return;
+    }
+    // src/httpserver/rest_interface.c:http_rest_get_pins()
+    header('Content-Type: application/json');
+    echo json_encode(array(
+        'rolenames' => array('None', 'Relay', 'Button'),
+        'roles' => isset($conf['obk_roles']) ? $conf['obk_roles']
+            : array(0, 0, 0, 0, 0, 0, 1, 2),
+        'channels' => isset($conf['obk_channels']) ? $conf['obk_channels']
+            : array(0, 0, 0, 0, 0, 0, 1, 0),
+        'states' => array(0, 0, 0, 0, 0, 0, 1, 0),
+    ));
     return;
 }
 

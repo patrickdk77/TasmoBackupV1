@@ -232,6 +232,10 @@ $(document).ready(function() {
             $logo='images/wled.png';
             $type='WLED';
         }
+        if(isset($db_field['type']) && intval($db_field['type'])===2) {
+            $logo='images/openbeken.png';
+            $type='OpenBeken';
+        }
         $version = $db_field['version'];
         $lastbackup = $db_field['lastbackup'];
         $numberofbackups = $db_field['noofbackups'];
