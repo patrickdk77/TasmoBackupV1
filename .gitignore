@@ -3,3 +3,5 @@ data
 Makefile
 docker
 qemu*
+# compiled catalogues, built by make mo or during docker build
+locale/*/LC_MESSAGES/*.mo

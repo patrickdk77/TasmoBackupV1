@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -eu
+
+echo "pre_build (buildx)"
+BUILDX_NO_VERIFY=1
+source hooks/${HOOKS_CONFIG:-.config.buildx}
+
+echo "Register binfmt handlers for all supported processors"
+echo "-----------------------------------------------------------------"
+# buildx still needs the kernel binfmt_misc handlers to run foreign
+# architecture RUN steps, but nothing gets copied into the image.
+docker run --rm --privileged "${BINFMT_IMAGE:-tonistiigi/binfmt}" \
+  --install all
+
+if [ "${BUILDX_BUILDER}" != "default" ]; then
+  echo "Restarting builder ${BUILDX_BUILDER} to pick up the new handlers"
+  echo "---------------------------------------------------------------"
+  # A container driver builder reports the platforms it saw when it
+  # started, so stop it and let hooks/buildx bootstrap it again.
+  docker buildx stop "${BUILDX_BUILDER}" >/dev/null 2>&1 || true
+fi

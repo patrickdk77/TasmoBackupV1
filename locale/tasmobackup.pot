@@ -1,0 +1,503 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the TasmoBackup package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup 1.06.10\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"POT-Creation-Date: 2026-08-02 18:28+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: backupall.php:14 index.php:95
+msgid "All backups are up to date"
+msgstr ""
+
+#: backupall.php:18 index.php:98
+#, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] ""
+msgstr[1] ""
+
+#: backupall.php:25 index.php:103
+#, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr ""
+
+#: backupall.php:30 index.php:108
+msgid "All backups completed successfully!"
+msgstr ""
+
+#: backupall.php:33 index.php:111
+msgid "Not all backups completed successfully!"
+msgstr ""
+
+#: edit.php:8
+msgid "Edit Device"
+msgstr ""
+
+#: edit.php:21 index.php:301
+msgid "Edit"
+msgstr ""
+
+#: edit.php:24 index.php:191
+msgid "AUTH"
+msgstr ""
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+msgid "IP"
+msgstr ""
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+msgid "NAME"
+msgstr ""
+
+#: edit.php:24
+msgid "SUBMIT"
+msgstr ""
+
+#: edit.php:45 settings.php:161
+msgid "Submit"
+msgstr ""
+
+#: index.php:36
+msgid "You didn't select any devices."
+msgstr ""
+
+#: index.php:55
+#, php-format
+msgid "%s updated successfully"
+msgstr ""
+
+#: index.php:60
+#, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr ""
+
+#: index.php:73
+#, php-format
+msgid "Device not found: %s"
+msgstr ""
+
+#: index.php:80
+msgid "Backup failed"
+msgstr ""
+
+#: index.php:84
+msgid "Backup completed successfully!"
+msgstr ""
+
+#: index.php:121
+#, php-format
+msgid "%s deleted successfully from the database."
+msgstr ""
+
+#: index.php:123
+#, php-format
+msgid "Error deleting %s"
+msgstr ""
+
+#: index.php:126
+#, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr ""
+
+#: index.php:191
+msgid "BACKUP"
+msgstr ""
+
+#: index.php:191 listbackups.php:47
+msgid "DELETE"
+msgstr ""
+
+#: index.php:191
+msgid "EDIT"
+msgstr ""
+
+#: index.php:191
+msgid "FILES"
+msgstr ""
+
+#: index.php:191
+msgid "HOSTNAME"
+msgstr ""
+
+#: index.php:191
+msgid "LAST BACKUP"
+msgstr ""
+
+#: index.php:191 index.php:306
+msgid "MAC"
+msgstr ""
+
+#: index.php:191 listbackups.php:47
+msgid "VERSION"
+msgstr ""
+
+#: index.php:225 index.php:258
+msgid "Open console in new tab"
+msgstr ""
+
+#: index.php:297
+msgid "Open upgrade in new tab"
+msgstr ""
+
+#: index.php:299
+msgid "List backups to download or restore"
+msgstr ""
+
+#: index.php:300
+msgid "Backup"
+msgstr ""
+
+#: index.php:302 listbackups.php:89
+#, php-format
+msgid "Are you sure you want to delete %s"
+msgstr ""
+
+#: index.php:302 listbackups.php:89
+msgid "Delete"
+msgstr ""
+
+#: index.php:306 settings.php:114
+msgid "Name"
+msgstr ""
+
+#: index.php:306
+msgid "Type"
+msgstr ""
+
+#: index.php:306 settings.php:114
+msgid "Version"
+msgstr ""
+
+#: index.php:308
+msgid "BuildTag"
+msgstr ""
+
+#: index.php:309 settings.php:114
+msgid "Last Backup"
+msgstr ""
+
+#: index.php:310 index.php:380
+msgid "Close"
+msgstr ""
+
+#: index.php:317
+msgid "Backup All"
+msgstr ""
+
+#: index.php:318
+msgid "Discover"
+msgstr ""
+
+#: index.php:318 index.php:321
+msgid "password"
+msgstr ""
+
+#: index.php:321
+msgid "MQTT Discover"
+msgstr ""
+
+#: lib/functions.inc.php:648
+#, php-format
+msgid "%s: Device not found."
+msgstr ""
+
+#: lib/functions.inc.php:673
+#, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr ""
+
+#: lib/functions.inc.php:682
+#, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr ""
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr ""
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr ""
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr ""
+
+#: lib/functions.inc.php:704
+#, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr ""
+
+#: lib/functions.inc.php:707
+#, php-format
+msgid "%s: Device not responding to status request."
+msgstr ""
+
+#: lib/functions.inc.php:744
+#, php-format
+msgid "%s: This device already exists in the database!"
+msgstr ""
+
+#: lib/functions.inc.php:798
+#, php-format
+msgid "TasmoBackup: %s"
+msgstr ""
+
+#: lib/functions.inc.php:840
+#, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr ""
+
+#: lib/i18n.inc.php:272
+msgid "No data available in table"
+msgstr ""
+
+#: lib/i18n.inc.php:273
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr ""
+
+#: lib/i18n.inc.php:274
+msgid "Showing 0 to 0 of 0 entries"
+msgstr ""
+
+#: lib/i18n.inc.php:275
+msgid "(filtered from _MAX_ total entries)"
+msgstr ""
+
+#: lib/i18n.inc.php:276
+msgid "Show _MENU_ entries"
+msgstr ""
+
+#: lib/i18n.inc.php:277
+msgid "Loading..."
+msgstr ""
+
+#: lib/i18n.inc.php:278
+msgid "Processing..."
+msgstr ""
+
+#: lib/i18n.inc.php:279
+msgid "Search:"
+msgstr ""
+
+#: lib/i18n.inc.php:280
+msgid "No matching records found"
+msgstr ""
+
+#: lib/i18n.inc.php:282
+msgid "First"
+msgstr ""
+
+#: lib/i18n.inc.php:283
+msgid "Last"
+msgstr ""
+
+#: lib/i18n.inc.php:284
+msgid "Next"
+msgstr ""
+
+#: lib/i18n.inc.php:285
+msgid "Previous"
+msgstr ""
+
+#: lib/i18n.inc.php:288
+msgid ": activate to sort column ascending"
+msgstr ""
+
+#: lib/i18n.inc.php:289
+msgid ": activate to sort column descending"
+msgstr ""
+
+#: listbackups.php:27
+msgid "List Backups"
+msgstr ""
+
+#: listbackups.php:44
+#, php-format
+msgid "Listing for %s"
+msgstr ""
+
+#: listbackups.php:47
+msgid "DATE"
+msgstr ""
+
+#: listbackups.php:47
+msgid "FILE"
+msgstr ""
+
+#: listbackups.php:47
+msgid "RESTORE"
+msgstr ""
+
+#: listbackups.php:80
+msgid "Download"
+msgstr ""
+
+#: listbackups.php:100
+#, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr ""
+
+#: listbackups.php:100
+msgid "Restore"
+msgstr ""
+
+#: scan.php:7
+msgid "Scan"
+msgstr ""
+
+#: scan.php:29
+msgid "Scan Results"
+msgstr ""
+
+#: scan.php:36
+msgid "ADD"
+msgstr ""
+
+#: scan.php:111
+msgid "Unknown"
+msgstr ""
+
+#: scan.php:123
+msgid "Select All"
+msgstr ""
+
+#: scan.php:124
+msgid "Add Devices"
+msgstr ""
+
+#: settings.php:93 settings.php:107
+msgid "Settings"
+msgstr ""
+
+#: settings.php:111
+msgid "Setting"
+msgstr ""
+
+#: settings.php:111
+msgid "Value"
+msgstr ""
+
+#: settings.php:114
+msgid "Auth"
+msgstr ""
+
+#: settings.php:114
+msgid "Sort Column"
+msgstr ""
+
+#: settings.php:115
+msgid "Amount of Rows"
+msgstr ""
+
+#: settings.php:116
+msgid "Theme (light or dark or auto)"
+msgstr ""
+
+#: settings.php:117
+msgid "Tasmota Default Password for web login on devices"
+msgstr ""
+
+#: settings.php:118
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr ""
+
+#: settings.php:119
+msgid "Automatically Add New Devices (Y or N)"
+msgstr ""
+
+#: settings.php:120
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr ""
+
+#: settings.php:121
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr ""
+
+#: settings.php:122
+msgid "Language"
+msgstr ""
+
+#: settings.php:126
+msgid "Automatic (browser)"
+msgstr ""
+
+#: settings.php:134
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr ""
+
+#: settings.php:135
+msgid "MQTT Host"
+msgstr ""
+
+#: settings.php:136
+msgid "MQTT Port"
+msgstr ""
+
+#: settings.php:137
+msgid "MQTT Username"
+msgstr ""
+
+#: settings.php:138
+msgid "MQTT Password"
+msgstr ""
+
+#: settings.php:139
+msgid "MQTT Topic"
+msgstr ""
+
+#: settings.php:140
+msgid "MQTT Topic Format"
+msgstr ""
+
+#: settings.php:141
+msgid "Backup-All Min Hours between backups"
+msgstr ""
+
+#: settings.php:142
+msgid "Backup Max Days Old to keep"
+msgstr ""
+
+#: settings.php:143
+msgid "Backup Max Count to keep"
+msgstr ""
+
+#: settings.php:144
+msgid "Backup Data Directory"
+msgstr ""
+
+#: settings.php:147
+msgid "Save"
+msgstr ""
+
+#: settings.php:154
+msgid "Export Devices"
+msgstr ""
+
+#: settings.php:159
+msgid "CSV"
+msgstr ""
+
+#: upgrade.php:9
+msgid "Upgrade"
+msgstr ""
+
+#: upgrade.php:14
+msgid "Upgrade Complete"
+msgstr ""

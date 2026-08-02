@@ -1,0 +1,590 @@
+# Swedish translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Alla säkerhetskopior är uppdaterade"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "%d säkerhetskopia slutfördes utan fel!"
+msgstr[1] "Alla %d säkerhetskopior slutfördes utan fel!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "%1$d av %2$d försökta säkerhetskopior misslyckades."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Alla säkerhetskopior slutfördes utan fel!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Alla säkerhetskopior slutfördes inte utan fel!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Redigera enhet"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Redigera"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "AUTENTISERING"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "NAMN"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "SKICKA"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Skicka"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Du valde inga enheter."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s har uppdaterats"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Fel vid uppdatering av posten för %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Enheten hittades inte: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Säkerhetskopieringen misslyckades"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Säkerhetskopieringen slutfördes utan fel!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s togs bort från databasen."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Fel vid borttagning av %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Fel vid borttagning av %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "SÄKERHETSKOPIERA"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "TA BORT"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "REDIGERA"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "FILER"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "VÄRDNAMN"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "SENASTE SÄKERHETSKOPIA"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "VERSION"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Öppna konsolen i en ny flik"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Öppna uppgraderingen i en ny flik"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Visa säkerhetskopior att ladda ner eller återställa"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Säkerhetskopiera"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Är du säker på att du vill ta bort %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Ta bort"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Namn"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Typ"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Version"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Byggtagg"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Senaste säkerhetskopia"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Stäng"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Säkerhetskopiera alla"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Sök enheter"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "lösenord"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Sök enheter via MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Enheten hittades inte."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Enheten svarar inte på status5-begäran."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Enheten svarar inte på status2-begäran."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: informationen för %2$s har uppdaterats!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s finns redan i databasen!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s har lagts till!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Fel vid tillägg av enheten i databasen."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Enheten svarar inte på statusbegäran."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Den här enheten finns redan i databasen!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s av Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Inga data tillgängliga i tabellen"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Visar _START_ till _END_ av _TOTAL_ poster"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Visar 0 till 0 av 0 poster"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(filtrerat från totalt _MAX_ poster)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Visa _MENU_ poster"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Läser in..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Bearbetar..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Sök:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Inga matchande poster hittades"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Första"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Sista"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Nästa"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Föregående"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": aktivera för att sortera kolumnen stigande"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": aktivera för att sortera kolumnen fallande"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Visa säkerhetskopior"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Lista för %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DATUM"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "FIL"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "ÅTERSTÄLL"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Ladda ner"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Är du säker på att du vill återställa %s till den här enheten"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Återställ"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Skanna"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Skanningsresultat"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "LÄGG TILL"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Okänd"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Markera alla"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Lägg till enheter"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Inställningar"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Inställning"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Värde"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Autentisering"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Sorteringskolumn"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Antal rader"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Tema (light eller dark eller auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Tasmota standardlösenord för webbinloggning på enheter"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Uppdatera enhetsnamn vid säkerhetskopiering (Y eller N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Lägg till nya enheter automatiskt (Y eller N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Använd MQTT-ämne som enhetsnamn (Y eller N eller F (fullständigt))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Dölj kolumnen MAC-adress på startsidan (Y eller N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Språk"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Automatiskt (webbläsare)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Dölj kolumnen Värdnamn på startsidan (Y eller N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "MQTT-värd"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "MQTT-port"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "MQTT-användarnamn"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "MQTT-lösenord"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "MQTT-ämne"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "MQTT-ämnesformat"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Minsta antal timmar mellan säkerhetskopior vid Säkerhetskopiera alla"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Högsta ålder i dagar för säkerhetskopior som ska behållas"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Högsta antal säkerhetskopior som ska behållas"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Katalog för säkerhetskopior"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Spara"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Exportera enheter"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Uppgradera"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Uppgraderingen är klar"

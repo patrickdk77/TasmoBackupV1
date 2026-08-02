@@ -4,7 +4,7 @@ require_once(__DIR__.'/lib/mqtt.inc.php');
 
 global $settings;
 
-TBHeader('Scan',true,'
+TBHeader(t('Scan'),true,'
 $(document).ready(function() {
         $(\'#status\').DataTable({
         "order": [[1, "asc" ]],
@@ -26,14 +26,14 @@ function toggle(source) {
 }
 </script>
     <div class="container-fluid">
-    <center><h4><a href="index.php">TasmoBackup</a> - Scan Results</h4></center>
+    <center><h4><a href="index.php">TasmoBackup</a> - <?php echo t('Scan Results'); ?></h4></center>
 	    <form action="index.php" method="POST">
                 <input type="hidden" name="task" value="discoverall">
                 <?php if(isset($_POST['user'])) { echo '<input type="hidden" name="user" value="'.$_POST['user'].'">'; } ?>
                 <?php if(isset($_POST['password'])) { echo '<input type="hidden" name="password" value="'.$_POST['password'].'">'; } ?>
     <table class="table table-striped table-bordered" id="status">
     <thead>
-    <tr><th><b>ADD</b></th><th><b>NAME</b></th><th><b>IP</b></th></tr>
+    <tr><th><b><?php echo t('ADD'); ?></b></th><th><b><?php echo t('NAME'); ?></b></th><th><b><?php echo t('IP'); ?></b></th></tr>
     </thead>
     <tbody>
 <?php
@@ -51,7 +51,7 @@ if (isset($_POST['mqtt_topic'])) {
     $mqtt_topic=$_POST['mqtt_topic'];
 }
 
-if ($_POST["task"]=="scan") {
+if (isset($_POST["task"]) && $_POST["task"]=="scan") {
     set_time_limit(0);
     print(str_repeat(" ", 300) . "\n");
     $range = $_POST['range'];
@@ -100,7 +100,7 @@ if ($_POST["task"]=="scan") {
     }
 }
 
-if ($_POST["task"]=="mqtt") {
+if (isset($_POST["task"]) && $_POST["task"]=="mqtt") {
     if(isset($settings['mqtt_host']) && isset($settings['mqtt_port']) && strlen($settings['mqtt_host'])>1) {
         $mqtt=setupMQTT($settings['mqtt_host'], $settings['mqtt_port'], $settings['mqtt_user'], $settings['mqtt_password']);
         if(!isset($mqtt_topic)) $mqtt_topic=$settings['mqtt_topic'];
@@ -108,7 +108,7 @@ if ($_POST["task"]=="mqtt") {
         if(count($results)>0) {
             foreach($results as $found) {
                 $ip=$found['ip'];
-                $name='Unknown';
+                $name=t('Unknown');
                 if(isset($found['name'])) $name=$found['name'];
                 echo "<tr valign='middle'><td><center><input type='checkbox' name='ip[]' value='" . $ip . "'></center></td>".
                      "<td>" . $name . "</td>".
@@ -120,8 +120,8 @@ if ($_POST["task"]=="mqtt") {
 ?>
 </tbody>
     <tr><td colspan="3">&nbsp;</td></tr>
-    <tr><td><center><input type='checkbox' name="select-all" id="select-all" onClick="toggle(this)"></center></td><td>Select All</td><td>&nbsp;</td></tr>
-    <tr><td colspan="3"><center><button type=submit class='btn btn-sm btn-success'>Add Devices</button></center></td></tr>
+    <tr><td><center><input type='checkbox' name="select-all" id="select-all" onClick="toggle(this)"></center></td><td><?php echo t('Select All'); ?></td><td>&nbsp;</td></tr>
+    <tr><td colspan="3"><center><button type=submit class='btn btn-sm btn-success'><?php echo t('Add Devices'); ?></button></center></td></tr>
     </table>
     </form>
     </div>

@@ -1,0 +1,591 @@
+# Slovak translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Všetky zálohy sú aktuálne"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "%d záloha bola úspešne dokončená!"
+msgstr[1] "Všetky %d zálohy boli úspešne dokončené!"
+msgstr[2] "Všetkých %d záloh bolo úspešne dokončených!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "Zlyhalo %1$d záloh z %2$d pokusov o zálohovanie."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Všetky zálohy boli úspešne dokončené!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Nie všetky zálohy boli úspešne dokončené!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Upraviť zariadenie"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Upraviť"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "OVERENIE"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "NÁZOV"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "ODOSLAŤ"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Odoslať"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Nevybrali ste žiadne zariadenia."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s bolo úspešne aktualizované"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Chyba pri aktualizácii záznamu pre %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Zariadenie sa nenašlo: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Zálohovanie zlyhalo"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Záloha bola úspešne dokončená!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s bolo úspešne odstránené z databázy."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Chyba pri odstraňovaní %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Chyba pri odstraňovaní %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "ZÁLOHA"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "ODSTRÁNIŤ"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "UPRAVIŤ"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "SÚBORY"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "NÁZOV HOSTITEĽA"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "POSLEDNÁ ZÁLOHA"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "VERZIA"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Otvoriť konzolu na novej karte"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Otvoriť aktualizáciu na novej karte"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Zobraziť zálohy na stiahnutie alebo obnovenie"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Zálohovať"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Naozaj chcete odstrániť %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Odstrániť"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Názov"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Typ"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Verzia"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Značka zostavy"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Posledná záloha"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Zavrieť"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Zálohovať všetko"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Vyhľadať"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "heslo"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Vyhľadať cez MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Zariadenie sa nenašlo."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Zariadenie neodpovedá na požiadavku status5."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Zariadenie neodpovedá na požiadavku status2."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: Informácie o %2$s boli aktualizované!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s už existuje v databáze!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s bolo úspešne pridané!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Chyba pri pridávaní zariadenia do databázy."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Zariadenie neodpovedá na požiadavku status."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Toto zariadenie už existuje v databáze!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s od Dana Medhursta"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "V tabuľke nie sú k dispozícii žiadne údaje"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Zobrazujú sa záznamy _START_ až _END_ z celkovo _TOTAL_"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Zobrazujú sa záznamy 0 až 0 z celkovo 0"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(filtrované z celkovo _MAX_ záznamov)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Zobraziť _MENU_ záznamov"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Načítava sa..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Spracúva sa..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Hľadať:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Nenašli sa žiadne zodpovedajúce záznamy"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Prvá"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Posledná"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Ďalšia"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Predchádzajúca"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": aktivujte na zoradenie stĺpca vzostupne"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": aktivujte na zoradenie stĺpca zostupne"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Zoznam záloh"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Zoznam pre %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DÁTUM"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "SÚBOR"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "OBNOVIŤ"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Stiahnuť"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Naozaj chcete obnoviť %s do tohto zariadenia"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Obnoviť"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Skenovať"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Výsledky skenovania"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "PRIDAŤ"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Neznáme"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Vybrať všetko"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Pridať zariadenia"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Nastavenia"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Nastavenie"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Hodnota"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Overenie"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Stĺpec zoradenia"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Počet riadkov"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Motív (light alebo dark alebo auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Predvolené heslo Tasmota na webové prihlásenie do zariadení"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Aktualizovať názov zariadenia pri zálohovaní (Y alebo N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Automaticky pridávať nové zariadenia (Y alebo N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Použiť MQTT tému ako názov zariadenia (Y alebo N alebo F (úplná))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Skryť stĺpec s MAC adresou na hlavnej stránke (Y alebo N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Jazyk"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Automaticky (prehliadač)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Skryť stĺpec s názvom hostiteľa na hlavnej stránke (Y alebo N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "MQTT hostiteľ"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "MQTT port"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "MQTT používateľské meno"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "MQTT heslo"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "MQTT téma"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "Formát MQTT témy"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Zálohovať všetko: minimálny počet hodín medzi zálohami"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Maximálny vek záloh v dňoch na uchovanie"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Maximálny počet záloh na uchovanie"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Adresár s údajmi záloh"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Uložiť"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Exportovať zariadenia"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Aktualizovať"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Aktualizácia dokončená"

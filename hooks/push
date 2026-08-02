@@ -2,7 +2,8 @@
 set -eu
 
 echo "🔵 push"
-source hooks/.config
+# HOOKS_CONFIG=.config.buildx makes this push what hooks/buildx built
+source hooks/${HOOKS_CONFIG:-.config}
 
 # 1. push all images
 # repo name plus tag

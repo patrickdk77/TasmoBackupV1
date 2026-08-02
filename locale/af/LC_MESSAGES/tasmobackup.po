@@ -1,0 +1,590 @@
+# Afrikaans translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: af\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Alle rugsteune is op datum"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "Al %d rugsteun is suksesvol voltooi!"
+msgstr[1] "Al %d rugsteune is suksesvol voltooi!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "%1$d rugsteune het misluk uit %2$d rugsteune wat probeer is."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Alle rugsteune is suksesvol voltooi!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Nie alle rugsteune is suksesvol voltooi nie!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Wysig Toestel"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Wysig"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "MAGTIGING"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "NAAM"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "DIEN IN"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Dien in"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Jy het geen toestelle gekies nie."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s is suksesvol opgedateer"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Fout met die opdatering van die rekord vir %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Toestel nie gevind nie: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Rugsteun het misluk"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Rugsteun suksesvol voltooi!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s is suksesvol uit die databasis geskrap."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Fout met die skrap van %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Fout met die skrap van %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "RUGSTEUN"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "SKRAP"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "WYSIG"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "LÊERS"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "GASHEERNAAM"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "LAASTE RUGSTEUN"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "WEERGAWE"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Open konsole in nuwe oortjie"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Open opgradering in nuwe oortjie"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Lys rugsteune om af te laai of te herstel"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Rugsteun"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Is jy seker jy wil %s skrap"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Skrap"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Naam"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Tipe"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Weergawe"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "BouEtiket"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Laaste Rugsteun"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Maak toe"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Rugsteun Alles"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Ontdek"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "wagwoord"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "MQTT-ontdekking"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Toestel nie gevind nie."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Toestel reageer nie op die status5-versoek nie."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Toestel reageer nie op die status2-versoek nie."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: %2$s se inligting is opgedateer!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s bestaan reeds in die databasis!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s Suksesvol Bygevoeg!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Fout met die byvoeging van die toestel by die databasis."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Toestel reageer nie op die statusversoek nie."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Hierdie toestel bestaan reeds in die databasis!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s deur Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Geen data in die tabel beskikbaar nie"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Wys _START_ tot _END_ van _TOTAL_ inskrywings"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Wys 0 tot 0 van 0 inskrywings"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(gefiltreer uit _MAX_ inskrywings in totaal)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Wys _MENU_ inskrywings"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Laai tans..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Verwerk tans..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Soek:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Geen passende rekords gevind nie"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Eerste"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Laaste"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Volgende"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Vorige"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": aktiveer om die kolom opgaande te sorteer"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": aktiveer om die kolom afgaande te sorteer"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Lys Rugsteune"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Lys vir %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DATUM"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "LÊER"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "HERSTEL"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Laai af"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Is jy seker jy wil %s na hierdie toestel herstel"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Herstel"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Skandeer"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Skandeerresultate"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "VOEG BY"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Onbekend"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Kies Alles"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Voeg Toestelle By"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Instellings"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Instelling"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Waarde"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Magtiging"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Sorteerkolom"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Aantal Rye"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Tema (light of dark of auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Tasmota-verstekwagwoord vir webaanmelding op toestelle"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Dateer Toestelnaam op wanneer Rugsteune gedoen word (Y of N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Voeg Nuwe Toestelle Outomaties By (Y of N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Gebruik MQTT-onderwerp as Toestelnaam (Y of N of F (Volledig))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Versteek die MAC-adreskolom op die indeksblad (Y of N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Taal"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Outomaties (blaaier)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Versteek die Gasheernaamkolom op die indeksblad (Y of N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "MQTT-gasheer"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "MQTT-poort"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "MQTT-gebruikersnaam"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "MQTT-wagwoord"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "MQTT-onderwerp"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "MQTT-onderwerpformaat"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Rugsteun-Alles Min Ure tussen rugsteune"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Rugsteun Maks Dae Oud om te hou"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Rugsteun Maks Aantal om te hou"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Rugsteundatagids"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Stoor"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Voer Toestelle Uit"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Opgradeer"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Opgradering Voltooi"

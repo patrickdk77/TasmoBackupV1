@@ -1,0 +1,593 @@
+# Lithuanian translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: lt\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Visos atsarginės kopijos yra naujausios"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "Sėkmingai sukurta visa %d atsarginė kopija!"
+msgstr[1] "Sėkmingai sukurtos visos %d atsarginės kopijos!"
+msgstr[2] "Sėkmingai sukurta visų %d atsarginių kopijų!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "Nepavyko sukurti %1$d atsarginių kopijų iš %2$d bandytų."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Visos atsarginės kopijos sukurtos sėkmingai!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Ne visos atsarginės kopijos sukurtos sėkmingai!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Redaguoti įrenginį"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Redaguoti"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "AUTENTIFIKAVIMAS"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "PAVADINIMAS"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "PATEIKTI"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Pateikti"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Nepasirinkote nė vieno įrenginio."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s sėkmingai atnaujintas"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Klaida atnaujinant %1$s įrašą %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Įrenginys nerastas: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Nepavyko sukurti atsarginės kopijos"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Atsarginė kopija sukurta sėkmingai!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s sėkmingai ištrintas iš duomenų bazės."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Klaida trinant %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Klaida trinant %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "ATSARGINĖ KOPIJA"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "TRINTI"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "REDAGUOTI"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "FAILAI"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "PRIEGLOBOS VARDAS"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "PASKUTINĖ ATSARGINĖ KOPIJA"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "VERSIJA"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Atverti konsolę naujoje kortelėje"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Atverti naujinimą naujoje kortelėje"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Rodyti atsargines kopijas atsisiuntimui arba atkūrimui"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Kurti atsarginę kopiją"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Ar tikrai norite ištrinti %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Ištrinti"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Pavadinimas"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Tipas"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Versija"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Kūrimo žyma"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Paskutinė atsarginė kopija"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Užverti"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Kurti visas kopijas"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Aptikti"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "slaptažodis"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "MQTT aptikimas"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Įrenginys nerastas."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Įrenginys neatsako į status5 užklausą."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Įrenginys neatsako į status2 užklausą."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: %2$s informacija atnaujinta!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s jau yra duomenų bazėje!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s sėkmingai pridėtas!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Klaida pridedant įrenginį į duomenų bazę."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Įrenginys neatsako į būsenos užklausą."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Šis įrenginys jau yra duomenų bazėje!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s, autorius Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Lentelėje nėra duomenų"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Rodomi įrašai nuo _START_ iki _END_ iš _TOTAL_"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Rodomi įrašai nuo 0 iki 0 iš 0"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(atrinkta iš _MAX_ įrašų)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Rodyti _MENU_ įrašų"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Įkeliama..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Apdorojama..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Ieškoti:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Atitinkančių įrašų nerasta"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Pirmas"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Paskutinis"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Kitas"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Ankstesnis"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": suaktyvinkite, kad rikiuotumėte stulpelį didėjimo tvarka"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": suaktyvinkite, kad rikiuotumėte stulpelį mažėjimo tvarka"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Atsarginių kopijų sąrašas"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "%s sąrašas"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DATA"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "FAILAS"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "ATKURTI"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Atsisiųsti"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Ar tikrai norite atkurti %s į šį įrenginį"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Atkurti"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Skenuoti"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Skenavimo rezultatai"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "PRIDĖTI"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Nežinoma"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Pažymėti visus"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Pridėti įrenginius"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Nustatymai"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Nustatymas"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Reikšmė"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Autentifikavimas"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Rikiavimo stulpelis"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Eilučių skaičius"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Tema (light arba dark arba auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr ""
+"Numatytasis Tasmota slaptažodis prisijungimui prie įrenginių per naršyklę"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Atnaujinti įrenginio pavadinimą kuriant atsargines kopijas (Y arba N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Automatiškai pridėti naujus įrenginius (Y arba N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Naudoti MQTT temą kaip įrenginio pavadinimą (Y arba N arba F (visa))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Slėpti MAC adreso stulpelį pradiniame puslapyje (Y arba N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Kalba"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Automatinė (naršyklės)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Slėpti prieglobos vardo stulpelį pradiniame puslapyje (Y arba N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "MQTT serveris"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "MQTT prievadas"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "MQTT naudotojo vardas"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "MQTT slaptažodis"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "MQTT tema"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "MQTT temos formatas"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr ""
+"Mažiausias valandų tarpas tarp atsarginių kopijų kuriant visas kopijas"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Kiek daugiausia dienų saugoti atsargines kopijas"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Kiek daugiausia atsarginių kopijų saugoti"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Atsarginių kopijų duomenų katalogas"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Įrašyti"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Eksportuoti įrenginius"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Naujinti"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Naujinimas baigtas"

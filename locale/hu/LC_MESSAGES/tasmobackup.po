@@ -1,0 +1,590 @@
+# Hungarian translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: hu\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Minden mentés naprakész"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "Mind a(z) %d mentés sikeresen befejeződött!"
+msgstr[1] "Mind a(z) %d mentés sikeresen befejeződött!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "A megkísérelt %2$d mentésből %1$d sikertelen volt."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Minden mentés sikeresen befejeződött!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Nem minden mentés fejeződött be sikeresen!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Eszköz szerkesztése"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "HITELESÍTÉS"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "NÉV"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "KÜLDÉS"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Küldés"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Nem választott ki egyetlen eszközt sem."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s sikeresen frissítve"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Hiba a(z) %1$s %2$s rekordjának frissítésekor"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Az eszköz nem található: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "A mentés sikertelen"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "A mentés sikeresen befejeződött!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "A(z) %s sikeresen törölve az adatbázisból."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Hiba a(z) %s törlésekor"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Hiba a(z) %1$s törlésekor: %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "MENTÉS"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "TÖRLÉS"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "SZERKESZTÉS"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "FÁJLOK"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "GÉPNÉV"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "UTOLSÓ MENTÉS"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "VERZIÓ"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Konzol megnyitása új lapon"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Frissítés megnyitása új lapon"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Mentések listázása letöltéshez vagy visszaállításhoz"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Mentés"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Biztosan törli a következőt: %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Törlés"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Név"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Típus"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Verzió"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Build címke"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Utolsó mentés"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Bezárás"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Összes mentése"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Felderítés"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "jelszó"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "MQTT felderítés"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Az eszköz nem található."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Az eszköz nem válaszol a status5 kérésre."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Az eszköz nem válaszol a status2 kérésre."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: a(z) %2$s adatai frissültek!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: a(z) %2$s már létezik az adatbázisban!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: a(z) %2$s sikeresen hozzáadva!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Hiba az eszköz adatbázishoz adásakor."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Az eszköz nem válaszol a status kérésre."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Ez az eszköz már létezik az adatbázisban!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s, készítette Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Nincs megjeleníthető adat a táblázatban"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Találatok: _START_ - _END_, összesen _TOTAL_ bejegyzés"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Találatok: 0 - 0, összesen 0 bejegyzés"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(szűrve összesen _MAX_ bejegyzésből)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "_MENU_ bejegyzés megjelenítése"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Betöltés..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Feldolgozás..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Keresés:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Nincs találat"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Első"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Utolsó"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Következő"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Előző"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": aktiválja az oszlop növekvő sorrendbe rendezéséhez"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": aktiválja az oszlop csökkenő sorrendbe rendezéséhez"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Mentések listázása"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "A(z) %s mentéseinek listája"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DÁTUM"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "FÁJL"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "VISSZAÁLLÍTÁS"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Letöltés"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Biztosan visszaállítja a(z) %s fájlt erre az eszközre"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Visszaállítás"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Hálózatvizsgálat"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "A vizsgálat eredményei"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "HOZZÁADÁS"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Ismeretlen"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Összes kijelölése"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Eszközök hozzáadása"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Beállítások"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Beállítás"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Érték"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Hitelesítés"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Rendezési oszlop"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Sorok száma"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Téma (light vagy dark vagy auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Tasmota alapértelmezett jelszó az eszközök webes bejelentkezéséhez"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Eszköznév frissítése mentéskor (Y vagy N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Új eszközök automatikus hozzáadása (Y vagy N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "MQTT témakör használata eszköznévként (Y vagy N vagy F (teljes))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "MAC-cím oszlop elrejtése a kezdőlapon (Y vagy N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Nyelv"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Automatikus (böngésző)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Gépnév oszlop elrejtése a kezdőlapon (Y vagy N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "MQTT kiszolgáló"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "MQTT port"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "MQTT felhasználónév"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "MQTT jelszó"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "MQTT témakör"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "MQTT témakör formátuma"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Összes mentése: minimális órák száma a mentések között"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Mentések megőrzése legfeljebb ennyi napig"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Megőrzendő mentések maximális száma"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Mentési adatkönyvtár"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Mentés"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Eszközök exportálása"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Frissítés"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "A frissítés befejeződött"

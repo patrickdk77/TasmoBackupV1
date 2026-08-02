@@ -1,0 +1,590 @@
+# French translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Toutes les sauvegardes sont à jour"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "%d sauvegarde effectuée avec succès !"
+msgstr[1] "Les %d sauvegardes ont toutes été effectuées avec succès !"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "%1$d sauvegardes ont échoué sur %2$d sauvegardes tentées."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Toutes les sauvegardes ont été effectuées avec succès !"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Toutes les sauvegardes n'ont pas été effectuées avec succès !"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Modifier l'appareil"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Modifier"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "AUTH"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "NOM"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "VALIDER"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Valider"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Vous n'avez sélectionné aucun appareil."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s mis à jour avec succès"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Erreur lors de la mise à jour de l'enregistrement pour %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Appareil introuvable : %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Échec de la sauvegarde"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Sauvegarde effectuée avec succès !"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s supprimé avec succès de la base de données."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Erreur lors de la suppression de %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Erreur lors de la suppression de %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "SAUVEGARDE"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "SUPPRIMER"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "MODIFIER"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "FICHIERS"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "NOM D'HÔTE"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "DERNIÈRE SAUVEGARDE"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "VERSION"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Ouvrir la console dans un nouvel onglet"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Ouvrir la mise à niveau dans un nouvel onglet"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Lister les sauvegardes à télécharger ou à restaurer"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Sauvegarder"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Voulez-vous vraiment supprimer %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Supprimer"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Nom"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Type"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Version"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "BuildTag"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Dernière sauvegarde"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Fermer"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Tout sauvegarder"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Découvrir"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "mot de passe"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Découverte MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s : appareil introuvable."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s : l'appareil ne répond pas à la requête status5."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s : l'appareil ne répond pas à la requête status2."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s : les informations de %2$s ont été mises à jour !"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s : %2$s existe déjà dans la base de données !"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s : %2$s ajouté avec succès !"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s : %2$s Erreur lors de l'ajout de l'appareil à la base de données."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s : l'appareil ne répond pas à la requête status."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s : cet appareil existe déjà dans la base de données !"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup : %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s par Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Aucune donnée disponible dans le tableau"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Affichage de _START_ à _END_ sur _TOTAL_ entrées"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Affichage de 0 à 0 sur 0 entrée"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(filtré à partir de _MAX_ entrées au total)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Afficher _MENU_ entrées"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Chargement..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Traitement en cours..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Rechercher :"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Aucun enregistrement correspondant trouvé"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Premier"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Dernier"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Suivant"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Précédent"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": activer pour trier la colonne par ordre croissant"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": activer pour trier la colonne par ordre décroissant"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Lister les sauvegardes"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Liste pour %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DATE"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "FICHIER"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "RESTAURER"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Télécharger"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Voulez-vous vraiment restaurer %s sur cet appareil"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Restaurer"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Analyse"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Résultats de l'analyse"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "AJOUTER"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Ajouter les appareils"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Paramètres"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Paramètre"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Valeur"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Auth"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Colonne de tri"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Nombre de lignes"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Thème (light ou dark ou auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Mot de passe Tasmota par défaut pour la connexion web aux appareils"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Mettre à jour le nom de l'appareil lors des sauvegardes (Y ou N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Ajouter automatiquement les nouveaux appareils (Y ou N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Utiliser le sujet MQTT comme nom de l'appareil (Y ou N ou F (complet))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Masquer la colonne Adresse MAC sur la page d'accueil (Y ou N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Langue"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Automatique (navigateur)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Masquer la colonne Nom d'hôte sur la page d'accueil (Y ou N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "Hôte MQTT"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "Port MQTT"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "Nom d'utilisateur MQTT"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "Mot de passe MQTT"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "Sujet MQTT"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "Format du sujet MQTT"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Tout sauvegarder : heures minimum entre les sauvegardes"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Âge maximum en jours des sauvegardes à conserver"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Nombre maximum de sauvegardes à conserver"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Répertoire de données des sauvegardes"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Enregistrer"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Exporter les appareils"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Mise à niveau"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Mise à niveau terminée"

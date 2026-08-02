@@ -1,0 +1,590 @@
+# Turkish translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: tr\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Tüm yedekler güncel"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "%d yedeğin tümü başarıyla tamamlandı!"
+msgstr[1] "%d yedeğin tümü başarıyla tamamlandı!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "Denenen %2$d yedeklemeden %1$d tanesi başarısız oldu."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Tüm yedeklemeler başarıyla tamamlandı!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Yedeklemelerin tümü başarıyla tamamlanmadı!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Cihazı Düzenle"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Düzenle"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "KİMLİK DOĞRULAMA"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "AD"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "GÖNDER"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Gönder"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Hiçbir cihaz seçmediniz."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s başarıyla güncellendi"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "%1$s %2$s kaydı güncellenirken hata oluştu"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Cihaz bulunamadı: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Yedekleme başarısız oldu"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Yedekleme başarıyla tamamlandı!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s veritabanından başarıyla silindi."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "%s silinirken hata oluştu"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "%1$s silinirken hata oluştu : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "YEDEKLE"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "SİL"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "DÜZENLE"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "DOSYALAR"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "ANA MAKİNE ADI"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "SON YEDEK"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "SÜRÜM"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Konsolu yeni sekmede aç"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Yükseltmeyi yeni sekmede aç"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "İndirmek veya geri yüklemek için yedekleri listele"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Yedekle"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "%s öğesini silmek istediğinizden emin misiniz"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Sil"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Ad"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Tür"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Sürüm"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Derleme Etiketi"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Son Yedek"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Kapat"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Tümünü Yedekle"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Keşfet"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "parola"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "MQTT ile Keşfet"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Cihaz bulunamadı."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Cihaz status5 isteğine yanıt vermiyor."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Cihaz status2 isteğine yanıt vermiyor."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: %2$s bilgileri güncellendi!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s veritabanında zaten mevcut!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s Başarıyla Eklendi!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Cihaz veritabanına eklenirken hata oluştu."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Cihaz durum isteğine yanıt vermiyor."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Bu cihaz veritabanında zaten mevcut!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s, Dan Medhurst tarafından geliştirildi"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Tabloda görüntülenecek veri yok"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "_TOTAL_ kaydın _START_ ile _END_ arası gösteriliyor"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "0 kaydın 0 ile 0 arası gösteriliyor"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(toplam _MAX_ kayıt arasından filtrelendi)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "_MENU_ kayıt göster"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Yükleniyor..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "İşleniyor..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Ara:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Eşleşen kayıt bulunamadı"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "İlk"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Son"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Sonraki"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Önceki"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": sütunu artan sırada sıralamak için etkinleştirin"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": sütunu azalan sırada sıralamak için etkinleştirin"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Yedekleri Listele"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "%s için liste"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "TARİH"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "DOSYA"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "GERİ YÜKLE"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "İndir"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "%s dosyasını bu cihaza geri yüklemek istediğinizden emin misiniz"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Geri Yükle"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Tara"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Tarama Sonuçları"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "EKLE"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Bilinmiyor"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Tümünü Seç"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Cihazları Ekle"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Ayar"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Değer"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Kimlik Doğrulama"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Sıralama Sütunu"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Satır Sayısı"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Tema (light veya dark veya auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Cihazlarda web girişi için Tasmota varsayılan parolası"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Yedekleme yapılırken Cihaz Adını güncelle (Y veya N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Yeni Cihazları Otomatik Olarak Ekle (Y veya N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "MQTT Konusunu Cihaz Adı olarak kullan (Y veya N veya F (Tam))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Ana sayfada MAC Adresi sütununu gizle (Y veya N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Dil"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Otomatik (tarayıcı)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Ana sayfada Ana Makine Adı sütununu gizle (Y veya N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "MQTT Sunucusu"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "MQTT Bağlantı Noktası"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "MQTT Kullanıcı Adı"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "MQTT Parolası"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "MQTT Konusu"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "MQTT Konu Biçimi"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Tümünü Yedekle: yedeklemeler arasındaki en az saat sayısı"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Yedeklerin saklanacağı en fazla gün sayısı"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Saklanacak en fazla yedek sayısı"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Yedek Veri Dizini"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Kaydet"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Cihazları Dışa Aktar"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Yükselt"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Yükseltme Tamamlandı"

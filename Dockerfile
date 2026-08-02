@@ -20,7 +20,25 @@ ENV NGINX_SENDFILE=off \
     NGINX_GZIP_STATIC=on
 
 RUN echo "Start" \
- && rm -f /etc/php*/conf.d/*brotli.ini \
+ && rm -f /etc/${BUILD_PHP:-php*}/conf.d/*brotli.ini \
+ && for ini in /etc/${BUILD_PHP:-php*}/conf.d/mcrypt.ini; do \
+      [ -e "$ini" ] || continue; \
+      phpdir=$(basename $(dirname $(dirname "$ini"))); \
+      [ -e "/usr/lib/$phpdir/modules/mcrypt.so" ] || rm -f "$ini"; \
+    done \
+ && if [ ! -e /usr/bin/php ]; then \
+      phpbin=$(ls -1 /usr/bin/php[0-9]* /usr/local/bin/php \
+        /usr/local/bin/php[0-9]* 2>/dev/null | tail -n1); \
+      if [ -z "$phpbin" ]; then echo "no php binary found"; exit 1; fi; \
+      echo "linking /usr/bin/php to $phpbin"; \
+      ln -s "$phpbin" /usr/bin/php; \
+    fi \
+ && php -v \
+ && for po in /var/www/html/locale/*/LC_MESSAGES/*.po; do \
+      [ -e "$po" ] || continue; \
+      msgfmt -o "${po%.po}.mo" "$po" || exit 1; \
+      echo "compiled $po"; \
+    done \
  && cd /var/www/html/resources \
  && gzip -k -9 *.js \
  && gzip -k -9 *.css \

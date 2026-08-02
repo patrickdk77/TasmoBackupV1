@@ -4,7 +4,7 @@ require_once(__DIR__.'/lib/functions.inc.php');
 
 global $db_handle;
 
-if ($_POST["export"]!="") {
+if (isset($_POST["export"]) && $_POST["export"]!="") {
     header('Content-Type: text/csv');
     header('Content-Disposition: attachment;filename=tasmobackup_devices.csv');
 

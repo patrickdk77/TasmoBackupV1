@@ -86,6 +86,9 @@ function getTasmotaMQTTScan($mqtt,$topic,$user=false,$password=false,$slim=false
     }
     $results=[];
     foreach($mqtt_found as $topic => $found) {
+        // Reset per device. Without this one device's ip and mac leak
+        // onto the next entry that does not report its own.
+        $tmp=array();
         $status=array('Topic'=>$topic);
         if(isset($found['status5'])) {
             $status=array_merge(jsonTasmotaDecode($found['status5']));

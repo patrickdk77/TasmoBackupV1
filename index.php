@@ -33,7 +33,7 @@ switch(strtolower($task)) {
         $show_modal = true;
         $output = '<center>';
         if (!is_array($ip)) {
-            $output .= "You didn't select any devices.<br>";
+            $output .= t("You didn't select any devices.").'<br>';
         } else {
             foreach($ip as $i) {
                 $output .= addTasmotaDevice($i, $user, $password).'<br>';
@@ -51,10 +51,14 @@ switch(strtolower($task)) {
         if (isset($old_ip) && isset($ip)) {
             if (dbDeviceRename($old_ip, $name, $ip, $password)) {
                 $show_modal = true;
-                $output = "<center><b>" . $name . " updated up successfully</b><br></center>";
+                $output = '<center><b>'.
+                    sprintf(t('%s updated successfully'), $name).
+                    '</b><br></center>';
             } else {
                 $show_modal = true;
-                echo "<center><b>Error updating record for ".$old_ip." ".$name." <br>";
+                echo '<center><b>'.
+                    sprintf(t('Error updating record for %1$s %2$s'),
+                        $old_ip, $name).' <br>';
             }
         }
         break;
@@ -65,17 +69,19 @@ switch(strtolower($task)) {
         break;
     case 'singlebackup':
         $show_modal = true;
-        $output = "<center><b>Device not found: ".$ip."</b></center>";
+        $output = '<center><b>'.
+            sprintf(t('Device not found: %s'), $ip).'</b></center>';
 
         $devices = dbDeviceIp($ip);
         if ($devices!==false) {
             foreach ($devices as $db_field) {
                 if (backupSingle($db_field['id'], $db_field['name'], $db_field['ip'], 'admin', $db_field['password'], $db_field['type'])) {
                     $show_modal = true;
-                    $output = "<center><b>Backup failed</b></center>";
+                    $output = '<center><b>'.t('Backup failed').
+                        '</b></center>';
                 } else {
                     $show_model = true;
-                    $output = "Backup completed successfully!";
+                    $output = t('Backup completed successfully!');
                 }
             }
         }
@@ -86,19 +92,24 @@ switch(strtolower($task)) {
         $show_modal = true;
         if(is_array($errorcount)) {
             if($errorcount[0]==0 && $errorcount[1]==0) {
-                $output = "All backups are uptodate";
+                $output = t('All backups are up to date');
             }
             if($errorcount[0]==0 && $errorcount[1]>0) {
-                $output = "All ".$errorcount[1]." backups completed successfully!";
+                $output = sprintf(tn('All %d backup completed successfully!',
+                    'All %d backups completed successfully!',
+                    $errorcount[1]), $errorcount[1]);
             }
             if($errorcount[0]>0 && $errorcount[1]>0) {
-                $output = $errorcount[0]." backups failed out of ".$errorcount[1]." backups attempted.";
+                $output = sprintf(t('%1$d backups failed out of %2$d backups attempted.'),
+                    $errorcount[0], $errorcount[1]);
             }
         } else {
             if ($errorcount < 1) {
-                $output = "All backups completed successfully!";
+                $output = t('All backups completed successfully!');
             } else {
-                $output = "<font color='red'><b>Not all backups completed successfully!</b></font>";
+                $output = "<font color='red'><b>".
+                    t('Not all backups completed successfully!').
+                    "</b></font>";
             }
         }
         break;
@@ -106,12 +117,14 @@ switch(strtolower($task)) {
         $show_modal = true;
         try {
             if (dbDeviceDel($ip)) {
-                $output = $name . " deleted successfully from the database.";
+                $output = sprintf(
+                    t('%s deleted successfully from the database.'), $name);
             } else {
-                $output = "Error deleting  " . $ip;
+                $output = sprintf(t('Error deleting %s'), $ip);
             }
         } catch (PDOException $e) {
-            $output = "Error deleting  " . $ip . " : " . $e->getMessage();
+            $output = sprintf(t('Error deleting %1$s : %2$s'), $ip,
+                $e->getMessage());
         }
         break;
     case 'noofbackups':
@@ -132,14 +145,27 @@ switch(strtolower($task)) {
         break;
 }
 
+// Column layout: NAME, IP, [HOSTNAME], [MAC], AUTH, VERSION, ...
+// The stored sort setting numbers the columns as if both optional
+// columns were hidden, so shift it by however many are on show.
+$show_hostname = !(isset($settings['hide_hostname_column']) &&
+    $settings['hide_hostname_column']=='Y');
+$show_mac = !(isset($settings['hide_mac_column']) &&
+    $settings['hide_mac_column']=='Y');
+$optional_cols = ($show_hostname?1:0) + ($show_mac?1:0);
+$version_col = 3 + $optional_cols;
+$sort_col = isset($settings['sort'])?intval($settings['sort']):0;
+if($sort_col >= 2)
+    $sort_col += $optional_cols;
+
 TBHeader(false,true,'
 $(document).ready(function() {
         $(\'#status\').DataTable({
-        "order": ['. (isset($settings['sort'])?(($settings['sort']<2 || (isset($settings['hide_mac_column']) && $settings['hide_mac_column']=='Y'))?$settings['sort']:$settings['sort']+1):0) .', "asc" ],
+        "order": ['. $sort_col .', "asc" ],
         "pageLength": '. (isset($settings['amount'])?$settings['amount']:100) .',
         "columnDefs": [
             { "type": "ip-address", "targets": [1] },
-            { "type": "version", "targets": ['. ((isset($settings['hide_mac_column']) && $settings['hide_mac_column']=='Y')?'3':'4') .'] }
+            { "type": "version", "targets": ['. $version_col .'] }
             ],
         "stateSave": true,
         "autoWidth": false
@@ -155,14 +181,14 @@ $(document).ready(function() {
 	} else if(isset($settings['theme']) && $settings['theme']=='light') { // Enforce Light mode
 	    echo '<img src="images/settings.png">';
 	} else { // auto mode
-	    echo '<picture><source srcset="images/settings-dark.png" media="(prefers-color-scheme: dark">';
+	    echo '<picture><source srcset="images/settings-dark.png" media="(prefers-color-scheme: dark)">';
 	    echo '<source srcset="images/settings.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">';
 	    echo '<img src="images/settings.png"></picture>';
 	}
 ?></a></h4></center>
     <table class="table table-striped table-bordered" id="status">
     <thead>
-      <tr><th><b>NAME</th><th><center>IP</center></th><?php if(isset($settings['hide_mac_column']) && $settings['hide_mac_column']=='Y') { echo ''; } else { echo '<th><center>MAC</center></th>'; } ?><th><center>AUTH</center></th><th><center><b>VERSION</b></center></th><th><center>LAST BACKUP</center></th><th><center><b>FILES</b></center></th><th><center><b>BACKUP</b></center></th><th><center>EDIT</center></th><th><center><b>DELETE</b></center></th></tr>
+      <tr><th><b><?php echo t('NAME'); ?></th><th><center><?php echo t('IP'); ?></center></th><?php if($show_hostname) { echo '<th><center>'.t('HOSTNAME').'</center></th>'; } if($show_mac) { echo '<th><center>'.t('MAC').'</center></th>'; } ?><th><center><?php echo t('AUTH'); ?></center></th><th><center><b><?php echo t('VERSION'); ?></b></center></th><th><center><?php echo t('LAST BACKUP'); ?></center></th><th><center><b><?php echo t('FILES'); ?></b></center></th><th><center><b><?php echo t('BACKUP'); ?></b></center></th><th><center><?php echo t('EDIT'); ?></center></th><th><center><b><?php echo t('DELETE'); ?></b></center></th></tr>
     </thead>
     <tbody>
 <?php
@@ -189,6 +215,17 @@ $(document).ready(function() {
             $mac = '';
             $mac_display = '&nbsp;';
         }
+        $hostname = isset($db_field['hostname'])?$db_field['hostname']:'';
+        if($hostname !== '') {
+            $h = htmlspecialchars($hostname);
+            $hostname_display = "<a href='http://".$h."' target='_blank'>".
+                $h."</a>&nbsp&nbsp<a href='http://".$h.
+                "/cs' target='_blank'><img src='images/newtab.png' ".
+                "style='width:16px;' alt='".
+                t('Open console in new tab')."'></a>";
+        } else {
+            $hostname_display = '&nbsp;';
+        }
         $logo='images/tasmota.png';
         $type='Tasmota';
         if(isset($db_field['type']) && intval($db_field['type'])===1) {
@@ -211,22 +248,25 @@ $(document).ready(function() {
                 $color=''; //    $color='bg-success';
 	}
 	$mac_display='<td><center>'.$mac_display.'</center></td>';
-        if(isset($settings['hide_mac_column']) && $settings['hide_mac_column']=='Y')
+        if(!$show_mac)
             $mac_display='';
+        $hostname_display='<td><center>'.$hostname_display.'</center></td>';
+        if(!$show_hostname)
+            $hostname_display='';
 
         //echo "<tr valign='middle'><td onclick=\"deviceModal('#myModaldevice".$id."');\"><img src=\"" . $logo ."\" width=\"32\" height=\"32\" style=\"align:left\">&nbsp;" . $name . "</td><td><center><a href='http://" . $ip . "' target='_blank'>" . $ip . "</a>&nbsp&nbsp<img src='images/cli.png' alt='Open inline console' style='cursor: pointer;width:16px;margin-right:8px;' class='openConsole' data-ip='".$ip."' data-row='".$id."'><a href='http://".$ip."/cs' target='_blank'><img src='images/newtab.png' style='width:16px;' alt='Open console in new tab'></a></td>" . $mac_display . "<td><center>";
-        echo "<tr valign='middle'><td onclick=\"deviceModal('#myModaldevice".$id."');\"><img src=\"" . $logo ."\" width=\"32\" height=\"32\" style=\"align:left\">&nbsp;" . $name . "</td><td><center><a href='http://" . $ip . "' target='_blank'>" . $ip . "</a>&nbsp&nbsp<a href='http://".$ip."/cs' target='_blank'><img src='images/newtab.png' style='width:16px;' alt='Open console in new tab'></a></td>" . $mac_display . "<td><center>";
+        echo "<tr valign='middle'><td onclick=\"deviceModal('#myModaldevice".$id."');\"><img src=\"" . $logo ."\" width=\"32\" height=\"32\" style=\"align:left\">&nbsp;" . $name . "</td><td><center><a href='http://" . $ip . "' target='_blank'>" . $ip . "</a>&nbsp&nbsp<a href='http://".$ip."/cs' target='_blank'><img src='images/newtab.png' style='width:16px;' alt='" . t('Open console in new tab') . "'></a></td>" . $hostname_display . $mac_display . "<td><center>";
 	if(isset($settings['theme']) && $settings['theme']=='dark') { // Enforce Dark mode
 	    echo "<img src='" . (strlen($password) > 0 ? 'images/lock-dark.png' : 'images/lock-open-variant-dark.png') . "'>";
 	} else if(isset($settings['theme']) && $settings['theme']=='light') { // Enforce Light mode
 	    echo "<img src='" . (strlen($password) > 0 ? 'images/lock.png' : 'images/lock-open-variant.png') . "'>";
 	} else { // auto mode
 	    if(strlen($password) >0) {
-		echo '<picture><source srcset="images/lock-dark.png" media="(prefers-color-scheme: dark">';
+		echo '<picture><source srcset="images/lock-dark.png" media="(prefers-color-scheme: dark)">';
 		echo '<source srcset="images/lock.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">';
 		echo '<img src="images/lock.png"></picture>';
 	    } else {
-		echo '<picture><source srcset="images/lock-open-variant-dark.png" media="(prefers-color-scheme: dark">';
+		echo '<picture><source srcset="images/lock-open-variant-dark.png" media="(prefers-color-scheme: dark)">';
 		echo '<source srcset="images/lock-open-variant.png" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">';
 		echo '<img src="images/lock-open-variant.png"></picture>';
 	    }
@@ -254,31 +294,31 @@ $(document).ready(function() {
             if(isset($url) && strlen($url)>5)
                 $version='<a href="'.$url.'">'.$version.'</a>';
         }
-	$upgrade = '&nbsp;&nbsp;<a href="http://'.$ip.'/u1" target="_blank"><img src="images/upgrade.png" style="width:16px;" alt="Open upgrade in new tab"></a>';
+	$upgrade = '&nbsp;&nbsp;<a href="http://'.$ip.'/u1" target="_blank"><img src="images/upgrade.png" style="width:16px;" alt="'.t('Open upgrade in new tab').'"></a>';
 	echo "</center></td><td><center>" . $version . $upgrade . "</center></td><td class='$color'><center>" . $lastbackup . "</center></td>";
-	echo "<td data-sort='" . $numberofbackups . "'><center><form method='POST' action='listbackups.php'><input type='hidden' value='" . $name . "' name='name'><input type='hidden' value='" . $id . "' name='id'><button type='submit' class='btn btn-sm btn-info'>" . $numberofbackups . "</button></form></center></td>";
-	echo "<td><center><form method='POST' action='index.php'><input type='hidden' value='" . $ip . "' name='ip'><input type='hidden' value='singlebackup' name='task'><button type='submit' class='btn btn-sm btn-success'>Backup</button></form></center></td>";
-	echo "<td><center><form method='POST' action='edit.php'><input type='hidden' value='" . $ip . "' name='ip'><input type='hidden' value='" . $name . "' name='name'><input type='hidden' value='edit' name='task'><button type='submit' class='btn btn-sm btn-warning'>Edit</button></form></center></td>";
-	echo "<td><center><form method='POST' id='deleteform' action='index.php'><input type='hidden' value='" . $ip . "' name='ip'><input type='hidden' value='" . $name . "' name='name'><input type='hidden' value='delete' name='task'><button type='submit' onclick='return window.confirm(\"Are you sure you want to delete " . $name . "\");' class='btn btn-sm btn-danger'>Delete</button></form></center></td></tr>\r\n";
+	echo "<td data-sort='" . $numberofbackups . "'><center><form method='POST' action='listbackups.php'><input type='hidden' value='" . $name . "' name='name'><input type='hidden' value='" . $id . "' name='id'><button type='submit' class='btn btn-sm btn-info' title='" . htmlspecialchars(t('List backups to download or restore')) . "'>" . $numberofbackups . "</button></form></center></td>";
+	echo "<td><center><form method='POST' action='index.php'><input type='hidden' value='" . $ip . "' name='ip'><input type='hidden' value='singlebackup' name='task'><button type='submit' class='btn btn-sm btn-success'>" . t('Backup') . "</button></form></center></td>";
+	echo "<td><center><form method='POST' action='edit.php'><input type='hidden' value='" . $ip . "' name='ip'><input type='hidden' value='" . $name . "' name='name'><input type='hidden' value='edit' name='task'><button type='submit' class='btn btn-sm btn-warning'>" . t('Edit') . "</button></form></center></td>";
+	echo "<td><center><form method='POST' id='deleteform' action='index.php'><input type='hidden' value='" . $ip . "' name='ip'><input type='hidden' value='" . $name . "' name='name'><input type='hidden' value='delete' name='task'><button type='submit' onclick='return window.confirm(\"" . sprintf(t('Are you sure you want to delete %s'), $name) . "\");' class='btn btn-sm btn-danger'>" . t('Delete') . "</button></form></center></td></tr>\r\n";
 //        echo "<tr style='display:none'><td colspan='". ((isset($settings['hide_mac_column']) && $settings['hide_mac_column']=='Y')?'10':'11') ."'><iframe id='iframe".$id."' style='width:95vw;height:20vh' src=''></iframe></td></tr>";
 // http://".$ip."/cs
         $list_model.='<div id="myModaldevice'.$id.'" class="modal fade" role="dialog"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title">'.$name.'</h4><button type="button" class="btn btn-sm close" data-bs-dismiss="modal">&times;</button></div><div class="modal-body"><p><pre>'."\r\n";
-	$list_model.=sprintf("%14s: %s\r\n%14s: %s\r\n%14s: %s\r\n%14s: %s\r\n%14s: %s","Name",$name,"IP",$ip,"MAC",$mac,"Type",$type,"Version",$ver);
+	$list_model.=sprintf("%14s: %s\r\n%14s: %s\r\n%14s: %s\r\n%14s: %s\r\n%14s: %s",t('Name'),$name,t('IP'),$ip,t('MAC'),$mac,t('Type'),$type,t('Version'),$ver);
 	if(isset($tag))
-            $list_model.=sprintf("\r\n%14s: %s","BuildTag",$tag);
-        $list_model.=sprintf("\r\n%14s: %s\r\n","Last Backup",$lastbackup);
-        $list_model.='</pre></p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button></div></div></div></div>'."\r\n";
+            $list_model.=sprintf("\r\n%14s: %s",t('BuildTag'),$tag);
+        $list_model.=sprintf("\r\n%14s: %s\r\n",t('Last Backup'),$lastbackup);
+        $list_model.='</pre></p></div><div class="modal-footer"><button type="button" class="btn btn-default" data-bs-dismiss="modal">'.t('Close').'</button></div></div></div></div>'."\r\n";
     }
 
 ?>
            </tbody>
     </table>
 
-<center><form method='POST' action='index.php'><input type='hidden' value='backupall' name='task'><button type='submit' class='btn btn-sm btn-success'>Backup All</button></form><br>
-<form method="POST" action="scan.php"><input type=text name=range placeholder="192.168.1.1-255"><input type="password" name="password" placeholder="password" <?php if(isset($settings['tasmota_password'])) { echo 'value="'.$settings['tasmota_password'].'" '; } ?>><input type=hidden name=task value=scan><button style="min-width:200px" type=submit class='btn btn-sm btn-danger'>Discover</button></form>
+<center><form method='POST' action='index.php'><input type='hidden' value='backupall' name='task'><button type='submit' class='btn btn-sm btn-success'><?php echo t('Backup All'); ?></button></form><br>
+<form method="POST" action="scan.php"><input type=text name=range placeholder="192.168.1.1-255"><input type="password" name="password" placeholder="<?php echo t('password'); ?>" <?php if(isset($settings['tasmota_password'])) { echo 'value="'.$settings['tasmota_password'].'" '; } ?>><input type=hidden name=task value=scan><button style="min-width:200px" type=submit class='btn btn-sm btn-danger'><?php echo t('Discover'); ?></button></form>
 <?php if(isset($settings['mqtt_host']) && isset($settings['mqtt_port']) && strlen($settings['mqtt_host'])>1) {
 ?>
-<form method="POST" action="scan.php"><input type=text name=mqtt_topic value='<?php echo isset($settings['mqtt_topic'])?$settings['mqtt_topic']:'tasmotas'; ?>'><input type="password" name="password" placeholder="password" <?php if(isset($settings['tasmota_password'])) { echo 'value="'.$settings['tasmota_password'].'" '; } ?>><input type=hidden name=task value=mqtt><button style="min-width:200px" type=submit class='btn btn-sm btn-danger'>MQTT Discover</button></form>
+<form method="POST" action="scan.php"><input type=text name=mqtt_topic value='<?php echo isset($settings['mqtt_topic'])?$settings['mqtt_topic']:'tasmotas'; ?>'><input type="password" name="password" placeholder="<?php echo t('password'); ?>" <?php if(isset($settings['tasmota_password'])) { echo 'value="'.$settings['tasmota_password'].'" '; } ?>><input type=hidden name=task value=mqtt><button style="min-width:200px" type=submit class='btn btn-sm btn-danger'><?php echo t('MQTT Discover'); ?></button></form>
 <?php
 }
 
@@ -337,7 +377,7 @@ endif;
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-bs-dismiss="modal"><?php echo t('Close'); ?></button>
       </div>
     </div>
 

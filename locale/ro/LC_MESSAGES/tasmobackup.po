@@ -1,0 +1,594 @@
+# Romanian translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Toate copiile de rezervă sunt actualizate"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "Cea %d copie de rezervă a fost finalizată cu succes!"
+msgstr[1] "Toate cele %d copii de rezervă au fost finalizate cu succes!"
+msgstr[2] "Toate cele %d de copii de rezervă au fost finalizate cu succes!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "%1$d copii de rezervă au eșuat din %2$d încercate."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Toate copiile de rezervă au fost finalizate cu succes!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Nu toate copiile de rezervă au fost finalizate cu succes!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Editare dispozitiv"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Editare"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "AUTENTIFICARE"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "NUME"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "TRIMITE"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Trimite"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Nu ați selectat niciun dispozitiv."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s a fost actualizat cu succes"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Eroare la actualizarea înregistrării pentru %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Dispozitiv negăsit: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Copia de rezervă a eșuat"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Copia de rezervă a fost finalizată cu succes!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s a fost șters cu succes din baza de date."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Eroare la ștergerea %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Eroare la ștergerea %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "COPIE DE REZERVĂ"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "ȘTERGE"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "EDITEAZĂ"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "FIȘIERE"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "NUME GAZDĂ"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "ULTIMA COPIE DE REZERVĂ"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "VERSIUNE"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Deschide consola într-o filă nouă"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Deschide actualizarea într-o filă nouă"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Listează copiile de rezervă pentru descărcare sau restaurare"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Copie de rezervă"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Sigur doriți să ștergeți %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Șterge"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Nume"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Tip"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Versiune"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Etichetă de compilare"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Ultima copie de rezervă"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Închide"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Copie de rezervă pentru toate"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Descoperă"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "parolă"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Descoperire MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Dispozitiv negăsit."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Dispozitivul nu răspunde la cererea status5."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Dispozitivul nu răspunde la cererea status2."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: informațiile pentru %2$s au fost actualizate!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s există deja în baza de date!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s a fost adăugat cu succes!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Eroare la adăugarea dispozitivului în baza de date."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Dispozitivul nu răspunde la cererea de stare."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Acest dispozitiv există deja în baza de date!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s de Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Nu există date disponibile în tabel"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Se afișează de la _START_ la _END_ din _TOTAL_ intrări"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Se afișează de la 0 la 0 din 0 intrări"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(filtrate din _MAX_ intrări în total)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Afișează _MENU_ intrări"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Se încarcă..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Se procesează..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Caută:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Nu s-au găsit înregistrări corespunzătoare"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Prima"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Ultima"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Următoarea"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Anterioara"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": activați pentru a sorta coloana crescător"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": activați pentru a sorta coloana descrescător"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Listă copii de rezervă"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Listare pentru %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DATĂ"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "FIȘIER"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "RESTAUREAZĂ"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Descarcă"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Sigur doriți să restaurați %s pe acest dispozitiv"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Restaurează"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Scanare"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Rezultatele scanării"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "ADAUGĂ"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Necunoscut"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Selectează tot"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Adaugă dispozitive"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Setări"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Setare"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Valoare"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Autentificare"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Coloană de sortare"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Număr de rânduri"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Temă (light sau dark sau auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Parola Tasmota implicită pentru autentificarea web pe dispozitive"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr ""
+"Actualizează numele dispozitivului la crearea copiilor de rezervă (Y sau N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Adaugă automat dispozitivele noi (Y sau N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr ""
+"Folosește subiectul MQTT ca nume de dispozitiv (Y sau N sau F (complet))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Ascunde coloana adresei MAC pe pagina principală (Y sau N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Limbă"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Automat (browser)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Ascunde coloana numelui de gazdă pe pagina principală (Y sau N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "Gazdă MQTT"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "Port MQTT"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "Utilizator MQTT"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "Parolă MQTT"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "Subiect MQTT"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "Formatul subiectului MQTT"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr ""
+"Ore minime între copiile de rezervă la salvarea tuturor dispozitivelor"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Vechimea maximă în zile a copiilor de rezervă păstrate"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Numărul maxim de copii de rezervă păstrate"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Directorul de date pentru copiile de rezervă"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Salvează"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Exportă dispozitivele"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Actualizare"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Actualizare finalizată"

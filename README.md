@@ -2,6 +2,18 @@
 Backup the configs of all your Tasmota devices
 
 # Latest Changes
+* fix duplicate devices created when a device's ip changed (now matched by mac, then hostname, then ip)
+* add hostname column, toggle it like the mac column
+* fix failed backups being reported as successful (and pruning good backups afterward)
+* fix scheduled backups doing nothing until backup-all min hours had been saved once
+* fix dark mode settings/lock icons not showing
+* restore now reports success or failure instead of no feedback
+* fix restore silently failing on tasmota v15.5+ (referer check now enforced by default)
+* verified compatible with tasmota v13/v14/v15 http and mqtt api
+* add multi-language interface, auto-detects from browser
+* seed 28 language catalogues (unreviewed machine translations, see Translations below)
+* add docker buildx build option, cross builds without qemu binaries
+* add automated test suite, see Development below
 * fixup sorting/datatables
 * fixed restores
 * added wled backups
@@ -22,7 +34,9 @@ Backup the configs of all your Tasmota devices
 * Backup all devices
 * Remove devices
 * Download individual backups
-* No duplicates (based on IP, and MAC)
+* No duplicates (matched by Mac, then Hostname, then IP)
+* Optional Hostname column
+* Multi-language interface
 
 # WLED
 Backups of wled are done via downloading the cfg.json and presets.json and putting them in a zip file.
@@ -101,10 +115,58 @@ your existing one when changing versions.
 ![Alt text](https://i.imgur.com/QReTLxp.png)
 ![Alt text](https://i.imgur.com/e2ruv2t.png)
 
+# Development
 
+## Tests
+
+    make test        the offline test suite, runs in the same php image the container ships
+    make test-live    read only checks against real devices on your network, nothing is
+                       written or restored, see tests/test_live.php for TB_LIVE_RANGE /
+                       TB_LIVE_DEVICE
+
+## Building
+
+    make build     cross builds with qemu-user-static, the original method
+    make buildx    cross builds with docker buildx --platform, no qemu binaries needed
+
+Both produce the same per-architecture images and tags, see the Makefile
+and hooks/ for details.
+
+# Translations
+
+The interface is translated with gettext. Catalogues live in
+`locale/<lang>/LC_MESSAGES/tasmobackup.po`, one directory per language,
+using the same language codes Home Assistant uses.
+
+Pick a language in Settings, or leave it on `Automatic (browser)` and
+it follows the browser's `Accept-Language`. Anything not translated
+falls back to English, so a partial catalogue is perfectly usable.
+
+## Helping translate
+
+Open the `.po` file for your language in [Poedit](https://poedit.net/)
+or any gettext editor and fill in the entries. Entries marked
+**fuzzy** are machine translated starting points that nobody has
+checked yet: they are ignored at runtime until you confirm them, so
+correcting and unmarking a fuzzy entry is what puts it on screen.
+
+You never need to touch PHP to add or finish a language.
+
+For a language that does not exist yet, copy `locale/tasmobackup.pot`
+to `locale/<lang>/LC_MESSAGES/tasmobackup.po` and translate from there.
+
+## For developers
+
+    make pot        refresh locale/tasmobackup.pot from the source
+    make update-po  merge new and changed strings into every catalogue
+    make mo         compile catalogues for a local, non docker run
+
+The docker image compiles the catalogues during the build, so a normal
+install needs none of the above. Wrap new user facing strings in `t()`,
+or `tn()` when they count something, and run `make pot`. `make test`
+fails if the template has drifted from the source.
 
 # To-Do
-* Handle device changes ip address
 * Parse backup configs
 
 # Support

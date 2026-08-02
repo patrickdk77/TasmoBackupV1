@@ -75,9 +75,22 @@ if (isset($_POST['hide_mac_column'])) {
     else
         dbSettingsUpdate('hide_mac_column','N');
 }
+if (isset($_POST['language'])) {
+    $want = strtolower(trim($_POST['language']));
+    if ($want === 'auto' || tbMatchLanguage($want) !== false)
+        dbSettingsUpdate('language', $want);
+    // Reload the page text in the language just chosen.
+    tbSetupLocale();
+}
+if (isset($_POST['hide_hostname_column'])) {
+    if (in_array(strtolower($_POST['hide_hostname_column']),array('y','yes','true','t')))
+        dbSettingsUpdate('hide_hostname_column','Y');
+    else
+        dbSettingsUpdate('hide_hostname_column','N');
+}
 
 
-TBHeader('Settings',true,'
+TBHeader(t('Settings'),true,'
 $(document).ready(function() {
         $(\'#status\').DataTable({
         "order": [],
@@ -91,48 +104,61 @@ $(document).ready(function() {
   <body>
 
     <div class="container-fluid">
-        <center><h4><a href="index.php">TasmoBackup</a> - Settings</h4></center>
+        <center><h4><a href="index.php">TasmoBackup</a> - <?php echo t('Settings'); ?></h4></center>
         <form method='POST' action='settings.php'>
             <table class="table table-striped table-bordered" id="status" >
                 <thead>
-                    <tr><th>Setting</th><th>Value</th></tr>
+                    <tr><th><?php echo t('Setting'); ?></th><th><?php echo t('Value'); ?></th></tr>
                 </thead>
                 <tbody>
-                <tr valign='middle'><td align="right">Sort Column</td><td><select name ="sortoption"><option value="0" <?php if(isset($settings['sort']) && $settings['sort']==0) { echo 'selected="selected"'; } ?>>Name</option><option value="1" <?php if(isset($settings['sort']) && $settings['sort']==1) { echo 'selected="selected"'; } ?>>IP</option><option value="2" <?php if(isset($settings['sort']) && $settings['sort']==2) { echo 'selected="selected"'; } ?>>Auth</option><option value="3" <?php if(isset($settings['sort']) && $settings['sort']==3) { echo 'selected="selected"'; } ?>>Version</option><option value="4" <?php if(isset($settings['sort']) && $settings['sort']==4) { echo 'selected="selected"'; } ?>>Last Backup</option></select></td></tr>
-                    <tr valign='middle'><td align="right">Amount of Rows</td><td><input type='text' name='amountoption' value='<?php echo isset($settings['amount'])?$settings['amount']:100; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Theme (light or dark or auto)</td><td><input type="text" name='theme' value='<?php echo isset($settings['theme'])?$settings['theme']:'auto'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Tasmota Default Password for web login on devices</td><td><input type="password" name='tasmota_password' value='<?php if(isset($settings['tasmota_password'])) echo $settings['tasmota_password']; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Update Device Name when doing Backups (Y or N)</td><td><input type="text" name='autoupdate_name' value='<?php echo isset($settings['autoupdate_name'])?$settings['autoupdate_name']:'Y'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Automatically Add New Devices (Y or N)</td><td><input type="text" name='autoadd_scan' value='<?php echo isset($settings['autoadd_scan'])?$settings['autoadd_scan']:'N'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Use MQTT Topic as Device Name (Y or N or F (Full))</td><td><input type="text" name='use_topic_as_name' value='<?php echo isset($settings['use_topic_as_name'])?$settings['use_topic_as_name']:'N'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Hide MAC Address column on index page (Y or N)</td><td><input type="text" name='hide_mac_column' value='<?php echo isset($settings['hide_mac_column'])?$settings['hide_mac_column']:'N'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">MQTT Host</td><td><input type="text" name='mqtt_host' value='<?php if(isset($settings['mqtt_host'])) echo $settings['mqtt_host']; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">MQTT Port</td><td><input type="text" name='mqtt_port' value='<?php echo isset($settings['mqtt_port'])?$settings['mqtt_port']:1883; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">MQTT Username</td><td><input type="text" name='mqtt_user' value='<?php if(isset($settings['mqtt_user'])) echo $settings['mqtt_user']; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">MQTT Password</td><td><input type="password" name='mqtt_password' value='<?php if(isset($settings['mqtt_password'])) echo $settings['mqtt_password']; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">MQTT Topic</td><td><input type="text" name='mqtt_topic' value='<?php echo isset($settings['mqtt_topic'])?$settings['mqtt_topic']:'tasmotas'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">MQTT Topic Format</td><td><input type="text" name='mqtt_topic_format' value='<?php echo isset($settings['mqtt_topic_format'])?$settings['mqtt_topic_format']:'%prefix%/%topic%'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Backup-All Min Hours between backups</td><td><input type="text" name='backup_minhours' value='<?php echo isset($settings['backup_minhours'])?$settings['backup_minhours']:'23'; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Backup Max Days Old to keep</td><td><input type="text" name='backup_maxdays' value='<?php echo isset($settings['backup_maxdays'])?$settings['backup_maxdays']:''; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Backup Max Count to keep</td><td><input type="text" name='backup_maxcount' value='<?php echo isset($settings['backup_maxcount'])?$settings['backup_maxcount']:''; ?>'></td></tr>
-                    <tr valign='middle'><td align="right">Backup Data Directory</td><td><input type="text" name='backup_folder' value='<?php echo $settings['backup_folder']; ?>'></td></tr>
+                <tr valign='middle'><td align="right"><?php echo t('Sort Column'); ?></td><td><select name ="sortoption"><option value="0" <?php if(isset($settings['sort']) && $settings['sort']==0) { echo 'selected="selected"'; } ?>><?php echo t('Name'); ?></option><option value="1" <?php if(isset($settings['sort']) && $settings['sort']==1) { echo 'selected="selected"'; } ?>><?php echo t('IP'); ?></option><option value="2" <?php if(isset($settings['sort']) && $settings['sort']==2) { echo 'selected="selected"'; } ?>><?php echo t('Auth'); ?></option><option value="3" <?php if(isset($settings['sort']) && $settings['sort']==3) { echo 'selected="selected"'; } ?>><?php echo t('Version'); ?></option><option value="4" <?php if(isset($settings['sort']) && $settings['sort']==4) { echo 'selected="selected"'; } ?>><?php echo t('Last Backup'); ?></option></select></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Amount of Rows'); ?></td><td><input type='text' name='amountoption' value='<?php echo isset($settings['amount'])?$settings['amount']:100; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Theme (light or dark or auto)'); ?></td><td><input type="text" name='theme' value='<?php echo isset($settings['theme'])?$settings['theme']:'auto'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Tasmota Default Password for web login on devices'); ?></td><td><input type="password" name='tasmota_password' value='<?php if(isset($settings['tasmota_password'])) echo $settings['tasmota_password']; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Update Device Name when doing Backups (Y or N)'); ?></td><td><input type="text" name='autoupdate_name' value='<?php echo isset($settings['autoupdate_name'])?$settings['autoupdate_name']:'Y'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Automatically Add New Devices (Y or N)'); ?></td><td><input type="text" name='autoadd_scan' value='<?php echo isset($settings['autoadd_scan'])?$settings['autoadd_scan']:'N'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Use MQTT Topic as Device Name (Y or N or F (Full))'); ?></td><td><input type="text" name='use_topic_as_name' value='<?php echo isset($settings['use_topic_as_name'])?$settings['use_topic_as_name']:'N'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Hide MAC Address column on index page (Y or N)'); ?></td><td><input type="text" name='hide_mac_column' value='<?php echo isset($settings['hide_mac_column'])?$settings['hide_mac_column']:'N'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Language'); ?></td><td><select name='language'>
+<?php
+    $cur = isset($settings['language'])?strtolower($settings['language']):'auto';
+    echo "<option value='auto'".($cur==='auto'?" selected='selected'":"").">".
+        t('Automatic (browser)')."</option>";
+    foreach (tbLanguages() as $code => $label) {
+        echo "<option value='".htmlspecialchars($code)."'".
+            ($cur===strtolower($code)?" selected='selected'":"").">".
+            htmlspecialchars($label)."</option>";
+    }
+?>
+                    </select></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Hide Hostname column on index page (Y or N)'); ?></td><td><input type="text" name='hide_hostname_column' value='<?php echo isset($settings['hide_hostname_column'])?$settings['hide_hostname_column']:'N'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('MQTT Host'); ?></td><td><input type="text" name='mqtt_host' value='<?php if(isset($settings['mqtt_host'])) echo $settings['mqtt_host']; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('MQTT Port'); ?></td><td><input type="text" name='mqtt_port' value='<?php echo isset($settings['mqtt_port'])?$settings['mqtt_port']:1883; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('MQTT Username'); ?></td><td><input type="text" name='mqtt_user' value='<?php if(isset($settings['mqtt_user'])) echo $settings['mqtt_user']; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('MQTT Password'); ?></td><td><input type="password" name='mqtt_password' value='<?php if(isset($settings['mqtt_password'])) echo $settings['mqtt_password']; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('MQTT Topic'); ?></td><td><input type="text" name='mqtt_topic' value='<?php echo isset($settings['mqtt_topic'])?$settings['mqtt_topic']:'tasmotas'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('MQTT Topic Format'); ?></td><td><input type="text" name='mqtt_topic_format' value='<?php echo isset($settings['mqtt_topic_format'])?$settings['mqtt_topic_format']:'%prefix%/%topic%'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Backup-All Min Hours between backups'); ?></td><td><input type="text" name='backup_minhours' value='<?php echo isset($settings['backup_minhours'])?$settings['backup_minhours']:'23'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Backup Max Days Old to keep'); ?></td><td><input type="text" name='backup_maxdays' value='<?php echo isset($settings['backup_maxdays'])?$settings['backup_maxdays']:''; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Backup Max Count to keep'); ?></td><td><input type="text" name='backup_maxcount' value='<?php echo isset($settings['backup_maxcount'])?$settings['backup_maxcount']:''; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Backup Data Directory'); ?></td><td><input type="text" name='backup_folder' value='<?php echo $settings['backup_folder']; ?>'></td></tr>
                 </tbody>
                 <tfoot>
-                    <tr><td>&nbsp;</td><td><button type='submit' class='btn btn-sm btn-success'>Save</button></td></tr>
+                    <tr><td>&nbsp;</td><td><button type='submit' class='btn btn-sm btn-success'><?php echo t('Save'); ?></button></td></tr>
                 </tfoot>
             </table>
         </form>
         <hr>
         <table >
             <tr valign='middle'>
-                <td>Export Devices</td>
+                <td><?php echo t('Export Devices'); ?></td>
                 <td style="padding-left:8px;">
                     <form method='POST' action='export.php'>
                         <input type="hidden" name="export" value="export">
                         <select name ="sortoption">
-                            <option value="0">CSV</option>
+                            <option value="0"><?php echo t('CSV'); ?></option>
                 </td>
-                <td style="padding-left:8px;"><button type='submit' class='btn btn-sm btn-success'>Submit</button></form></td>
+                <td style="padding-left:8px;"><button type='submit' class='btn btn-sm btn-success'><?php echo t('Submit'); ?></button></form></td>
             </tr>
         </table>
     </div>

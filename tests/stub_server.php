@@ -1,0 +1,211 @@
+<?php
+/*
+ * Fake Tasmota / WLED device, run by tests through `php -S`.
+ *
+ * Per request it reads the json file named by TB_STUB_CONF, so a test
+ * can change how the device behaves without restarting the server:
+ *
+ *   status       http status for /cm?cmnd=status 0 and /json
+ *   dl           http status for /dl, /cfg.json, /presets.json
+ *   u2           http status for the /u2 restore upload
+ *   body         optional replacement body for the status response
+ *   require_referer  when true, /rs refuses a request with no Referer
+ *                header, modelling Tasmota v15.5.0+ default behaviour
+ *                (SetOption128 / disable_referer_chk defaults off)
+ */
+
+$conf = array('status' => 200, 'dl' => 200, 'u2' => 200,
+    'require_referer' => false);
+$f = getenv('TB_STUB_CONF');
+if ($f && is_readable($f)) {
+    $j = json_decode(file_get_contents($f), true);
+    if (is_array($j))
+        $conf = array_merge($conf, $j);
+}
+
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$log = getenv('TB_STUB_LOG');
+if ($log)
+    file_put_contents($log, $_SERVER['REQUEST_METHOD'].' '.
+        $_SERVER['REQUEST_URI'].
+        (empty($_SERVER['HTTP_REFERER']) ? ' referer=0' : ' referer=1').
+        "\n", FILE_APPEND);
+
+function tb_stub_fail($code)
+{
+    http_response_code($code);
+    header('Content-Type: text/plain');
+    echo "stub failure\n";
+}
+
+/*
+ * Status 0 shaped the way each firmware major actually emits it. The
+ * field names and nesting come from the response templates compiled
+ * into the released binaries, checked with:
+ *   strings tasmota.bin | grep '{"StatusNET":{'
+ * against ota.tasmota.com release-13.4.0, release-14.6.0 and
+ * release-15.5.0.
+ *
+ * The differences between majors are real: v13 emits Power as a
+ * number, v14 changed it to a string bitmask and added PowerLock, and
+ * v15 renders Core with dots instead of underscores. None of them
+ * touch a field this app reads, which is the point of testing all
+ * three.
+ */
+function tb_stub_status($fw)
+{
+    $status = array(
+        'Status' => array(
+            'Module' => 1,
+            'DeviceName' => 'Kitchen Light',
+            'FriendlyName' => array('Kitchen Light'),
+            'Topic' => 'kitchen',
+            'ButtonTopic' => '0',
+            'Power' => 1,
+            'PowerOnState' => 3,
+            'LedState' => 1,
+            'SaveData' => 1,
+            'SaveState' => 1,
+        ),
+        'StatusFWR' => array(
+            'Version' => '13.4.0(tasmota)',
+            'BuildDateTime' => '2024-02-05T10:00:00',
+            'Boot' => 7,
+            'Core' => '2_7_6',
+            'SDK' => '2.2.2-dev(38a443e)',
+            'CpuFrequency' => 80,
+            'Hardware' => 'ESP8266EX',
+        ),
+        'StatusLOG' => array('SerialLog' => 2, 'WebLog' => 2),
+        'StatusMEM' => array('ProgramSize' => 616, 'Free' => 384,
+            'Heap' => 26, 'ProgramFlashSize' => 1024),
+        'StatusNET' => array(
+            'Hostname' => 'kitchen-1234',
+            'IPAddress' => '192.168.1.25',
+            'Gateway' => '192.168.1.1',
+            'Subnetmask' => '255.255.255.0',
+            'DNSServer1' => '192.168.1.1',
+            'DNSServer2' => '0.0.0.0',
+            'Mac' => 'AA:BB:CC:DD:EE:FF',
+            'Webserver' => 2,
+            'HTTP_API' => 1,
+            'WifiConfig' => 4,
+            'WifiPower' => 17.0,
+        ),
+        'StatusTIM' => array('UTC' => '2026-08-02T12:00:00',
+            'Local' => '2026-08-02T12:00:00'),
+    );
+
+    if ($fw === '14' || $fw === '15') {
+        // v14 turned Power into a string bitmask and added PowerLock
+        $status['Status']['Power'] = '1';
+        $status['Status']['PowerLock'] = '0';
+        $status['StatusFWR']['Version'] = '14.6.0(tasmota)';
+        $status['StatusFWR']['Core'] = '2_7_8';
+    }
+    if ($fw === '15') {
+        $status['StatusFWR']['Version'] = '15.5.0(tasmota)';
+        $status['StatusFWR']['Core'] = '2.7.8';
+        unset($status['StatusMEM']['ProgramFlashSize']);
+    }
+    if ($fw === 'esp32') {
+        $status['StatusFWR']['Version'] = '15.5.0(tasmota)';
+        $status['StatusFWR']['Hardware'] = 'ESP32-D0WDQ6';
+        $status['StatusNET']['Ethernet'] = array(
+            'Hostname' => 'kitchen-eth', 'IPAddress' => '0.0.0.0',
+            'Mac' => 'AA:BB:CC:DD:EE:F0');
+    }
+    return $status;
+}
+
+$status = tb_stub_status(isset($conf['fw']) ? (string)$conf['fw'] : '13');
+
+$wled = array(
+    'info' => array(
+        'ver' => '0.14.0',
+        'name' => 'WLED Strip',
+        'mac' => 'a1b2c3d4e5f6',
+    ),
+);
+
+if (!empty($conf['nomac']))
+    unset($status['StatusNET']['Mac']);
+if (!empty($conf['nohostname']))
+    unset($status['StatusNET']['Hostname']);
+if (isset($conf['mac']))
+    $status['StatusNET']['Mac'] = $conf['mac'];
+if (isset($conf['hostname']))
+    $status['StatusNET']['Hostname'] = $conf['hostname'];
+
+if ($path === '/') {
+    // what a scan sees, it only looks for the marker word
+    if ($conf['status'] != 200)
+        return tb_stub_fail($conf['status']);
+    header('Content-Type: text/html');
+    $kind = isset($conf['kind']) && $conf['kind'] === 'wled'
+        ? 'WLED' : 'Tasmota';
+    echo '<html><head><title>'.$kind.'</title></head><body>'.
+        $kind.'</body></html>';
+    return;
+}
+
+if ($path === '/cm') {
+    if ($conf['status'] != 200)
+        return tb_stub_fail($conf['status']);
+    header('Content-Type: application/json');
+    echo isset($conf['body']) ? $conf['body'] : json_encode($status);
+    return;
+}
+
+if ($path === '/json') {
+    if ($conf['status'] != 200)
+        return tb_stub_fail($conf['status']);
+    header('Content-Type: application/json');
+    echo isset($conf['body']) ? $conf['body'] : json_encode($wled);
+    return;
+}
+
+if ($path === '/dl') {
+    if ($conf['dl'] != 200)
+        return tb_stub_fail($conf['dl']);
+    header('Content-Type: application/octet-stream');
+    echo str_repeat("\x01\x02\x03\x04", 1024); // stand-in config.dmp
+    return;
+}
+
+if ($path === '/cfg.json' || $path === '/presets.json' ||
+    $path === '/edit') {
+    if ($conf['dl'] != 200)
+        return tb_stub_fail($conf['dl']);
+    header('Content-Type: application/json');
+    echo '{"stub":"'.trim($path, '/').'"}';
+    return;
+}
+
+if ($path === '/rs') {
+    if (!empty($conf['require_referer']) &&
+            empty($_SERVER['HTTP_REFERER'])) {
+        // What a real device sends back for a referer-denied request
+        // (a bare `return;` from HttpCheckPriviledgedAccess with no
+        // response ever queued) isn't pinned down from source alone,
+        // the underlying ESP web server core isn't vendored in the
+        // Tasmota repo. Modelled here as an unambiguous rejection
+        // rather than guessing a byte-exact wire format, since the
+        // client-side fix has to treat "did not get an ok" as failure
+        // however that shows up.
+        return tb_stub_fail(403);
+    }
+    http_response_code(200);
+    echo 'ok';
+    return;
+}
+
+if ($path === '/u2') {
+    if ($conf['u2'] != 200)
+        return tb_stub_fail($conf['u2']);
+    http_response_code(200);
+    echo 'Upload Successful';
+    return;
+}
+
+tb_stub_fail(404);

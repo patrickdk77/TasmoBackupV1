@@ -24,7 +24,7 @@ if (isset($_POST["task"])) {
     }
 }
 
-TBHeader('List Backups',true,'
+TBHeader(t('List Backups'),true,'
 $(document).ready(function() {
         $(\'#status\').DataTable({
         "order": [[0, "desc" ]],
@@ -41,10 +41,10 @@ $(document).ready(function() {
   <body>
 
     <div class="container-fluid">
-	<center><h4><a href="index.php">TasmoBackup</a> - Listing for <?php echo $name; ?></h4></center>
+	<center><h4><a href="index.php">TasmoBackup</a> - <?php echo sprintf(t('Listing for %s'), $name); ?></h4></center>
     <table class="table table-striped table-bordered" id="status">
     <thead>
-		    <tr><th><b>DATE</b></th><th><center><b>NAME</b></center></th><th><center><b>VERSION</b></center></th><th><center><b>FILE</b></center></th><th><center><b>DELETE</b><center></th><th><center><b>RESTORE</b></center></th></tr>
+		    <tr><th><b><?php echo t('DATE'); ?></b></th><th><center><b><?php echo t('NAME'); ?></b></center></th><th><center><b><?php echo t('VERSION'); ?></b></center></th><th><center><b><?php echo t('FILE'); ?></b></center></th><th><center><b><?php echo t('DELETE'); ?></b><center></th><th><center><b><?php echo t('RESTORE'); ?></b></center></th></tr>
     </thead>
     <tbody>
 <?php
@@ -77,7 +77,7 @@ $(document).ready(function() {
     <input type='hidden' name='task' value='download'>
     <input type='hidden' name='backupid' value='<?php echo $backupid; ?>'>
     <input type='hidden' name='id' value='<?php echo $id; ?>'>
-    <button type='submit' class='btn btn-sm btn-success'>Download</button>
+    <button type='submit' class='btn btn-sm btn-success'><?php echo t('Download'); ?></button>
     </form>
   </center></td>
   <td><center>
@@ -86,7 +86,7 @@ $(document).ready(function() {
     <input type='hidden' name='backupid' value='<?php echo $backupid; ?>'>
     <input type='hidden' name='id' value='<?php echo $id; ?>'>
     <input type='hidden' name='name' value='<?php echo $name; ?>'>
-    <button type='submit' onclick='return window.confirm("Are you sure you want to delete <?php echo $filename; ?>");' class='btn-sm btn-danger'>Delete</button>
+    <button type='submit' onclick='return window.confirm("<?php echo sprintf(t('Are you sure you want to delete %s'), $filename); ?>");' class='btn-sm btn-danger'><?php echo t('Delete'); ?></button>
     </form>
   </center></td>
 <?php
@@ -97,7 +97,7 @@ $(document).ready(function() {
     <input type='hidden' name='backupid' value='<?php echo $backupid; ?>'>
     <input type='hidden' name='id' value='<?php echo $id; ?>'>
     <input type='hidden' name='name' value='<?php echo $name; ?>'>
-    <button type='submit' onclick='return window.confirm("Are you sure you want to restore <?php echo $filename; ?> to this device");' class='btn btn-sm btn-danger'>Restore</button>
+    <button type='submit' onclick='return window.confirm("<?php echo sprintf(t('Are you sure you want to restore %s to this device'), $filename); ?>");' class='btn btn-sm btn-danger'><?php echo t('Restore'); ?></button>
     </form>
   </center></td>
 <?php

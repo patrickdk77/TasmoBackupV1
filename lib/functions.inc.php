@@ -1,9 +1,13 @@
 <?php
 require_once (__DIR__.'/db.inc.php');
+require_once (__DIR__.'/i18n.inc.php');
 
 $strJsonFileContents = file_get_contents(__DIR__.'/../HA_addon/config.json');
 $array = json_decode($strJsonFileContents, true);
 $GLOBALS['VERSION']=$array['version'];
+
+// Needs the settings, which db.inc.php has just loaded.
+tbSetupLocale();
 
 function getBetween($content, $start, $end)
 {
@@ -114,7 +118,8 @@ function getTasmotaScanRange($iprange, $user, $password)
         curl_setopt_array($ch, $options);
         curl_multi_add_handle($master, $ch);
     }
-    $i--;
+    // No $i-- here. It used to re-queue the 15th address, so that one
+    // host was probed twice and listed twice in the scan results.
 
     do {
         while(($execrun = curl_multi_exec($master, $run)) == CURLM_CALL_MULTI_PERFORM) { ; }
@@ -279,11 +284,28 @@ function getTasmotaStatus5($ip, $user, $password)
 
 function restoreTasmotaBackup($ip, $user, $password, $filename)
 {
-    // GET /rs first to set upload_file_type=UPL_SETTINGS on the device
+    // GET /rs first to set upload_file_type=UPL_SETTINGS on the device.
+    // Tasmota v15.5.0 flipped SetOption128 (disable_referer_chk) to
+    // default off, so /rs is now referer-gated by default and a
+    // request with no Referer is silently refused. Without this the
+    // device never arms settings mode and the /u2 upload below still
+    // returns 200 while writing nothing.
     $rs = curl_init('http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.'/rs');
-    curl_setopt_array($rs, array(CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 10));
-    curl_exec($rs);
+    curl_setopt_array($rs, array(
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_REFERER => 'http://'.$ip.'/',
+        CURLOPT_HTTPHEADER => array('Origin: http://'.$ip),
+    ));
+    $rsData = curl_exec($rs);
+    $rsErr = curl_errno($rs);
+    $rsCode = curl_getinfo($rs, CURLINFO_HTTP_CODE);
     curl_close($rs);
+    if ($rsErr || $rsCode != 200) {
+        // Refused (referer check, wrong password, device offline): do
+        // not proceed to /u2, it would report a false success.
+        return false;
+    }
 	
     $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.'/u2';
 
@@ -471,9 +493,12 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
         return true; // Device Offline
     }
 
+    $hostname = '';
     if(intval($type)===0) { // Tasmota
         $version = $status['StatusFWR']['Version'];
         $mac = strtoupper($status['StatusNET']['Mac']);
+        if (isset($status['StatusNET']['Hostname']))
+            $hostname = $status['StatusNET']['Hostname'];
 
         if (!isset($settings['autoupdate_name']) || (isset($settings['autoupdate_name']) && $settings['autoupdate_name']=='Y')) {
             if(isset($settings['use_topic_as_name']) && $settings['use_topic_as_name']=='F') {
@@ -496,6 +521,16 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
             $version=trim($status['info']['ver']);
         if(isset($status['info']['mac']))
             $mac=implode(':',str_split(str_replace(array('.',':'),array('',''),trim($status['info']['mac'])),2));
+    }
+
+    // The caller picked this row by address. If the device answering
+    // that address is a different device that has a row of its own, do
+    // not file its backup here and do not stamp its mac and hostname
+    // over this row.
+    if ($mac !== '' || $hostname !== '') {
+        $owner = dbDeviceFind(NULL, $mac, $hostname);
+        if ($owner !== false && intval($owner) !== intval($id))
+            return true; // a different device holds this address now
     }
 
     $savename = preg_replace('/\s+/', '_', $name);
@@ -531,12 +566,17 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
             #echo $noofbackups;
         }
 */
-        if (!dbNewBackup($id, $name, $version, $date, 1, $saveto, $mac, $type)) {
+        if (!dbNewBackup($id, $name, $version, $date, 1, $saveto, $mac, $type, $hostname)) {
             return true;
         }
         return false;
     }
-    return false;
+    // The download failed. Returning false here reported the backup as
+    // a success, and let backupCleanup prune older good backups even
+    // though nothing new was saved.
+    if (file_exists($saveto))
+        unlink($saveto);
+    return true;
 }
 
 function backupAll($docker=false)
@@ -544,10 +584,13 @@ function backupAll($docker=false)
     global $db_handle;
     global $settings;
 
-    $hours=0;
+    // 23 is the default the settings page shows. Defaulting to 0 here
+    // meant a never-saved setting silently skipped every scheduled
+    // backup while a manual Backup All still worked.
+    $hours=23;
     if(isset($settings['backup_minhours']))
         $hours=intval($settings['backup_minhours']);
-    if($docker && $hours==0)
+    if($docker && $hours==0) // 0 disables scheduled backups
         return false;
     if ($docker && isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') { // auto scan on schedule
         if(isset($settings['mqtt_host']) && isset($settings['mqtt_port']) && strlen($settings['mqtt_host'])>1) {
@@ -575,111 +618,148 @@ function backupAll($docker=false)
     return array($errorcount,$totalcount);
 }
 
+/*
+ * Pulls the identity out of a status response. Both discovery paths
+ * used to carry their own copy of this, which is how they drifted
+ * apart.
+ */
+function statusIdentity($status, $type, &$name, &$version, &$mac, &$hostname)
+{
+    global $settings;
+
+    if(intval($type)===0) { // Tasmota
+        if(isset($settings['use_topic_as_name']) && $settings['use_topic_as_name']=='F' && isset($status['Topic'])) {
+            $name=trim(str_replace(array('/stat','stat/'),array('',''),$status['Topic'])," \t\r\n\v\0/");
+        } else {
+            if (isset($status['Status']['Topic']))
+                $name=$status['Status']['Topic'];
+            if(!isset($settings['use_topic_as_name']) || $settings['use_topic_as_name']=='N') {
+                if (isset($status['Status']['DeviceName']) && strlen(preg_replace('/\s+/', '',$status['Status']['DeviceName']))>0)
+                    $name=$status['Status']['DeviceName'];
+                else if (isset($status['Status']['FriendlyName'][0]))
+                    $name=$status['Status']['FriendlyName'][0];
+            }
+        }
+        if (isset($status['StatusFWR']['Version']))
+            $version=$status['StatusFWR']['Version'];
+        if (isset($status['StatusNET']['Mac']))
+            $mac=strtoupper($status['StatusNET']['Mac']);
+        if (isset($status['StatusNET']['Hostname']))
+            $hostname=$status['StatusNET']['Hostname'];
+    } else if (intval($type)===1) { // WLED
+        if(isset($status['info']['name']))
+            $name=trim($status['info']['name']);
+        if(isset($status['info']['ver']))
+            $version=trim($status['info']['ver']);
+        if(isset($status['info']['mac']))
+            $mac=implode(':',str_split(str_replace(array('.',':'),array('',''),trim($status['info']['mac'])),2));
+    }
+}
+
 function addTasmotaDevice($ip, $user, $password, $verified=false, $status=false, $type=null)
 {
     global $settings;
 
     if(!$verified || !isset($type)) {
         if (($type=getTasmotaScan($ip, $user, $password))===false) {
-            return $ip.': Device not found.';
+            return sprintf(t('%s: Device not found.'), $ip);
         }
     }
+    // Left as null when the device did not tell us, so an update does
+    // not overwrite a good stored value with a placeholder.
+    $name=NULL;
+    $version=NULL;
+    $mac='';
+    $hostname='';
+    $newname=NULL;
     if (!dbDeviceExist($ip)) {
         if ($status===false)
             $status=getTasmotaStatus($ip, $user, $password, $type);
         if (isset($status) && $status) {
             if(intval($type)===0) { // Tasmota
+                // The isset guards matter: a device that answers with
+                // something other than the block we asked for used to
+                // leave StatusNET null, which meant no mac, which meant
+                // a row with no identity that could never be rematched.
                 if (!isset($status['StatusNET'])) {
                     sleep(1);
-                    if ($status5=getTasmotaStatus5($ip, $user, $password))
+                    $status5=getTasmotaStatus5($ip, $user, $password);
+                    if (isset($status5['StatusNET']))
                         $status['StatusNET']=$status5['StatusNET'];
-                    else 
-                        return $ip.': Device not responding to status5 request.';
+                    else
+                        return sprintf(t('%s: Device not responding to '.
+                            'status5 request.'), $ip);
                 }
                 if(!isset($status['StatusFWR'])) {
                     sleep(1);
-                    if ($status2=getTasmotaStatus2($ip, $user, $password))
+                    $status2=getTasmotaStatus2($ip, $user, $password);
+                    if (isset($status2['StatusFWR']))
                         $status['StatusFWR']=$status2['StatusFWR'];
                     else
-                        return $ip.': Device not responding to status2 request.';
+                        return sprintf(t('%s: Device not responding to '.
+                            'status2 request.'), $ip);
                 }
-                if(isset($settings['use_topic_as_name']) && $settings['use_topic_as_name']=='F' && isset($status['Topic'])) {
-                    $name=trim(str_replace(array('/stat','stat/'),array('',''),$status['Topic'])," \t\r\n\v\0/");;
-                } else {
-                    if (isset($status['Status']['Topic']))
-                        $name=$status['Status']['Topic'];
-                    if(!isset($settings['use_topic_as_name']) || $settings['use_topic_as_name']=='N') {
-                        if (isset($status['Status']['DeviceName']) && strlen(preg_replace('/\s+/', '',$status['Status']['DeviceName']))>0)
-                            $name=$status['Status']['DeviceName'];
-                        else if ($status['Status']['FriendlyName'][0])
-                            $name=$status['Status']['FriendlyName'][0];
-                    }
-                }
-                if (isset($status['StatusFWR']['Version']))
-                    $version=$status['StatusFWR']['Version'];
-                if (isset($status['StatusNET']['Mac']))
-                    $mac=strtoupper($status['StatusNET']['Mac']);
-            } else if (intval($type)===1) { // WLED
-                if(isset($status['info']['name']))
-                    $name=trim($status['info']['name']);
-                if(isset($status['info']['ver']))
-                    $version=trim($status['info']['ver']);
-                if(isset($status['info']['mac']))
-                    $mac=implode(':',str_split(str_replace(array('.',':'),array('',''),trim($status['info']['mac'])),2));
             }
-            if (($id=dbDeviceFind($ip,$mac))>0) {
+            statusIdentity($status,$type,$name,$version,$mac,$hostname);
+            if (($id=dbDeviceFind($ip,$mac,$hostname))>0) {
                 if (!isset($settings['autoupdate_name']) || (isset($settings['autoupdate_name']) && $settings['autoupdate_name']=='Y'))
                     $newname=$name;
-                if(dbDeviceUpdate($id,$newname,$ip,$version,$password,$mac,$type))
-                    return $ip.': ' . $name . ' infomation has been updated!';
+                if(dbDeviceUpdate($id,$newname,$ip,$version,$password,$mac,$type,$hostname))
+                    return sprintf(t('%1$s: %2$s information has been '.
+                        'updated!'), $ip, $name);
                 else
-                    return $ip.': ' . $name . ' already exists in the database!';
+                    return sprintf(t('%1$s: %2$s already exists in the '.
+                        'database!'), $ip, $name);
             } else {
-                if (dbDeviceAdd($name, $ip, $version, $password, $mac, $type)) {
-                    return $ip.': ' . $name . ' Added Successfully!';
+                if (dbDeviceAdd(isset($name)?$name:$ip, $ip,
+                        isset($version)?$version:'', $password, $mac,
+                        $type, $hostname)) {
+                    return sprintf(t('%1$s: %2$s Added Successfully!'),
+                        $ip, $name);
                 }
             }
-            return $ip.': '. $name . ' Error adding device to database.';
+            return sprintf(t('%1$s: %2$s Error adding device to '.
+                'database.'), $ip, $name);
         }
-        return $ip.': Device not responding to status request.';
-    } else { // Update device metadata, but only if scanned via mqtt as not to add more overhead
+        return sprintf(t('%s: Device not responding to status request.'),
+            $ip);
+    } else {
+        // A row already carries this ip. That is not proof it is the
+        // same device: dhcp hands a freed address to the next device,
+        // and the old owner still holds the row. Ask the device who it
+        // is before deciding. When it was scanned over mqtt the status
+        // is already in hand, so this costs no extra request there.
+        if ($status===false)
+            $status=getTasmotaStatus($ip, $user, $password, $type);
         if (isset($status) && $status) {
-            if(intval($type)===0) {
-                if(isset($settings['use_topic_as_name']) && $settings['use_topic_as_name']=='F' && isset($status['Topic'])) {
-                    $name=trim(str_replace(array('/stat','stat/'),array('',''),$status['Topic'])," \t\r\n\v\0/");;
-                } else {
-                    if (isset($status['Status']['Topic']))
-                        $name=$status['Status']['Topic'];
-                    if(!isset($settings['use_topic_as_name']) || $settings['use_topic_as_name']=='N') {
-                        if (isset($status['Status']['DeviceName']) && strlen(preg_replace('/\s+/', '',$status['Status']['DeviceName']))>0)
-                            $name=$status['Status']['DeviceName'];
-                        else if (isset($status['Status']['FriendlyName'][0]))
-                            $name=$status['Status']['FriendlyName'][0];
-                    }
-                }
-                if (isset($status['StatusFWR']['Version']))
-                    $version=$status['StatusFWR']['Version'];
-                if (isset($status['StatusNET']['Mac']))
-                    $mac=strtoupper($status['StatusNET']['Mac']);
-            } else if (intval($type)===1) { // WLED
-                if(isset($status['info']['name']))
-                    $name=trim($status['info']['name']);
-                if(isset($status['info']['ver']))
-                    $version=trim($status['info']['ver']);
-                if(isset($status['info']['mac']))
-                    $mac=implode(':',str_split(str_replace(array('.',':'),array('',''),trim($status['info']['mac'])),2));
-            }
-            if (($id=dbDeviceFind($ip,$mac))>0) {
+            statusIdentity($status,$type,$name,$version,$mac,$hostname);
+
+            // dbDeviceFind decides what counts as the same device: a
+            // reported identity never falls back to a plain ip match,
+            // it can only adopt a row that has no identity at all.
+            $id=dbDeviceFind($ip,$mac,$hostname);
+            if ($id>0) {
                 if (!isset($settings['autoupdate_name']) || (isset($settings['autoupdate_name']) && $settings['autoupdate_name']=='Y') && isset($name))
                     $newname=$name;
-                if(dbDeviceUpdate($id,isset($newname)?$newname:NULL,$ip,isset($version)?$version:NULL,$password,isset($mac)?$mac:NULL,$type))
-                    return $ip.': ' . (isset($name)?$name:'') . ' infomation has been updated!';
+                if(dbDeviceUpdate($id,isset($newname)?$newname:NULL,$ip,isset($version)?$version:NULL,$password,isset($mac)?$mac:NULL,$type,$hostname))
+                    return sprintf(t('%1$s: %2$s information has been '.
+                        'updated!'), $ip, isset($name)?$name:'');
                 else
-                    return $ip.': ' . (isset($name)?$name:'') . ' already exists in the database!';
+                    return sprintf(t('%1$s: %2$s already exists in the '.
+                        'database!'), $ip, isset($name)?$name:'');
+            }
+            // Known address, unknown device: it is a different device
+            // that inherited the address, so it gets its own row.
+            if (dbDeviceAdd(isset($name)?$name:$ip, $ip,
+                    isset($version)?$version:'', $password, $mac,
+                    $type, $hostname)) {
+                return sprintf(t('%1$s: %2$s Added Successfully!'),
+                    $ip, isset($name)?$name:'');
             }
         }
     }
-    return $ip.': This device already exists in the database!';
+    return sprintf(t('%s: This device already exists in the database!'),
+        $ip);
 }
 
 
@@ -695,7 +775,7 @@ function TBHeader($name=false,$favicon=true,$init=false,$track=true,$redirect=fa
         $colormode = 'dark';
     }
 
-    echo '<!DOCTYPE html><html lang="en"><head>';
+    echo '<!DOCTYPE html><html lang="'.htmlspecialchars(tbLang()).'"><head>';
 if($redirect!==false && $redirect>0) {
     echo '<meta http-equiv="refresh" content="'.$redirect.';url=index.php" />';
 }
@@ -731,7 +811,8 @@ if($track) { ?>
   gtag('config', 'UA-116906-4');
 </script>
 <?php } ?>
-<title>TasmoBackup<?php if($name!==false) { echo ': '.$name; } ?></title>
+<title><?php echo ($name!==false) ?
+    sprintf(t('TasmoBackup: %s'), $name) : 'TasmoBackup'; ?></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="resources/bootstrap.min.css">
@@ -742,6 +823,11 @@ if($track) { ?>
   <script src="resources/sorting.min.js"></script>
   <link rel="stylesheet" type="text/css" href="resources/datatables.min.css"/>
     <script class="init">
+    // Table chrome comes from the same catalogue as everything else,
+    // set as a default so no page has to pass it.
+    $.extend(true, $.fn.dataTable.defaults, {
+        "language": <?php echo tbDataTablesLanguage(); ?>
+    });
     <?php echo $init; ?>
     </script>
 <?php } ?>
@@ -767,7 +853,9 @@ function TBFooter()
     global $VERSION;
 ?>
 <br><br>
-<div style='text-align:right;font-size:11px;'><hr/><a href='https://github.com/danmed/TasmoBackupV1' target='_blank' style='color:#aaa;'>TasmoBackup <?php echo $GLOBALS['VERSION']; ?> by Dan Medhurst</a></div>
+<div style='text-align:right;font-size:11px;'><hr/><a href='https://github.com/danmed/TasmoBackupV1' target='_blank' style='color:#aaa;'><?php echo sprintf(
+    t('TasmoBackup %s by Dan Medhurst'),
+    $GLOBALS['VERSION']); ?></a></div>
 <?php
 }
 

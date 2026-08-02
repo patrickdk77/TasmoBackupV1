@@ -34,13 +34,12 @@ else
     fi
 fi
 
-if [ ! -z $TZ ]; then
-    if [ -e /etc/php7/conf.d/custom.ini ]; then
-      sed -i "s|UTC|${TZ}|" /etc/php7/conf.d/custom.ini
-    fi
-    if [ -e /etc/php8/conf.d/custom.ini ]; then
-      sed -i "s|UTC|${TZ}|" /etc/php8/conf.d/custom.ini
-    fi
+if [ ! -z "$TZ" ]; then
+    for ini in /etc/${BUILD_PHP:-php*}/conf.d/custom.ini; do
+      if [ -e "$ini" ]; then
+        sed -i "s|UTC|${TZ}|" "$ini"
+      fi
+    done
 fi
 
 sed -i "s|mysqlserver|$MYSQL_SERVER|g" /var/www/html/data/config.inc.php
@@ -53,7 +52,13 @@ sed -i "s|data/tasmobackup|$DBNAME|g" /var/www/html/data/config.inc.php
 #  docker-php-ext-install mysqli pdo_mysql
 #fi
 
-su -l -p www-data -s /usr/bin/php /var/www/html/upgrade.php 1>/dev/null
+if [ ! -x /usr/bin/php ]; then
+    echo "install.sh: /usr/bin/php is missing, cannot run upgrade.php," \
+         "the database tables will not exist" >&2
+elif ! su -l -p www-data -s /usr/bin/php /var/www/html/upgrade.php 1>/dev/null; then
+    echo "install.sh: upgrade.php failed, the database tables may be" \
+         "missing or out of date" >&2
+fi
 
 /usr/sbin/crond -l 9
 

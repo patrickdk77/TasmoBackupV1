@@ -1,0 +1,589 @@
+# Vietnamese translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: vi\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Tất cả bản sao lưu đều đã được cập nhật"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "Đã hoàn tất thành công tất cả %d bản sao lưu!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "%1$d bản sao lưu thất bại trong tổng số %2$d bản sao lưu đã thử."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Đã hoàn tất thành công tất cả bản sao lưu!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Không phải tất cả bản sao lưu đều hoàn tất thành công!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Sửa thiết bị"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Sửa"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "XÁC THỰC"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "TÊN"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "GỬI"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Gửi"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Bạn chưa chọn thiết bị nào."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "Đã cập nhật %s thành công"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Lỗi khi cập nhật bản ghi cho %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Không tìm thấy thiết bị: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Sao lưu thất bại"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Đã hoàn tất sao lưu thành công!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "Đã xóa %s khỏi cơ sở dữ liệu thành công."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Lỗi khi xóa %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Lỗi khi xóa %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "SAO LƯU"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "XÓA"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "SỬA"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "TỆP"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "TÊN MÁY"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "SAO LƯU GẦN NHẤT"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "PHIÊN BẢN"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Mở bảng điều khiển trong tab mới"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Mở trang nâng cấp trong tab mới"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Liệt kê bản sao lưu để tải xuống hoặc khôi phục"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Sao lưu"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Bạn có chắc chắn muốn xóa %s không"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Xóa"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Tên"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Loại"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Phiên bản"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Thẻ bản dựng"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Sao lưu gần nhất"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Đóng"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Sao lưu tất cả"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Dò tìm"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "mật khẩu"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Dò tìm qua MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Không tìm thấy thiết bị."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Thiết bị không phản hồi yêu cầu status5."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Thiết bị không phản hồi yêu cầu status2."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: Đã cập nhật thông tin của %2$s!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s đã tồn tại trong cơ sở dữ liệu!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: Đã thêm %2$s thành công!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Lỗi khi thêm thiết bị vào cơ sở dữ liệu."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Thiết bị không phản hồi yêu cầu status."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Thiết bị này đã tồn tại trong cơ sở dữ liệu!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s của Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Không có dữ liệu trong bảng"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Đang hiển thị _START_ đến _END_ trong tổng số _TOTAL_ mục"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Đang hiển thị 0 đến 0 trong tổng số 0 mục"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(được lọc từ tổng số _MAX_ mục)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Hiển thị _MENU_ mục"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Đang tải..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Đang xử lý..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Tìm kiếm:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Không tìm thấy bản ghi phù hợp"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Đầu"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Cuối"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Tiếp"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Trước"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": kích hoạt để sắp xếp cột tăng dần"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": kích hoạt để sắp xếp cột giảm dần"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Danh sách bản sao lưu"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Danh sách của %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "NGÀY"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "TỆP"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "KHÔI PHỤC"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Tải xuống"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Bạn có chắc chắn muốn khôi phục %s vào thiết bị này không"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Khôi phục"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Quét"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Kết quả quét"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "THÊM"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Không rõ"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Chọn tất cả"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Thêm thiết bị"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Thiết lập"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Giá trị"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Xác thực"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Cột sắp xếp"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Số lượng hàng"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Giao diện (light hoặc dark hoặc auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Mật khẩu Tasmota mặc định để đăng nhập web trên thiết bị"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Cập nhật tên thiết bị khi sao lưu (Y hoặc N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Tự động thêm thiết bị mới (Y hoặc N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Dùng chủ đề MQTT làm tên thiết bị (Y hoặc N hoặc F (Đầy đủ))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Ẩn cột địa chỉ MAC trên trang chính (Y hoặc N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Ngôn ngữ"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Tự động (trình duyệt)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Ẩn cột tên máy trên trang chính (Y hoặc N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "Máy chủ MQTT"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "Cổng MQTT"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "Tên đăng nhập MQTT"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "Mật khẩu MQTT"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "Chủ đề MQTT"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "Định dạng chủ đề MQTT"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Sao lưu tất cả: số giờ tối thiểu giữa các lần sao lưu"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Số ngày tối đa giữ lại bản sao lưu"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Số lượng bản sao lưu tối đa giữ lại"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Thư mục dữ liệu sao lưu"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Lưu"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Xuất thiết bị"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Nâng cấp"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Nâng cấp hoàn tất"

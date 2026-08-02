@@ -1,0 +1,63 @@
+#!/bin/bash
+set -eu
+
+echo "buildx"
+source hooks/${HOOKS_CONFIG:-.config.buildx}
+
+BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%Sz')
+BUILD_REF=`git rev-parse --short HEAD`
+BUILD_VERSION="${DOCKER_TAG}"
+BUILD_REPO="${DOCKER_REPO//index.docker.io\/}"
+BUILD_FROM_ARG=""
+if [[ ${BUILD_FROM-x} != x ]]; then
+  BUILD_FROM_ARG="--build-arg BUILD_FROM=${BUILD_FROM}"
+fi
+DEFAULT_BUILD_FROM_ARG="${BUILD_FROM_ARG}"
+
+echo "Will build the following architectures: ${verified_build_architectures[@]}"
+echo "-----------------------------------------------------------------"
+
+for arch in ${verified_build_architectures[@]}; do
+  echo "building $arch"
+  echo "---------------------------------------------------------------"
+
+  BUILD_FROM_ARG="${DEFAULT_BUILD_FROM_ARG}"
+  if [[ ${arch} == arm* ]]; then
+    echo "Found ARM"
+    if [[ ${arch} == armv7 ]]; then
+      BUILD_FROM_ARG="--build-arg BUILD_FROM=docker.patrickdk.com/docker-php-nginx:7.3"
+    fi
+    if [[ ${arch} == armhf ]]; then
+      BUILD_FROM_ARG="--build-arg BUILD_FROM=docker.patrickdk.com/docker-php-nginx:7.3"
+    fi
+    if [[ ${arch} == armel ]]; then
+      BUILD_FROM_ARG="--build-arg BUILD_FROM=docker.patrickdk.com/docker-php-nginx:7.3"
+    fi
+  fi
+  PLATFORM="${docker_platform_map[${arch}]}"
+  BUILD_FROM_PREFIX="${build_from_prefix_map[${arch}]}"
+  QEMU_ARCH="${docker_qemu_arch_map[${arch}]}"
+  docker buildx build --builder "${BUILDX_BUILDER}" \
+    --platform ${PLATFORM} --pull --load ${BUILD_FROM_ARG} \
+    --build-arg BUILD_FROM_PREFIX=${BUILD_FROM_PREFIX} \
+    --build-arg BUILD_ARCH=${arch} \
+    --build-arg QEMU_ARCH=${QEMU_ARCH} \
+    --build-arg BUILD_DATE=${BUILD_DATE} \
+    --build-arg BUILD_REF=${BUILD_REF} \
+    --build-arg BUILD_VERSION=${BUILD_VERSION} \
+    --build-arg BUILD_REPO=${BUILD_REPO} \
+    --file $DOCKERFILE_PATH \
+    --tag "${IMAGE_NAME}-${arch}" \
+    ${BUILDX_EXTRA_ARGS-} \
+    .
+done
+
+echo "images built:"
+echo "-----------------------------------------------------------------"
+docker image ls
+
+# No "yolo fixing platform" pass here. That worked around
+# https://github.com/moby/moby/issues/36552, where docker build --platform
+# left the host architecture in the image config. buildx writes the real
+# architecture and variant, so hooks/push can annotate the manifest from
+# the images as they are.

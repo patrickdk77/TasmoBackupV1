@@ -11,19 +11,27 @@ TBHeader(false,false,false,false);
 <?php
         if(is_array($errorcount)) {
             if($errorcount[0]==0 && $errorcount[1]==0) {
-                $output = "All backups are uptodate";
+                $output = t('All backups are up to date');
             }
             if($errorcount[0]==0 && $errorcount[1]>0) {
-                $output = "All ".$errorcount[1]." backups completed successfully!";
+                $output = sprintf(
+                    tn('All %d backup completed successfully!',
+                        'All %d backups completed successfully!',
+                        $errorcount[1]),
+                    $errorcount[1]);
             }
             if($errorcount[0]>0 && $errorcount[1]>0) {
-                $output = $errorcount[0]." backups failed out of ".$errorcount[1]." backups attempted.";
+                $output = sprintf(
+                    t('%1$d backups failed out of %2$d backups attempted.'),
+                    $errorcount[0], $errorcount[1]);
             }
         } else {
             if ($errorcount < 1) {
-                $output = "All backups completed successfully!";
+                $output = t('All backups completed successfully!');
             } else {
-                $output = "<font color='red'><b>Not all backups completed successfully!</b></font>";
+                $output = "<font color='red'><b>".
+                    t('Not all backups completed successfully!').
+                    "</b></font>";
             }
         }
 ?>

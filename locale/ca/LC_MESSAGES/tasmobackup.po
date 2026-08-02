@@ -1,0 +1,592 @@
+# Catalan translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Totes les còpies de seguretat estan al dia"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "S'ha completat correctament %d còpia de seguretat!"
+msgstr[1] "S'han completat correctament les %d còpies de seguretat!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "Han fallat %1$d còpies de seguretat de %2$d intentades."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Totes les còpies de seguretat s'han completat correctament!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "No totes les còpies de seguretat s'han completat correctament!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Edita el dispositiu"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Edita"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "AUTENTICACIÓ"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "NOM"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "ENVIA"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Envia"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "No heu seleccionat cap dispositiu."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s s'ha actualitzat correctament"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Error en actualitzar el registre de %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "No s'ha trobat el dispositiu: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "La còpia de seguretat ha fallat"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "La còpia de seguretat s'ha completat correctament!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s s'ha suprimit correctament de la base de dades."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Error en suprimir %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Error en suprimir %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "CÒPIA DE SEGURETAT"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "SUPRIMEIX"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "EDITA"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "FITXERS"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "NOM D'AMFITRIÓ"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "ÚLTIMA CÒPIA DE SEGURETAT"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "VERSIÓ"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Obre la consola en una pestanya nova"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Obre l'actualització en una pestanya nova"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Llista les còpies de seguretat per baixar-les o restaurar-les"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Còpia de seguretat"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Segur que voleu suprimir %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Suprimeix"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Nom"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Tipus"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Versió"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Etiqueta de compilació"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Última còpia de seguretat"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Tanca"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Fes còpia de tot"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Descobreix"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "contrasenya"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Descobreix per MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: No s'ha trobat el dispositiu."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: El dispositiu no respon a la sol·licitud status5."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: El dispositiu no respon a la sol·licitud status2."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: S'ha actualitzat la informació de %2$s!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s ja existeix a la base de dades!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s s'ha afegit correctament!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Error en afegir el dispositiu a la base de dades."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: El dispositiu no respon a la sol·licitud d'estat."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Aquest dispositiu ja existeix a la base de dades!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s de Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "No hi ha dades disponibles a la taula"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Es mostren de _START_ a _END_ de _TOTAL_ entrades"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Es mostren de 0 a 0 de 0 entrades"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(filtrat d'un total de _MAX_ entrades)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Mostra _MENU_ entrades"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "S'està carregant..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "S'està processant..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Cerca:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "No s'ha trobat cap registre coincident"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Primera"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Última"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Següent"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Anterior"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": activeu per ordenar la columna de manera ascendent"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": activeu per ordenar la columna de manera descendent"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Llista les còpies de seguretat"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Llistat de %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "DATA"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "FITXER"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "RESTAURA"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Baixa"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Segur que voleu restaurar %s en aquest dispositiu"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Restaura"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Escaneja"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Resultats de l'escaneig"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "AFEGEIX"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Desconegut"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Selecciona-ho tot"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Afegeix dispositius"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Configuració"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Paràmetre"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Valor"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Autenticació"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Columna d'ordenació"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Nombre de files"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Tema (light o dark o auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr ""
+"Contrasenya per defecte de Tasmota per a l'inici de sessió web als "
+"dispositius"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Actualitza el nom del dispositiu en fer còpies de seguretat (Y o N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Afegeix automàticament els dispositius nous (Y o N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Utilitza el tema MQTT com a nom del dispositiu (Y o N o F (complet))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Amaga la columna d'adreça MAC a la pàgina d'índex (Y o N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Idioma"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Automàtic (navegador)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Amaga la columna de nom d'amfitrió a la pàgina d'índex (Y o N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "Amfitrió MQTT"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "Port MQTT"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "Nom d'usuari MQTT"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "Contrasenya MQTT"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "Tema MQTT"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "Format del tema MQTT"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Fes còpia de tot: hores mínimes entre còpies de seguretat"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Dies màxims d'antiguitat de les còpies de seguretat que s'han de conservar"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Nombre màxim de còpies de seguretat que s'han de conservar"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Directori de dades de les còpies de seguretat"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Desa"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Exporta els dispositius"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Actualitza"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Actualització completada"

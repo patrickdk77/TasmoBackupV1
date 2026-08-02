@@ -1,0 +1,591 @@
+# Ukrainian translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Усі резервні копії актуальні"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "Усі %d резервну копію створено успішно!"
+msgstr[1] "Усі %d резервні копії створено успішно!"
+msgstr[2] "Усі %d резервних копій створено успішно!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "Не вдалося створити %1$d резервних копій із %2$d спроб."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Усі резервні копії створено успішно!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Не всі резервні копії створено успішно!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Редагувати пристрій"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Редагувати"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "АВТЕНТИФІКАЦІЯ"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "НАЗВА"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "НАДІСЛАТИ"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Надіслати"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Ви не вибрали жодного пристрою."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "%s успішно оновлено"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Помилка оновлення запису для %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Пристрій не знайдено: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Не вдалося створити резервну копію"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Резервну копію створено успішно!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "%s успішно видалено з бази даних."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Помилка видалення %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Помилка видалення %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "РЕЗЕРВНА КОПІЯ"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "ВИДАЛИТИ"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "РЕДАГУВАТИ"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "ФАЙЛИ"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "ІМ'Я ХОСТА"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "ОСТАННЯ РЕЗЕРВНА КОПІЯ"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "ВЕРСІЯ"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Відкрити консоль у новій вкладці"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Відкрити оновлення у новій вкладці"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Список резервних копій для завантаження або відновлення"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Створити резервну копію"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Ви впевнені, що хочете видалити %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Видалити"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Назва"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Тип"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Версія"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Тег збірки"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Остання резервна копія"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Закрити"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Резервне копіювання всіх"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Виявити"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "пароль"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Виявити через MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: пристрій не знайдено."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: пристрій не відповідає на запит status5."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: пристрій не відповідає на запит status2."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: інформацію про %2$s оновлено!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: %2$s вже існує в базі даних!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: %2$s успішно додано!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s помилка додавання пристрою до бази даних."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: пристрій не відповідає на запит статусу."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: цей пристрій вже існує в базі даних!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s від Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "У таблиці немає даних"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Показано з _START_ по _END_ із _TOTAL_ записів"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Показано з 0 по 0 із 0 записів"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(відфільтровано із _MAX_ записів)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Показувати _MENU_ записів"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Завантаження..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Обробка..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Пошук:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Відповідних записів не знайдено"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Перша"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Остання"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Наступна"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Попередня"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": активуйте, щоб сортувати стовпець за зростанням"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": активуйте, щоб сортувати стовпець за спаданням"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Список резервних копій"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Список для %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "ДАТА"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "ФАЙЛ"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "ВІДНОВИТИ"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Завантажити"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Ви впевнені, що хочете відновити %s на цьому пристрої"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Відновити"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Сканувати"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Результати сканування"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "ДОДАТИ"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Невідомо"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Вибрати все"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Додати пристрої"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Налаштування"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Параметр"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Значення"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Автентифікація"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Стовпець сортування"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Кількість рядків"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Тема (light, dark або auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr "Типовий пароль Tasmota для входу у вебінтерфейс пристроїв"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr "Оновлювати назву пристрою під час резервного копіювання (Y або N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Автоматично додавати нові пристрої (Y або N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Використовувати тему MQTT як назву пристрою (Y, N або F (повна))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Приховати стовпець MAC-адреси на головній сторінці (Y або N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Мова"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Автоматично (браузер)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Приховати стовпець імені хоста на головній сторінці (Y або N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "Хост MQTT"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "Порт MQTT"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "Ім'я користувача MQTT"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "Пароль MQTT"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "Тема MQTT"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "Формат теми MQTT"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr "Мінімальна кількість годин між резервними копіями для копіювання всіх"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Максимальний вік резервних копій у днях для зберігання"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Максимальна кількість резервних копій для зберігання"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Каталог даних резервних копій"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Зберегти"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Експортувати пристрої"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Оновлення"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Оновлення завершено"

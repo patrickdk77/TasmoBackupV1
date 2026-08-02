@@ -28,6 +28,7 @@ if ($db_handle && $db_upgrade) {
             name varchar(128) NOT NULL,
             ip varchar(64) NOT NULL,
             mac varchar(32) NOT NULL,
+            hostname varchar(128) NOT NULL DEFAULT '',
             type int(4) NOT NULL DEFAULT 0,
             version varchar(128) NOT NULL,
             lastbackup datetime DEFAULT NULL,
@@ -64,6 +65,13 @@ if ($db_handle && $db_upgrade) {
         if($cnt<1) {
             $db_handle->exec("ALTER TABLE devices ADD COLUMN type int(3) NOT NULL DEFAULT 0 AFTER mac;");
         }
+
+        $stm=$db_handle->prepare("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA='".$GLOBALS['DBName']."' AND TABLE_NAME='devices' AND COLUMN_NAME='hostname';");
+        $stm->execute();
+        $cnt=intval($stm->fetchColumn());
+        if($cnt<1) {
+            $db_handle->exec("ALTER TABLE devices ADD COLUMN hostname varchar(128) NOT NULL DEFAULT '' AFTER mac;");
+        }
     }
 
     if ($GLOBALS['DBType']=='sqlite') {
@@ -72,6 +80,7 @@ if ($db_handle && $db_upgrade) {
             name varchar(128) NOT NULL,
             ip varchar(64) NOT NULL,
             mac varchar(32) NOT NULL,
+	    hostname varchar(128) NOT NULL DEFAULT '',
 	    type INTEGER NOT NULL DEFAULT 0,
 	    version varchar(128) NOT NULL,
 	    lastbackup datetime DEFAULT NULL,
@@ -100,9 +109,45 @@ if ($db_handle && $db_upgrade) {
 
         $curstate = error_reporting();
         error_reporting(0);
-        @$db_handle->exec("ALTER TABLE devices ADD COLUMN mac varchar(32) NOT NULL DEFAULT ''");
-        @$db_handle->exec("ALTER TABLE devices ADD COLUMN type INTEGER NOT NULL DEFAULT 0");
+        // php8 defaults PDO to ERRMODE_EXCEPTION, so a column that is
+        // already there throws instead of just warning
+        try {
+            @$db_handle->exec("ALTER TABLE devices ADD COLUMN mac varchar(32) NOT NULL DEFAULT ''");
+        } catch (PDOException $e) {
+        }
+        try {
+            @$db_handle->exec("ALTER TABLE devices ADD COLUMN type INTEGER NOT NULL DEFAULT 0");
+        } catch (PDOException $e) {
+        }
+        try {
+            @$db_handle->exec("ALTER TABLE devices ADD COLUMN hostname varchar(128) NOT NULL DEFAULT ''");
+        } catch (PDOException $e) {
+        }
         error_reporting($curstate);
+    }
+
+    // Rows written before macs were normalised can hold any spelling,
+    // aa-bb-cc-dd-ee-ff or aabbccddeeff. Lookups fold case but cannot
+    // fold separators in portable sql, so bring the stored values into
+    // the one shape now. Cheap, only runs on the upgrade path.
+    if ($db_handle) {
+        $stm=$db_handle->prepare("select id,mac from devices where mac <> ''");
+        if($stm->execute()) {
+            $fix=array();
+            while($row=$stm->fetch(PDO::FETCH_ASSOC)) {
+                $norm=dbNormalizeMac($row['mac']);
+                if($norm !== '' && $norm !== $row['mac'])
+                    $fix[$row['id']]=$norm;
+            }
+            if(count($fix)>0) {
+                $upd=$db_handle->prepare("update devices set mac = :mac where id = :id");
+                foreach($fix as $id => $norm) {
+                    $upd->bindValue(':mac',$norm,PDO::PARAM_STR);
+                    $upd->bindValue(':id',$id,PDO::PARAM_INT);
+                    $upd->execute();
+                }
+            }
+        }
     }
 }
 
@@ -134,34 +179,49 @@ function dbSettingsUpdate($name,$value)
     return true;
 }
 
-function dbDeviceExist($ip=NULL,$mac=NULL)
-{
-    global $db_handle;
-    if(isset($mac) && $mac !== "") {
-        $stm = $db_handle->prepare("select count(*) from devices where mac = :mac");
-        $stm->bindValue(':mac', $mac, PDO::PARAM_STR);
-        if ($stm->execute()) {
-            if ($stm->fetchColumn() > 0 )
-                return true;
-        }
-    }
+/*
+ * Device identity.
+ *
+ * A device is matched on mac first, then hostname, then ip. Only the
+ * mac and the hostname survive a dhcp lease change, the ip is the last
+ * resort and is what used to hand out a second row for a device that
+ * simply moved.
+ *
+ * Both are compared case insensitively. Tasmota reports the mac
+ * uppercase, WLED reports it lowercase and without separators, and
+ * hostnames are case insensitive by definition, so a stored value can
+ * easily differ in case from the one being looked up. sqlite compares
+ * text case sensitively, MySQL usually does not, so the comparison is
+ * folded here to make both backends behave the same.
+ */
 
-    if(isset($ip) && $ip !== "") {
-        $stm = $db_handle->prepare("select count(*) from devices where ip = :ip");
-        $stm->bindValue(':ip', $ip, PDO::PARAM_STR);
-        if ($stm->execute()) {
-            if ($stm->fetchColumn() > 0)
-                return true;
-        }
-    }
-    return false;
+function dbNormalizeMac($mac)
+{
+    if(!isset($mac))
+        return '';
+    $mac=strtoupper(preg_replace('/[^0-9A-Fa-f]/','',$mac));
+    if(strlen($mac)!=12)
+        return '';
+    return implode(':',str_split($mac,2));
 }
 
-function dbDeviceFind($ip=NULL,$mac=NULL)
+function dbNormalizeHostname($hostname)
+{
+    if(!isset($hostname))
+        return '';
+    return strtolower(trim($hostname," \t\n\r\0\x0B."));
+}
+
+function dbDeviceFind($ip=NULL,$mac=NULL,$hostname=NULL)
 {
     global $db_handle;
-    if(isset($mac) && $mac !== "") {
-        $stm = $db_handle->prepare("select id from devices where mac = :mac");
+
+    $mac=dbNormalizeMac($mac);
+    $hostname=dbNormalizeHostname($hostname);
+    $haveip=(isset($ip) && $ip !== "");
+
+    if($mac !== "") {
+        $stm = $db_handle->prepare("select id from devices where upper(mac) = :mac");
         $stm->bindValue(':mac', $mac, PDO::PARAM_STR);
         if ($stm->execute()) {
             if (($data=$stm->fetchColumn()) > 0 )
@@ -169,7 +229,46 @@ function dbDeviceFind($ip=NULL,$mac=NULL)
         }
     }
 
-    if(isset($ip) && $ip !== "") {
+    if($hostname !== "") {
+        // Hostnames are not guaranteed unique, two devices can carry
+        // the same one. A hostname match is only trusted when it does
+        // not contradict a mac we already know, otherwise the pair
+        // would collapse onto one row and overwrite each other.
+        $stm = $db_handle->prepare("select id from devices
+            where lower(hostname) = :hostname
+            and (:mac = '' or mac = '' or mac is null
+                 or upper(mac) = :mac)");
+        $stm->bindValue(':hostname', $hostname, PDO::PARAM_STR);
+        $stm->bindValue(':mac', $mac, PDO::PARAM_STR);
+        if ($stm->execute()) {
+            if (($data=$stm->fetchColumn()) > 0 )
+                return $data;
+        }
+    }
+
+    if($mac !== "" || $hostname !== "") {
+        // The device said who it is and no row claims that identity.
+        // The only row this can still be is one carrying no identity of
+        // its own, an install from before the mac column or a device
+        // that never reported one. Adopt that row and let the caller
+        // fill it in. Anything else at this address is a different
+        // device that inherited a freed lease, and it must not take
+        // over the row that already belongs to someone.
+        if($haveip) {
+            $stm = $db_handle->prepare("select id from devices where ip = :ip
+                and (mac = '' or mac is null)
+                and (hostname = '' or hostname is null)");
+            $stm->bindValue(':ip', $ip, PDO::PARAM_STR);
+            if ($stm->execute()) {
+                if (($data=$stm->fetchColumn()) > 0)
+                    return $data;
+            }
+        }
+        return false;
+    }
+
+    // Nothing but an address to go on.
+    if($haveip) {
         $stm = $db_handle->prepare("select id from devices where ip = :ip");
         $stm->bindValue(':ip', $ip, PDO::PARAM_STR);
         if ($stm->execute()) {
@@ -178,6 +277,11 @@ function dbDeviceFind($ip=NULL,$mac=NULL)
         }
     }
     return false;
+}
+
+function dbDeviceExist($ip=NULL,$mac=NULL,$hostname=NULL)
+{
+    return dbDeviceFind($ip,$mac,$hostname) !== false;
 }
 
 function dbDeviceIp($ip)
@@ -194,8 +298,19 @@ function dbDeviceIp($ip)
 function dbDeviceMac($mac)
 {
     global $db_handle;
-    $stm = $db_handle->prepare("select * from devices where mac = :mac");
-    $stm->bindValue(':mac', $mac, PDO::PARAM_STR);
+    $stm = $db_handle->prepare("select * from devices where upper(mac) = :mac");
+    $stm->bindValue(':mac', dbNormalizeMac($mac), PDO::PARAM_STR);
+    if (!$stm->execute()) {
+        return false;
+    }
+    return $stm->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function dbDeviceHostname($hostname)
+{
+    global $db_handle;
+    $stm = $db_handle->prepare("select * from devices where lower(hostname) = :hostname");
+    $stm->bindValue(':hostname', dbNormalizeHostname($hostname), PDO::PARAM_STR);
     if (!$stm->execute()) {
         return false;
     }
@@ -306,6 +421,8 @@ function dbBackupDel($id)
     if(!$stm->execute())
         return false;
     $row=$stm->fetch(PDO::FETCH_ASSOC);
+    if(!is_array($row)) // nothing to delete, do not report success
+        return false;
     if(isset($row['filename']))
         unlink($row['filename']);
     $stm = $db_handle->prepare("delete from backups where id = :id");
@@ -334,13 +451,14 @@ function dbDevicesSort()
     return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function dbDeviceAdd($name, $ip, $version, $password, $mac, $type=0)
+function dbDeviceAdd($name, $ip, $version, $password, $mac, $type=0, $hostname='')
 {
     global $db_handle;
-    $stm = $db_handle->prepare("INSERT INTO devices (name,ip,mac,type,version,password) VALUES (:name, :ip, :mac, :type, :version, :password)");
+    $stm = $db_handle->prepare("INSERT INTO devices (name,ip,mac,hostname,type,version,password) VALUES (:name, :ip, :mac, :hostname, :type, :version, :password)");
     $stm->bindValue(':name', $name, PDO::PARAM_STR);
     $stm->bindValue(':ip', $ip, PDO::PARAM_STR);
-    $stm->bindValue(':mac', $mac, PDO::PARAM_STR);
+    $stm->bindValue(':mac', dbNormalizeMac($mac), PDO::PARAM_STR);
+    $stm->bindValue(':hostname', dbNormalizeHostname($hostname), PDO::PARAM_STR);
     $stm->bindValue(':type', $type, PDO::PARAM_INT);
     $stm->bindValue(':version', $version, PDO::PARAM_STR);
     $stm->bindValue(':password', $password, PDO::PARAM_STR);
@@ -351,11 +469,19 @@ function dbDeviceAdd($name, $ip, $version, $password, $mac, $type=0)
 function dbDeviceRename($oldip, $name, $ip, $password, $mac=NULL)
 {
     global $db_handle;
-    $stm = $db_handle->prepare("UPDATE devices SET name = :name, ip = :ip, password = :password WHERE ip = :oldip");
+
+    // Resolve a single row first. Updating straight off the address
+    // rewrote every row that happened to share the old ip, and it
+    // reported success even when it matched nothing at all.
+    $id=dbDeviceFind($oldip,$mac,NULL);
+    if($id===false)
+        return false;
+
+    $stm = $db_handle->prepare("UPDATE devices SET name = :name, ip = :ip, password = :password WHERE id = :id");
     $stm->bindValue(':name', $name, PDO::PARAM_STR);
     $stm->bindValue(':ip', $ip, PDO::PARAM_STR);
     $stm->bindValue(':password', $password, PDO::PARAM_STR);
-    $stm->bindValue(':oldip', $oldip, PDO::PARAM_STR);
+    $stm->bindValue(':id', $id, PDO::PARAM_INT);
 
     return $stm->execute();
 }
@@ -376,44 +502,49 @@ function dbDeviceDel($ip)
     return $stm->execute();
 }
 
-function dbDeviceUpdate($id=NULL,$name=NULL,$ip=NULL,$version=NULL,$password=NULL,$mac=NULL,$type=NULL)
+function dbDeviceUpdate($id=NULL,$name=NULL,$ip=NULL,$version=NULL,$password=NULL,$mac=NULL,$type=NULL,$hostname=NULL)
 {
     global $db_handle;
 
-    $versioncond='';
-    if(isset($version))
-        $versioncond='version = :version, ';
-    $maccond='';
+    // Built as a list and joined, the old string concatenation left a
+    // trailing comma whenever password was the field left out.
     if(isset($mac))
-        $maccond='mac = :mac, ';
-    $typecond='';
-    if(isset($type))
-        $typecond='type = :type, ';
-    $namecond='';
-    if(isset($name))
-        $namecond='name = :name, ';
-    $ipcond='';
+        $mac=dbNormalizeMac($mac);
+    if(isset($hostname))
+        $hostname=dbNormalizeHostname($hostname);
+
+    $set=array();
+    if(isset($version))
+        $set[]='version = :version';
     if(isset($ip))
-        $ipcond='ip = :ip, ';
-    $passwordcond='';
+        $set[]='ip = :ip';
+    if(isset($name))
+        $set[]='name = :name';
+    if(isset($mac) && $mac !== '')
+        $set[]='mac = :mac';
+    if(isset($hostname) && $hostname !== '')
+        $set[]='hostname = :hostname';
+    if(isset($type))
+        $set[]='type = :type';
     if(isset($password))
-        $passwordcond='password = :password ';
+        $set[]='password = :password';
+    if(count($set)<1)
+        return false;
+    $setcond=implode(', ',$set);
     if(isset($id)) {
-        $stm = $db_handle->prepare('UPDATE devices SET '.$versioncond.$ipcond.$namecond.$maccond.$typecond.$passwordcond.' WHERE id = :id');
-#echo "\r\n<!-- Doing id update \r\n".'UPDATE devices SET '.$versioncond.$maccond.$namecond.$typecond.$passwordcond." WHERE id = $id  -->\r\n";
-    } else if(isset($mac) && isset($ip)) {
-        $stm = $db_handle->prepare('UPDATE devices SET '.$versioncond.$ipcond.$namecond.$maccond.$typecond.$passwordcond.' WHERE (mac = :mac ) or (ip = :ip and mac="")');
-#    } else if(isset($ip)) {
-#        $stm = $db_handle->prepare('UPDATE devices SET '.$versioncond.$maccond.$namecond.$passwordcond.' WHERE ip = :ip AND mac=""');
-#echo "\r\n<!-- Doing mac update \r\n".'UPDATE devices SET '.$versioncond.$maccond.$namecond.$passwordcond." WHERE ip = $ip AND mac=$mac -->\r\n";
+        $stm = $db_handle->prepare('UPDATE devices SET '.$setcond.' WHERE id = :id');
+    } else if(isset($mac) && $mac !== '' && isset($ip)) {
+        $stm = $db_handle->prepare('UPDATE devices SET '.$setcond.' WHERE (upper(mac) = :mac ) or (ip = :ip and mac="")');
     }
     if(isset($stm)) {
         if(isset($version))
             $stm->bindValue(':version', $version, PDO::PARAM_STR);
         if(isset($password))
             $stm->bindValue(':password', $password, PDO::PARAM_STR);
-        if(isset($mac))
+        if(isset($mac) && $mac !== '')
             $stm->bindValue(':mac', $mac, PDO::PARAM_STR);
+        if(isset($hostname) && $hostname !== '')
+            $stm->bindValue(':hostname', $hostname, PDO::PARAM_STR);
         if(isset($type))
             $stm->bindValue(':type', $type, PDO::PARAM_INT);
         if(isset($name))
@@ -427,31 +558,37 @@ function dbDeviceUpdate($id=NULL,$name=NULL,$ip=NULL,$version=NULL,$password=NUL
     return false;
 }
 
-function dbDeviceBackups($id,$date=NULL,$version=NULL,$name=NULL,$mac=NULL,$type=NULL)
+function dbDeviceBackups($id,$date=NULL,$version=NULL,$name=NULL,$mac=NULL,$type=NULL,$hostname=NULL)
 {
     global $db_handle;
 
     $count = dbBackupCount($id);
-    $versioncond='';
-    if(isset($version))
-        $versioncond='version = :version, ';
-    $maccond='';
     if(isset($mac))
-        $maccond='mac = :mac, ';
-    $typecond='';
-    if(isset($type))
-        $typecond='type = :type, ';
-    $namecond='';
-    if(isset($name))
-        $namecond='name = :name, ';
-    $datecond='';
+        $mac=dbNormalizeMac($mac);
+    if(isset($hostname))
+        $hostname=dbNormalizeHostname($hostname);
+
+    $set=array();
+    if(isset($version))
+        $set[]='version = :version';
     if(isset($date))
-        $datecond='lastbackup = :date, ';
-    $stm = $db_handle->prepare("UPDATE devices SET ".$versioncond.$datecond.$namecond.$maccond.$typecond.' noofbackups = :noofbackups WHERE id = :id');
+        $set[]='lastbackup = :date';
+    if(isset($name))
+        $set[]='name = :name';
+    if(isset($mac) && $mac !== '')
+        $set[]='mac = :mac';
+    if(isset($hostname) && $hostname !== '')
+        $set[]='hostname = :hostname';
+    if(isset($type))
+        $set[]='type = :type';
+    $set[]='noofbackups = :noofbackups';
+    $stm = $db_handle->prepare('UPDATE devices SET '.implode(', ',$set).' WHERE id = :id');
     if(isset($version))
         $stm->bindValue(':version', $version, PDO::PARAM_STR);
-    if(isset($mac))
+    if(isset($mac) && $mac !== '')
         $stm->bindValue(':mac', $mac, PDO::PARAM_STR);
+    if(isset($hostname) && $hostname !== '')
+        $stm->bindValue(':hostname', $hostname, PDO::PARAM_STR);
     if(isset($type))
         $stm->bindValue(':type', $type, PDO::PARAM_INT);
     if(isset($name))
@@ -463,7 +600,7 @@ function dbDeviceBackups($id,$date=NULL,$version=NULL,$name=NULL,$mac=NULL,$type
     return $stm->execute();
 }
 
-function dbNewBackup($id, $name, $version, $date, $noofbackups, $filename, $mac=NULL, $type=NULL)
+function dbNewBackup($id, $name, $version, $date, $noofbackups, $filename, $mac=NULL, $type=NULL, $hostname=NULL)
 {
     global $db_handle;
     if(!isset($version) || strlen($version)<2) { $version='Unknown'; }
@@ -477,6 +614,6 @@ function dbNewBackup($id, $name, $version, $date, $noofbackups, $filename, $mac=
         trigger_error("insert error: ".$stm->errorInfo()[2], E_USER_NOTICE);
         return false;
     }
-    return dbDeviceBackups($id,$date,$version,$name,$mac,$type);
+    return dbDeviceBackups($id,$date,$version,$name,$mac,$type,$hostname);
 }
 

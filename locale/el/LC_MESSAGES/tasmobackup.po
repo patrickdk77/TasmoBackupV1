@@ -1,0 +1,594 @@
+# Greek translation for TasmoBackup.
+# Machine translated starting point, every entry is marked fuzzy and
+# is NOT used until a native speaker reviews it.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: TasmoBackup\n"
+"Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: backupall.php:14 index.php:95
+#, fuzzy
+msgid "All backups are up to date"
+msgstr "Όλα τα αντίγραφα ασφαλείας είναι ενημερωμένα"
+
+#: backupall.php:18 index.php:98
+#, fuzzy, php-format
+msgid "All %d backup completed successfully!"
+msgid_plural "All %d backups completed successfully!"
+msgstr[0] "Το %d αντίγραφο ασφαλείας ολοκληρώθηκε με επιτυχία!"
+msgstr[1] "Όλα τα %d αντίγραφα ασφαλείας ολοκληρώθηκαν με επιτυχία!"
+
+#: backupall.php:25 index.php:103
+#, fuzzy, php-format
+msgid "%1$d backups failed out of %2$d backups attempted."
+msgstr "Απέτυχαν %1$d αντίγραφα ασφαλείας από %2$d που επιχειρήθηκαν."
+
+#: backupall.php:30 index.php:108
+#, fuzzy
+msgid "All backups completed successfully!"
+msgstr "Όλα τα αντίγραφα ασφαλείας ολοκληρώθηκαν με επιτυχία!"
+
+#: backupall.php:33 index.php:111
+#, fuzzy
+msgid "Not all backups completed successfully!"
+msgstr "Δεν ολοκληρώθηκαν όλα τα αντίγραφα ασφαλείας με επιτυχία!"
+
+#: edit.php:8
+#, fuzzy
+msgid "Edit Device"
+msgstr "Επεξεργασία συσκευής"
+
+#: edit.php:21 index.php:301
+#, fuzzy
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: edit.php:24 index.php:191
+#, fuzzy
+msgid "AUTH"
+msgstr "Ταυτοποίηση"
+
+#: edit.php:24 index.php:191 index.php:306 scan.php:36 settings.php:114
+#, fuzzy
+msgid "IP"
+msgstr "IP"
+
+#: edit.php:24 index.php:191 listbackups.php:47 scan.php:36
+#, fuzzy
+msgid "NAME"
+msgstr "Όνομα"
+
+#: edit.php:24
+#, fuzzy
+msgid "SUBMIT"
+msgstr "Υποβολή"
+
+#: edit.php:45 settings.php:161
+#, fuzzy
+msgid "Submit"
+msgstr "Υποβολή"
+
+#: index.php:36
+#, fuzzy
+msgid "You didn't select any devices."
+msgstr "Δεν επιλέξατε καμία συσκευή."
+
+#: index.php:55
+#, fuzzy, php-format
+msgid "%s updated successfully"
+msgstr "Το %s ενημερώθηκε με επιτυχία"
+
+#: index.php:60
+#, fuzzy, php-format
+msgid "Error updating record for %1$s %2$s"
+msgstr "Σφάλμα κατά την ενημέρωση της εγγραφής για %1$s %2$s"
+
+#: index.php:73
+#, fuzzy, php-format
+msgid "Device not found: %s"
+msgstr "Η συσκευή δεν βρέθηκε: %s"
+
+#: index.php:80
+#, fuzzy
+msgid "Backup failed"
+msgstr "Το αντίγραφο ασφαλείας απέτυχε"
+
+#: index.php:84
+#, fuzzy
+msgid "Backup completed successfully!"
+msgstr "Το αντίγραφο ασφαλείας ολοκληρώθηκε με επιτυχία!"
+
+#: index.php:121
+#, fuzzy, php-format
+msgid "%s deleted successfully from the database."
+msgstr "Το %s διαγράφηκε με επιτυχία από τη βάση δεδομένων."
+
+#: index.php:123
+#, fuzzy, php-format
+msgid "Error deleting %s"
+msgstr "Σφάλμα κατά τη διαγραφή του %s"
+
+#: index.php:126
+#, fuzzy, php-format
+msgid "Error deleting %1$s : %2$s"
+msgstr "Σφάλμα κατά τη διαγραφή του %1$s : %2$s"
+
+#: index.php:191
+#, fuzzy
+msgid "BACKUP"
+msgstr "Αντίγραφο ασφαλείας"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "DELETE"
+msgstr "Διαγραφή"
+
+#: index.php:191
+#, fuzzy
+msgid "EDIT"
+msgstr "Επεξεργασία"
+
+#: index.php:191
+#, fuzzy
+msgid "FILES"
+msgstr "Αρχεία"
+
+#: index.php:191
+#, fuzzy
+msgid "HOSTNAME"
+msgstr "Όνομα κόμβου"
+
+#: index.php:191
+#, fuzzy
+msgid "LAST BACKUP"
+msgstr "Τελευταίο αντίγραφο ασφαλείας"
+
+#: index.php:191 index.php:306
+#, fuzzy
+msgid "MAC"
+msgstr "MAC"
+
+#: index.php:191 listbackups.php:47
+#, fuzzy
+msgid "VERSION"
+msgstr "Έκδοση"
+
+#: index.php:225 index.php:258
+#, fuzzy
+msgid "Open console in new tab"
+msgstr "Άνοιγμα κονσόλας σε νέα καρτέλα"
+
+#: index.php:297
+#, fuzzy
+msgid "Open upgrade in new tab"
+msgstr "Άνοιγμα αναβάθμισης σε νέα καρτέλα"
+
+#: index.php:299
+#, fuzzy
+msgid "List backups to download or restore"
+msgstr "Λίστα αντιγράφων ασφαλείας για λήψη ή επαναφορά"
+
+#: index.php:300
+#, fuzzy
+msgid "Backup"
+msgstr "Αντίγραφο ασφαλείας"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy, php-format
+msgid "Are you sure you want to delete %s"
+msgstr "Είστε βέβαιοι ότι θέλετε να διαγράψετε το %s"
+
+#: index.php:302 listbackups.php:89
+#, fuzzy
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Name"
+msgstr "Όνομα"
+
+#: index.php:306
+#, fuzzy
+msgid "Type"
+msgstr "Τύπος"
+
+#: index.php:306 settings.php:114
+#, fuzzy
+msgid "Version"
+msgstr "Έκδοση"
+
+#: index.php:308
+#, fuzzy
+msgid "BuildTag"
+msgstr "Ετικέτα κατασκευής"
+
+#: index.php:309 settings.php:114
+#, fuzzy
+msgid "Last Backup"
+msgstr "Τελευταίο αντίγραφο ασφαλείας"
+
+#: index.php:310 index.php:380
+#, fuzzy
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: index.php:317
+#, fuzzy
+msgid "Backup All"
+msgstr "Αντίγραφα ασφαλείας όλων"
+
+#: index.php:318
+#, fuzzy
+msgid "Discover"
+msgstr "Ανακάλυψη"
+
+#: index.php:318 index.php:321
+#, fuzzy
+msgid "password"
+msgstr "κωδικός πρόσβασης"
+
+#: index.php:321
+#, fuzzy
+msgid "MQTT Discover"
+msgstr "Ανακάλυψη MQTT"
+
+#: lib/functions.inc.php:648
+#, fuzzy, php-format
+msgid "%s: Device not found."
+msgstr "%s: Η συσκευή δεν βρέθηκε."
+
+#: lib/functions.inc.php:673
+#, fuzzy, php-format
+msgid "%s: Device not responding to status5 request."
+msgstr "%s: Η συσκευή δεν απαντά στο αίτημα status5."
+
+#: lib/functions.inc.php:682
+#, fuzzy, php-format
+msgid "%s: Device not responding to status2 request."
+msgstr "%s: Η συσκευή δεν απαντά στο αίτημα status2."
+
+#: lib/functions.inc.php:691 lib/functions.inc.php:728
+#, fuzzy, php-format
+msgid "%1$s: %2$s information has been updated!"
+msgstr "%1$s: Οι πληροφορίες %2$s ενημερώθηκαν!"
+
+#: lib/functions.inc.php:694 lib/functions.inc.php:731
+#, fuzzy, php-format
+msgid "%1$s: %2$s already exists in the database!"
+msgstr "%1$s: Το %2$s υπάρχει ήδη στη βάση δεδομένων!"
+
+#: lib/functions.inc.php:700 lib/functions.inc.php:739
+#, fuzzy, php-format
+msgid "%1$s: %2$s Added Successfully!"
+msgstr "%1$s: Το %2$s προστέθηκε με επιτυχία!"
+
+#: lib/functions.inc.php:704
+#, fuzzy, php-format
+msgid "%1$s: %2$s Error adding device to database."
+msgstr "%1$s: %2$s Σφάλμα κατά την προσθήκη της συσκευής στη βάση δεδομένων."
+
+#: lib/functions.inc.php:707
+#, fuzzy, php-format
+msgid "%s: Device not responding to status request."
+msgstr "%s: Η συσκευή δεν απαντά στο αίτημα κατάστασης."
+
+#: lib/functions.inc.php:744
+#, fuzzy, php-format
+msgid "%s: This device already exists in the database!"
+msgstr "%s: Αυτή η συσκευή υπάρχει ήδη στη βάση δεδομένων!"
+
+#: lib/functions.inc.php:798
+#, fuzzy, php-format
+msgid "TasmoBackup: %s"
+msgstr "TasmoBackup: %s"
+
+#: lib/functions.inc.php:840
+#, fuzzy, php-format
+msgid "TasmoBackup %s by Dan Medhurst"
+msgstr "TasmoBackup %s από τον Dan Medhurst"
+
+#: lib/i18n.inc.php:272
+#, fuzzy
+msgid "No data available in table"
+msgstr "Δεν υπάρχουν διαθέσιμα δεδομένα στον πίνακα"
+
+#: lib/i18n.inc.php:273
+#, fuzzy
+msgid "Showing _START_ to _END_ of _TOTAL_ entries"
+msgstr "Εμφάνιση _START_ έως _END_ από _TOTAL_ εγγραφές"
+
+#: lib/i18n.inc.php:274
+#, fuzzy
+msgid "Showing 0 to 0 of 0 entries"
+msgstr "Εμφάνιση 0 έως 0 από 0 εγγραφές"
+
+#: lib/i18n.inc.php:275
+#, fuzzy
+msgid "(filtered from _MAX_ total entries)"
+msgstr "(φιλτραρισμένες από _MAX_ συνολικά εγγραφές)"
+
+#: lib/i18n.inc.php:276
+#, fuzzy
+msgid "Show _MENU_ entries"
+msgstr "Εμφάνιση _MENU_ εγγραφών"
+
+#: lib/i18n.inc.php:277
+#, fuzzy
+msgid "Loading..."
+msgstr "Φόρτωση..."
+
+#: lib/i18n.inc.php:278
+#, fuzzy
+msgid "Processing..."
+msgstr "Επεξεργασία..."
+
+#: lib/i18n.inc.php:279
+#, fuzzy
+msgid "Search:"
+msgstr "Αναζήτηση:"
+
+#: lib/i18n.inc.php:280
+#, fuzzy
+msgid "No matching records found"
+msgstr "Δεν βρέθηκαν εγγραφές που να ταιριάζουν"
+
+#: lib/i18n.inc.php:282
+#, fuzzy
+msgid "First"
+msgstr "Πρώτη"
+
+#: lib/i18n.inc.php:283
+#, fuzzy
+msgid "Last"
+msgstr "Τελευταία"
+
+#: lib/i18n.inc.php:284
+#, fuzzy
+msgid "Next"
+msgstr "Επόμενη"
+
+#: lib/i18n.inc.php:285
+#, fuzzy
+msgid "Previous"
+msgstr "Προηγούμενη"
+
+#: lib/i18n.inc.php:288
+#, fuzzy
+msgid ": activate to sort column ascending"
+msgstr ": ενεργοποιήστε για αύξουσα ταξινόμηση της στήλης"
+
+#: lib/i18n.inc.php:289
+#, fuzzy
+msgid ": activate to sort column descending"
+msgstr ": ενεργοποιήστε για φθίνουσα ταξινόμηση της στήλης"
+
+#: listbackups.php:27
+#, fuzzy
+msgid "List Backups"
+msgstr "Λίστα αντιγράφων ασφαλείας"
+
+#: listbackups.php:44
+#, fuzzy, php-format
+msgid "Listing for %s"
+msgstr "Λίστα για %s"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "DATE"
+msgstr "Ημερομηνία"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "FILE"
+msgstr "Αρχείο"
+
+#: listbackups.php:47
+#, fuzzy
+msgid "RESTORE"
+msgstr "Επαναφορά"
+
+#: listbackups.php:80
+#, fuzzy
+msgid "Download"
+msgstr "Λήψη"
+
+#: listbackups.php:100
+#, fuzzy, php-format
+msgid "Are you sure you want to restore %s to this device"
+msgstr "Είστε βέβαιοι ότι θέλετε να επαναφέρετε το %s σε αυτή τη συσκευή"
+
+#: listbackups.php:100
+#, fuzzy
+msgid "Restore"
+msgstr "Επαναφορά"
+
+#: scan.php:7
+#, fuzzy
+msgid "Scan"
+msgstr "Σάρωση"
+
+#: scan.php:29
+#, fuzzy
+msgid "Scan Results"
+msgstr "Αποτελέσματα σάρωσης"
+
+#: scan.php:36
+#, fuzzy
+msgid "ADD"
+msgstr "Προσθήκη"
+
+#: scan.php:111
+#, fuzzy
+msgid "Unknown"
+msgstr "Άγνωστο"
+
+#: scan.php:123
+#, fuzzy
+msgid "Select All"
+msgstr "Επιλογή όλων"
+
+#: scan.php:124
+#, fuzzy
+msgid "Add Devices"
+msgstr "Προσθήκη συσκευών"
+
+#: settings.php:93 settings.php:107
+#, fuzzy
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: settings.php:111
+#, fuzzy
+msgid "Setting"
+msgstr "Ρύθμιση"
+
+#: settings.php:111
+#, fuzzy
+msgid "Value"
+msgstr "Τιμή"
+
+#: settings.php:114
+#, fuzzy
+msgid "Auth"
+msgstr "Ταυτοποίηση"
+
+#: settings.php:114
+#, fuzzy
+msgid "Sort Column"
+msgstr "Στήλη ταξινόμησης"
+
+#: settings.php:115
+#, fuzzy
+msgid "Amount of Rows"
+msgstr "Αριθμός γραμμών"
+
+#: settings.php:116
+#, fuzzy
+msgid "Theme (light or dark or auto)"
+msgstr "Θέμα (light ή dark ή auto)"
+
+#: settings.php:117
+#, fuzzy
+msgid "Tasmota Default Password for web login on devices"
+msgstr ""
+"Προεπιλεγμένος κωδικός πρόσβασης Tasmota για σύνδεση στη διαδικτυακή "
+"διεπαφή των συσκευών"
+
+#: settings.php:118
+#, fuzzy
+msgid "Update Device Name when doing Backups (Y or N)"
+msgstr ""
+"Ενημέρωση ονόματος συσκευής κατά τη δημιουργία αντιγράφων ασφαλείας (Y ή N)"
+
+#: settings.php:119
+#, fuzzy
+msgid "Automatically Add New Devices (Y or N)"
+msgstr "Αυτόματη προσθήκη νέων συσκευών (Y ή N)"
+
+#: settings.php:120
+#, fuzzy
+msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
+msgstr "Χρήση θέματος MQTT ως όνομα συσκευής (Y ή N ή F (πλήρες))"
+
+#: settings.php:121
+#, fuzzy
+msgid "Hide MAC Address column on index page (Y or N)"
+msgstr "Απόκρυψη στήλης διεύθυνσης MAC στην αρχική σελίδα (Y ή N)"
+
+#: settings.php:122
+#, fuzzy
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: settings.php:126
+#, fuzzy
+msgid "Automatic (browser)"
+msgstr "Αυτόματα (πρόγραμμα περιήγησης)"
+
+#: settings.php:134
+#, fuzzy
+msgid "Hide Hostname column on index page (Y or N)"
+msgstr "Απόκρυψη στήλης ονόματος κόμβου στην αρχική σελίδα (Y ή N)"
+
+#: settings.php:135
+#, fuzzy
+msgid "MQTT Host"
+msgstr "Κεντρικός υπολογιστής MQTT"
+
+#: settings.php:136
+#, fuzzy
+msgid "MQTT Port"
+msgstr "Θύρα MQTT"
+
+#: settings.php:137
+#, fuzzy
+msgid "MQTT Username"
+msgstr "Όνομα χρήστη MQTT"
+
+#: settings.php:138
+#, fuzzy
+msgid "MQTT Password"
+msgstr "Κωδικός πρόσβασης MQTT"
+
+#: settings.php:139
+#, fuzzy
+msgid "MQTT Topic"
+msgstr "Θέμα MQTT"
+
+#: settings.php:140
+#, fuzzy
+msgid "MQTT Topic Format"
+msgstr "Μορφή θέματος MQTT"
+
+#: settings.php:141
+#, fuzzy
+msgid "Backup-All Min Hours between backups"
+msgstr ""
+"Ελάχιστες ώρες μεταξύ αντιγράφων ασφαλείας για όλες τις συσκευές"
+
+#: settings.php:142
+#, fuzzy
+msgid "Backup Max Days Old to keep"
+msgstr "Μέγιστη ηλικία σε ημέρες για τη διατήρηση αντιγράφων ασφαλείας"
+
+#: settings.php:143
+#, fuzzy
+msgid "Backup Max Count to keep"
+msgstr "Μέγιστος αριθμός αντιγράφων ασφαλείας προς διατήρηση"
+
+#: settings.php:144
+#, fuzzy
+msgid "Backup Data Directory"
+msgstr "Κατάλογος δεδομένων αντιγράφων ασφαλείας"
+
+#: settings.php:147
+#, fuzzy
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: settings.php:154
+#, fuzzy
+msgid "Export Devices"
+msgstr "Εξαγωγή συσκευών"
+
+#: settings.php:159
+#, fuzzy
+msgid "CSV"
+msgstr "CSV"
+
+#: upgrade.php:9
+#, fuzzy
+msgid "Upgrade"
+msgstr "Αναβάθμιση"
+
+#: upgrade.php:14
+#, fuzzy
+msgid "Upgrade Complete"
+msgstr "Η αναβάθμιση ολοκληρώθηκε"

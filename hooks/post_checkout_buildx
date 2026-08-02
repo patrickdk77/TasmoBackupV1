@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -eu
+
+echo "post_checkout (buildx)"
+BUILDX_NO_VERIFY=1
+source hooks/${HOOKS_CONFIG:-.config.buildx}
+
+echo "Check for docker buildx"
+echo "-----------------------------------------------------------------"
+if ! docker buildx version >/dev/null 2>&1; then
+  echo "docker buildx is missing, install the buildx cli plugin"
+  exit 1
+fi
+
+if [[ ${DOCKERCFG-x} != x ]]; then
+  echo "Build a usable config.json file"
+  echo "---------------------------------------------------------------"
+  # Manifests are still experimental and enabled by a config file flag.
+  # Interestingly, there is no config file and the credential parts to push
+  # images is available in an environment variable. Let's create a config
+  # file to combine the two things.
+  #
+  # Only done when the build service handed us DOCKERCFG, a local build
+  # keeps whatever ~/.docker/config.json it already has.
+  mkdir -p ~/.docker
+  jq --null-input --argjson auths "$DOCKERCFG" '. + {auths: $auths}' | \
+  jq --arg experimental enabled '. + {experimental: $experimental}' | \
+  sponge ~/.docker/config.json
+fi
+
+echo "Prepare the buildx builder"
+echo "-----------------------------------------------------------------"
+# No qemu-*-static binaries get copied into the build context here, buildx
+# builds each architecture with --platform instead. See hooks/buildx
+buildx_builder_create

@@ -1,0 +1,87 @@
+# Shared configuration for the docker buildx based hooks.
+#
+# This is the buildx twin of hooks/.config. The difference is how the list
+# of buildable architectures is worked out: hooks/.config looks for
+# qemu-*-static binaries that post_checkout copied into the build context,
+# this one asks the buildx builder which platforms it can build for and
+# lets buildx handle the emulation.
+#
+# Keep the architecture maps below in sync with hooks/.config
+#
+# Unlike hooks/.config this does not put ./docker on the PATH, buildx needs
+# a current docker cli, not the vendored one.
+
+#declare -A build_from_prefix_map=( ["aarch64"]="arm64v8/" ["armv7"]="arm32v7/" ["armhf"]="arm32v6/" ["armel"]="arm32v5/" ["i386"]="i386/" ["amd64"]="amd64/" )
+declare -A build_from_prefix_map=( ["aarch64"]="-aarch64" ["armv7"]="-armv7" ["armhf"]="-armhf" ["armel"]="-armel" ["i386"]="-i386" ["amd64"]="-amd64" )
+
+declare -A docker_qemu_arch_map=( ["aarch64"]="aarch64" ["armv7"]="arm" ["armhf"]="arm" ["armel"]="arm" ["i386"]="i386" ["amd64"]="x86_64" )
+
+declare -A docker_to_manifest_map=( ["aarch64"]="arm64" ["armv7"]="arm" ["armhf"]="arm" ["armel"]="arm" ["i386"]="386" ["amd64"]="amd64" )
+declare -A docker_to_variant_map=( ["aarch64"]="v8" ["armv7"]="v7" ["armhf"]="v6" ["armel"]="v5" ["i386"]="" ["amd64"]="" )
+
+# buildx --platform values, this replaces the qemu binaries
+declare -A docker_platform_map=( ["aarch64"]="linux/arm64" ["armv7"]="linux/arm/v7" ["armhf"]="linux/arm/v6" ["armel"]="linux/arm/v5" ["i386"]="linux/386" ["amd64"]="linux/amd64" )
+
+build_architectures=(amd64 i386 aarch64 armv7 armhf)
+
+# BUILDX_ARCHS="amd64 aarch64" builds just those, ex: make buildx BUILDX_ARCHS=amd64
+if [[ ${BUILDX_ARCHS-x} != x ]]; then
+  build_architectures=(${BUILDX_ARCHS})
+fi
+
+# "default" is the builder backed by the local docker daemon, so every image
+# --load'ed by hooks/buildx lands in the local image store, which is what
+# hooks/push and the release-publish target need. Set BUILDX_BUILDER to use
+# a named builder instead, it gets created with BUILDX_DRIVER if missing.
+BUILDX_BUILDER="${BUILDX_BUILDER:-default}"
+BUILDX_DRIVER="${BUILDX_DRIVER:-docker-container}"
+
+buildx_builder_create() {
+  if docker buildx inspect "${BUILDX_BUILDER}" >/dev/null 2>&1; then
+    echo "buildx builder ${BUILDX_BUILDER} exists"
+    return 0
+  fi
+  echo "creating buildx builder ${BUILDX_BUILDER} (${BUILDX_DRIVER})"
+  docker buildx create --name "${BUILDX_BUILDER}" \
+    --driver "${BUILDX_DRIVER}"
+}
+
+# Fills verified_build_architectures with every build_architectures entry
+# the builder advertises a platform for.
+buildx_verify_architectures() {
+  local platforms arch platform
+
+  platforms=",$(docker buildx inspect --bootstrap "${BUILDX_BUILDER}" | \
+    sed -n 's/^ *Platforms: *//p' | tr -d ' \t' | tr '\n' ','),"
+
+  verified_build_architectures=()
+  for arch in ${build_architectures[@]}; do
+    platform="${docker_platform_map[${arch}]}"
+    if [[ ${platforms} == *",${platform},"* ]]; then
+      echo "buildx can build ${platform} (${arch})"
+      verified_build_architectures+=($arch)
+    else
+      echo "buildx cannot build ${platform} (${arch}), skipping"
+    fi
+  done
+
+  if [ ${#verified_build_architectures[@]} -eq 0 ]; then
+    echo "no buildable architectures, run hooks/pre_build_buildx to"
+    echo "register the binfmt handlers"
+    exit 1
+  fi
+}
+
+# The hooks that only prepare the build environment set BUILDX_NO_VERIFY=1
+# before sourcing this, the builder cannot report its final platform list
+# until binfmt is registered.
+if [[ ${BUILDX_NO_VERIFY-x} == x ]]; then
+  buildx_builder_create
+  buildx_verify_architectures
+fi
+
+set -u
+
+docker -v
+docker buildx version
+echo
