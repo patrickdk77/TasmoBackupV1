@@ -457,17 +457,20 @@ function tb_updateBulkToolbar() {
     </table>
 
     <form method='POST' action='index.php' id='tb_bulkform'>
-    <center id='tb_bulktoolbar' style='display:none'>
-      <span id='tb_bulkcount'>0</span> <?php echo t('selected'); ?>:
-      <button type='submit' name='task' value='deleteselected' class='btn btn-sm btn-danger'><?php echo t('Delete Selected'); ?></button>
-      <button type='submit' name='task' value='downloadselected' class='btn btn-sm btn-success'><?php echo t('Download Selected'); ?></button>
-      <button type='submit' name='task' value='lockselected' class='btn btn-sm btn-secondary'><?php echo t('Lock Latest Backup'); ?></button>
-      <input type='text' id='tb_command' name='command' placeholder='<?php echo htmlspecialchars(t('Command (Tasmota/OpenBeken only)')); ?>' style='width:220px;display:inline-block;'>
-      <button type='submit' name='task' value='sendcommand' class='btn btn-sm btn-warning'><?php echo t('Send Command'); ?></button>
+    <!-- Bootstrap's d-flex is display:flex !important, which an inline
+         display:none from jQuery .toggle() cannot override, so the gaps
+         come from margin utilities on the children instead. -->
+    <center id='tb_bulktoolbar' class='my-3' style='display:none'>
+      <span class='me-2 align-middle'><span id='tb_bulkcount'>0</span> <?php echo t('selected'); ?>:</span>
+      <button type='submit' name='task' value='deleteselected' class='btn btn-sm btn-danger me-2 mb-2'><?php echo t('Delete Selected'); ?></button>
+      <button type='submit' name='task' value='downloadselected' class='btn btn-sm btn-success me-2 mb-2'><?php echo t('Download Selected'); ?></button>
+      <button type='submit' name='task' value='lockselected' class='btn btn-sm btn-secondary me-2 mb-2'><?php echo t('Lock Latest Backup'); ?></button>
+      <input type='text' id='tb_command' name='command' class='form-control form-control-sm me-2 mb-2' placeholder='<?php echo htmlspecialchars(t('Command (Tasmota/OpenBeken only)')); ?>' style='width:270px;display:inline-block;vertical-align:top;'>
+      <button type='submit' name='task' value='sendcommand' class='btn btn-sm btn-warning mb-2'><?php echo t('Send Command'); ?></button>
     </center>
     </form>
 
-<center><form method='POST' action='index.php'><input type='hidden' value='backupall' name='task'><button type='submit' class='btn btn-sm btn-success'><?php echo t('Backup All'); ?></button></form><br>
+<center class='my-3'><form method='POST' action='index.php'><input type='hidden' value='backupall' name='task'><button type='submit' class='btn btn-sm btn-success'><?php echo t('Backup All'); ?></button></form><br>
 <form method="POST" action="scan.php"><input type=text name=range placeholder="192.168.1.1-255"><input type="password" name="password" placeholder="<?php echo t('password'); ?>" <?php if(isset($settings['tasmota_password'])) { echo 'value="'.$settings['tasmota_password'].'" '; } ?>><input type=hidden name=task value=scan><button style="min-width:200px" type=submit class='btn btn-sm btn-danger'><?php echo t('Discover'); ?></button></form>
 <?php if(isset($settings['mqtt_host']) && isset($settings['mqtt_port']) && strlen($settings['mqtt_host'])>1) {
 ?>

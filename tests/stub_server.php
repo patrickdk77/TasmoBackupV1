@@ -279,6 +279,43 @@ if ($path === '/ufsu') {
     return;
 }
 
+if ($path === '/upload') {
+    // WLED restore. server.on("/upload", HTTP_POST, ...) with
+    // handleUpload keying off the multipart filename, not the field
+    // name. Present v0.13.0 through v16.0.1.
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+        return tb_stub_fail(404);
+    if (isset($conf['upload_status']) && $conf['upload_status'] != 200)
+        return tb_stub_fail($conf['upload_status']);
+    $log = getenv('TB_STUB_UPLOADLOG');
+    if ($log && isset($_FILES['data'])) {
+        // PHP strips the directory from ['name'], but WLED keys off the
+        // full multipart filename and 0.13.x needs the leading slash,
+        // so log ['full_path'] (php 8.1+) which preserves it verbatim.
+        $sent = isset($_FILES['data']['full_path'])
+            ? $_FILES['data']['full_path'] : $_FILES['data']['name'];
+        file_put_contents($log,
+            $sent.' '.
+            base64_encode(file_get_contents(
+                $_FILES['data']['tmp_name']))."\n",
+            FILE_APPEND);
+    }
+    http_response_code(200);
+    // Text the firmware actually returns for a cfg.json upload.
+    if (isset($_FILES['data']) &&
+            strpos($_FILES['data']['name'], 'cfg.json') !== false)
+        echo "Configuration restore successful.\nRebooting...";
+    else
+        echo 'File Uploaded!';
+    return;
+}
+
+if ($path === '/reset') {
+    http_response_code(200);
+    echo 'Rebooting now...';
+    return;
+}
+
 if ($path === '/api/info') {
     // Field names and shape come from
     // src/httpserver/rest_interface.c:http_rest_get_info(), read

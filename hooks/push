@@ -69,7 +69,11 @@ for tag in "${tagparts[@]}"; do
   echo
 done
 
-if [[ ${!DOCKER_EXTRATAGS-x} == x ]]; then
+# Was ${!DOCKER_EXTRATAGS-x}, an indirect expansion. With DOCKER_EXTRATAGS
+# unset, as it is for a plain build/buildx, bash aborts the script with
+# "invalid indirect expansion" right here, after everything has already
+# been pushed. Only release/release-buildx set it, so test it directly.
+if [[ -n ${DOCKER_EXTRATAGS-} ]]; then
   for tag in ${DOCKER_EXTRATAGS}; do
     BUILD_NAME="${BUILD_REPO}:${tag}"
 

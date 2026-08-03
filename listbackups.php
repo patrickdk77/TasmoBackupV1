@@ -208,7 +208,9 @@ function tb_updateBulkToolbar() {
     </form>
   </center></td>
 <?php
-        if(intval($type)===0 || intval($type)===2) {
+        // All three device types can be restored now. WLED gained a
+        // restore path in this release, via POST /upload.
+        if(intval($type)===0 || intval($type)===1 || intval($type)===2) {
 ?>  <td><center>
     <form action='listbackups.php' method='POST'>
     <input type='hidden' name='task' value='restorebackup'>
@@ -230,12 +232,14 @@ function tb_updateBulkToolbar() {
     <form method='POST' action='listbackups.php' id='tb_bulkform'>
     <input type='hidden' name='id' value='<?php echo $id; ?>'>
     <input type='hidden' name='name' value='<?php echo isset($device['name'])?htmlspecialchars($device['name']):''; ?>'>
-    <center id='tb_bulktoolbar' style='display:none'>
-      <span id='tb_bulkcount'>0</span> <?php echo t('selected'); ?>:
-      <button type='submit' name='task' value='deleteselected' class='btn btn-sm btn-danger'><?php echo t('Delete Selected'); ?></button>
-      <button type='submit' name='task' value='downloadselected' class='btn btn-sm btn-success'><?php echo t('Download Selected'); ?></button>
-      <button type='submit' name='task' value='lockselected' class='btn btn-sm btn-secondary'><?php echo t('Lock Selected'); ?></button>
-      <button type='submit' name='task' value='unlockselected' class='btn btn-sm btn-outline-secondary'><?php echo t('Unlock Selected'); ?></button>
+    <!-- Same spacing approach as index.php, margins not d-flex, so the
+         inline display:none from jQuery .toggle() still hides it. -->
+    <center id='tb_bulktoolbar' class='my-3' style='display:none'>
+      <span class='me-2 align-middle'><span id='tb_bulkcount'>0</span> <?php echo t('selected'); ?>:</span>
+      <button type='submit' name='task' value='deleteselected' class='btn btn-sm btn-danger me-2 mb-2'><?php echo t('Delete Selected'); ?></button>
+      <button type='submit' name='task' value='downloadselected' class='btn btn-sm btn-success me-2 mb-2'><?php echo t('Download Selected'); ?></button>
+      <button type='submit' name='task' value='lockselected' class='btn btn-sm btn-secondary me-2 mb-2'><?php echo t('Lock Selected'); ?></button>
+      <button type='submit' name='task' value='unlockselected' class='btn btn-sm btn-outline-secondary mb-2'><?php echo t('Unlock Selected'); ?></button>
     </center>
     </form>
     </div>

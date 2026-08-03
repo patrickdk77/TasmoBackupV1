@@ -350,6 +350,59 @@ function getTasmotaStatus5($ip, $user, $password)
 
 function restoreTasmotaBackup($ip, $user, $password, $filename, $type=0)
 {
+    if (intval($type)===1) { // WLED
+        // The backup is the zip getTasmotaBackup built: cfg.json plus
+        // presets.json. Both go back via POST /upload.
+        $zip = new ZipArchive();
+        if ($zip->open($filename) !== true) {
+            tbDebug('restore', $ip.': wled backup zip could not be opened');
+            return false;
+        }
+        $cfg = $zip->getFromName('cfg.json');
+        $presets = $zip->getFromName('presets.json');
+        $zip->close();
+        if ($cfg === false || strlen($cfg) < 1) {
+            tbDebug('restore', $ip.': wled backup has no cfg.json');
+            return false;
+        }
+
+        // Presets first. Uploading cfg.json reboots the device from
+        // 0.14.0 on, so it has to be the last thing sent.
+        if ($presets !== false && strlen($presets) > 0) {
+            if (!putWledFile($ip, $user, $password, '/presets.json',
+                    $presets)) {
+                tbDebug('restore', $ip.': presets upload failed, not '.
+                    'sending the config');
+                return false;
+            }
+        }
+        if (!putWledFile($ip, $user, $password, '/cfg.json', $cfg))
+            return false;
+
+        // 0.13.x does not set doReboot for cfg.json, so the restored
+        // config only takes effect after an explicit reset. 0.14.0+
+        // reboots itself and this is skipped.
+        $version = substr(strstr(basename($filename, '.zip'), 'v'), 1);
+        if ($version !== '' && version_compare($version, '0.14.0', '<')) {
+            $rurl = 'http://'.rawurlencode($user).':'.
+                rawurlencode($password)."@".$ip.'/reset';
+            $rs = curl_init($rurl);
+            curl_setopt_array($rs, array(
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 10,
+                CURLOPT_REFERER => 'http://'.$ip.'/',
+            ));
+            curl_exec($rs);
+            $rerr = curl_errno($rs);
+            $rcode = curl_getinfo($rs, CURLINFO_HTTP_CODE);
+            curl_close($rs);
+            tbDebugHttp('restore', $rurl, $rcode, $rerr,
+                'wled 0.13.x explicit reboot');
+        }
+        tbDebug('restore', $ip.': wled config restored');
+        return true;
+    }
+
     if (intval($type)===2) { // OpenBeken
         // One POST to /api/pins with the gpio roles/channels and the
         // startup command, which OpenBeken executes immediately. No
@@ -798,6 +851,59 @@ function putTasmotaFile($ip, $user, $password, $name, $content)
     @unlink($tmp);
     tbDebugHttp('berry', $url, $statusCode, $err,
         'uploaded '.basename($name).' ('.strlen($content).' bytes)');
+    return (!$err && $statusCode == 200);
+}
+
+/*
+ * Writes one file to a WLED device's filesystem.
+ *
+ * This is the same request WLED's own Security settings page makes:
+ * POST /upload, multipart/form-data, form field "data", with the
+ * multipart filename set to the destination path. The handler keys off
+ * the multipart filename, not the field name, and 0.13.x does not
+ * normalise a missing leading slash, so $name must start with one.
+ * Route present v0.13.0 through v16.0.1.
+ *   src: wled00/wled_server.cpp handleUpload(),
+ *        wled00/data/settings_sec.htm uploadFile()
+ *
+ * Uploading cfg.json reboots the device by itself from 0.14.0 onward.
+ * A PIN-locked device answers 401, which is reported as failure, this
+ * app has nowhere to store a WLED settings PIN.
+ */
+function putWledFile($ip, $user, $password, $name, $content)
+{
+    $tmp = tempnam(sys_get_temp_dir(), 'tbwled');
+    if ($tmp === false || file_put_contents($tmp, $content) === false)
+        return false;
+
+    $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.
+        '/upload';
+    // The third CURLFile argument is the multipart filename, which is
+    // what WLED uses as the destination path.
+    $cfile = new CURLFile($tmp, 'application/json', $name);
+    $ch = curl_init($url);
+    curl_setopt_array($ch, array(
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_CONNECTTIMEOUT => 12,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => 'TasmoBackup '.$GLOBALS['VERSION'],
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => array('data' => $cfile),
+        CURLOPT_ENCODING => "",
+        CURLOPT_REFERER => 'http://'.$ip.'/',
+        CURLOPT_HTTPHEADER => array('Origin: http://'.$ip, 'Expect:'),
+    ));
+    curl_exec($ch);
+    $err = curl_errno($ch);
+    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    @unlink($tmp);
+    tbDebugHttp('restore', $url, $statusCode, $err,
+        'wled uploaded '.$name.' ('.strlen($content).' bytes)');
+    if ($statusCode == 401 || $statusCode == 500)
+        tbDebug('restore', $ip.': upload refused, a WLED settings PIN '.
+            'or OTA lock is set and this app cannot unlock it');
     return (!$err && $statusCode == 200);
 }
 
