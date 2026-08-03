@@ -4,12 +4,24 @@ require_once(__DIR__.'/lib/functions.inc.php');
 global $db_handle;
 global $settings;
 
+// Reached by POST from the device list, but a refresh or a bookmarked
+// url arrives as a GET. Both were left undefined, which warned four
+// times and then rendered a listing with no device.
+$name = '';
+$id = 0;
 if (isset($_POST["name"])) {
     $name = $_POST["name"];
+} else if (isset($_GET["name"])) {
+    $name = $_GET["name"];
 }
 if (isset($_POST["id"])) {
     $id = intval($_POST["id"]);
+} else if (isset($_GET["id"])) {
+    $id = intval($_GET["id"]);
 }
+$device = dbDeviceId($id);
+if ($name === '' && isset($device['name']))
+    $name = $device['name'];
 $output = '';
 if (isset($_POST["task"])) {
     switch(strtolower($_POST["task"])) {
@@ -141,7 +153,6 @@ function tb_updateBulkToolbar() {
     <tbody>
 <?php
 
-    $device = dbDeviceId($id);
     $type=0;
     if(isset($device['type']))
         $type=intval($device['type']);

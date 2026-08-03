@@ -54,6 +54,31 @@ function tb_stub_clear_post_bodies()
     @unlink(TB_TMP.'/stub.postlog');
 }
 
+/*
+ * Files uploaded to the stub's /ufsu, as name => contents. Lets a test
+ * check exactly which berry scripts a restore pushed and with what
+ * body, not merely that a request happened.
+ */
+function tb_stub_uploaded_files()
+{
+    $log = TB_TMP.'/stub.uploadlog';
+    if (!file_exists($log))
+        return array();
+    $out = array();
+    foreach (explode("\n", file_get_contents($log)) as $line) {
+        if (trim($line) === '')
+            continue;
+        $parts = explode(' ', $line, 2);
+        $out[$parts[0]] = isset($parts[1]) ? base64_decode($parts[1]) : '';
+    }
+    return $out;
+}
+
+function tb_stub_clear_uploaded_files()
+{
+    @unlink(TB_TMP.'/stub.uploadlog');
+}
+
 function tb_stub_start($conf = array())
 {
     if ($GLOBALS['tb_stub'] !== null)
@@ -65,6 +90,7 @@ function tb_stub_start($conf = array())
         'TB_STUB_CONF' => tb_stub_conf_file(),
         'TB_STUB_LOG' => TB_TMP.'/stub.log',
         'TB_STUB_POSTLOG' => TB_TMP.'/stub.postlog',
+        'TB_STUB_UPLOADLOG' => TB_TMP.'/stub.uploadlog',
         'PATH' => getenv('PATH'),
     );
 

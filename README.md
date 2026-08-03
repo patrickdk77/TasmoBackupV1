@@ -2,6 +2,14 @@
 Backup the configs of all your Tasmota devices
 
 # Latest Changes
+* add openbeken support, discovered by scan and backed up via its own api
+* backup and restore tasmota32 berry scripts alongside the config
+* add checkboxes with select-all for bulk delete, download and send-command
+* bulk download produces one zip holding the latest backup of each device
+* add backup locking, a locked backup is never deleted until unlocked
+* scheduled pruning skips locked backups
+* add debug logging setting, logs http, mqtt, scan, backup and restore
+* fix downloads always named .dmp, now follows the stored file type
 * fix duplicate devices created when a device's ip changed (now matched by mac, then hostname, then ip)
 * add hostname column, toggle it like the mac column
 * fix failed backups being reported as successful (and pruning good backups afterward)
@@ -34,13 +42,35 @@ Backup the configs of all your Tasmota devices
 * Backup all devices
 * Remove devices
 * Download individual backups
+* Bulk select devices or backups to delete, download or lock
+* Send a console command to several devices at once
+* Lock a backup so it is never deleted, by hand or by the scheduled prune
 * No duplicates (matched by Mac, then Hostname, then IP)
 * Optional Hostname column
 * Multi-language interface
+* Optional debug logging to the container log
 
 # WLED
 Backups of wled are done via downloading the cfg.json and presets.json and putting them in a zip file.
 the limited mqtt support in wled means there is no way to automatically scan, so only ip scanning is supported
+
+# OpenBeken
+OpenBeken has no settings dump to download, so the backup is built from its own
+api rather than anything Tasmota shaped. It records the gpio layout that makes
+the device work (`/api/pins` roles and channels) plus the startup command and
+the identity fields from `/api/info`, written out as json. A restore posts the
+roles, channels and startup command back to `/api/pins`, which OpenBeken applies
+immediately without a reboot. Discovery is by ip scan, the same as WLED.
+
+# Tasmota32 Berry scripts
+An esp32 running Tasmota has a filesystem, and anything on it (`autoexec.be` and
+whatever it pulls in) is part of how the device behaves but is not in the config
+dump. When a device has `.be` files the backup becomes a zip holding `config.dmp`
+plus a `files/` directory with the scripts, otherwise it stays a plain `.dmp`
+exactly as before, so esp8266 devices and every existing backup are unaffected.
+A restore uploads the scripts first and the config last, so the scripts are
+already in place when the device reboots and runs `autoexec.be`. Turn it off
+with Settings > Backup Tasmota32 Berry scripts.
 
 
 # Install via Hass.io aka HomeAssistant Supervisor

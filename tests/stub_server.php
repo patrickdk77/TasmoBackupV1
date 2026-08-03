@@ -14,6 +14,10 @@
  *                (SetOption128 / disable_referer_chk defaults off)
  *   kind         'wled' or 'openbeken' switches / and /json away from
  *                the Tasmota defaults
+ *   ufs          when false, /ufsd and /ufsu answer 404, modelling a
+ *                build with no USE_UFILESYS (any esp8266 device)
+ *   ufs_files    path => contents for the /ufsd listing and downloads
+ *   ufsu_status  http status for the /ufsu berry script upload
  *   obk_info_status / obk_pins_status  http status for /api/info and
  *                GET+POST /api/pins (default 200)
  *   obk_mac / obk_shortname / obk_build / obk_startcmd / obk_roles /
@@ -215,6 +219,63 @@ if ($path === '/cfg.json' || $path === '/presets.json' ||
         return tb_stub_fail($conf['dl']);
     header('Content-Type: application/json');
     echo '{"stub":"'.trim($path, '/').'"}';
+    return;
+}
+
+if ($path === '/ufsd') {
+    // Tasmota filesystem. A build without USE_UFILESYS has no such
+    // route at all, which conf 'ufs' => false models.
+    if (empty($conf['ufs']))
+        return tb_stub_fail(404);
+
+    $files = isset($conf['ufs_files']) ? $conf['ufs_files']
+        : array('/autoexec.be' => "# autoexec\nprint('hi')\n");
+
+    if (isset($_GET['download'])) {
+        $want = $_GET['download'];
+        if (!isset($files[$want]))
+            return tb_stub_fail(404);
+        header('Content-Type: application/octet-stream');
+        echo $files[$want];
+        return;
+    }
+
+    // The listing shape comes from UFS_FORM_SDC_DIRb in
+    // xdrv_50_filesystem.ino: an anchor per file whose href is
+    // ufsd?download=<path>.
+    header('Content-Type: text/html');
+    echo '<html><body><div>';
+    foreach ($files as $p => $content) {
+        echo "<pre><a href='ufsd?download=".htmlspecialchars($p).
+            "' file='".htmlspecialchars(basename($p))."'>".
+            htmlspecialchars(basename($p)).'</a>  2026-01-01 00:00:00  '.
+            strlen($content)."</pre>\n";
+    }
+    echo '</div></body></html>';
+    return;
+}
+
+if ($path === '/ufsu') {
+    if (empty($conf['ufs']))
+        return tb_stub_fail(404);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($conf['ufsu_status']) && $conf['ufsu_status'] != 200)
+            return tb_stub_fail($conf['ufsu_status']);
+        // Record what was uploaded so a test can assert on it.
+        $log = getenv('TB_STUB_UPLOADLOG');
+        if ($log && isset($_FILES['ufsu'])) {
+            file_put_contents($log,
+                $_FILES['ufsu']['name'].' '.
+                base64_encode(file_get_contents(
+                    $_FILES['ufsu']['tmp_name']))."\n",
+                FILE_APPEND);
+        }
+        http_response_code(200);
+        echo 'Upload Successful';
+        return;
+    }
+    http_response_code(200);
+    echo 'ufs upload form';
     return;
 }
 

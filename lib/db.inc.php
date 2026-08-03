@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__.'/../data/config.inc.php');
+require_once(__DIR__.'/debug.inc.php');
 
 global $db_handle;
 global $settings;
@@ -427,9 +428,11 @@ function dbBackupTrim($id,$days,$count,$all=false)
     // and never counted against the max-count budget either, locking
     // one is meant to preserve it on top of the normal rotation, not
     // shrink how many regular backups that rotation otherwise keeps.
+    $before=count($result);
     $result=array_values(array_filter($result, function($b) {
         return intval($b['locked'])!==1;
     }));
+    $lockedCount=$before-count($result);
     if(count($result)<1)
         return true;
     if($count>0) {
@@ -441,8 +444,12 @@ function dbBackupTrim($id,$days,$count,$all=false)
         $count=count($result);
     }
     if($count>0) {
+        tbDebug('cleanup', 'device '.$id.': removing '.$count.
+            ' backup(s), '.$lockedCount.' locked one(s) protected');
         for(;$count>0;$count--) {
             $backup=array_pop($result);
+            tbDebug('cleanup', 'device '.$id.': deleting '.
+                basename($backup['filename']));
             unlink($backup['filename']);
             $stm = $db_handle->prepare("delete from backups where id = :id");
             $stm->execute(array(":id" => $backup['id']));
@@ -462,8 +469,11 @@ function dbBackupDel($id)
     $row=$stm->fetch(PDO::FETCH_ASSOC);
     if(!is_array($row)) // nothing to delete, do not report success
         return false;
-    if(intval($row['locked'])===1) // locked backups are never deleted
+    if(intval($row['locked'])===1) { // locked backups are never deleted
+        tbDebug('cleanup', 'refusing to delete backup '.$id.
+            ' ('.basename($row['filename']).'), it is locked');
         return false;
+    }
     if(isset($row['filename']))
         unlink($row['filename']);
     $stm = $db_handle->prepare("delete from backups where id = :id");

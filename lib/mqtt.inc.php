@@ -11,8 +11,12 @@ function setupMQTT($server, $port=1883, $user, $password)
     $mqtt = new phpMQTT($server, $port, 'TasmoBackup');
     //$mqtt = new Bluerhinos\phpMQTT($server, $port, 'TasmoBackup');
 
-    if(!$mqtt->connect(true, NULL, $user, $password))
+    if(!$mqtt->connect(true, NULL, $user, $password)) {
+        tbDebug('mqtt', 'connect to '.$server.':'.$port.' FAILED'.
+            ($user?' as user '.$user:' with no credentials'));
         return false;
+    }
+    tbDebug('mqtt', 'connected to '.$server.':'.$port);
     return $mqtt;
 }
 
@@ -33,6 +37,7 @@ function getTasmotaMQTTScan($mqtt,$topic,$user=false,$password=false,$slim=false
         $topics[$custom_topic.'/STATUS2'] = array('qos' => 0, 'function' => 'collectMQTTStatus2');
         $topics[$custom_topic.'/STATUS5'] = array('qos' => 0, 'function' => 'collectMQTTStatus5');
     }
+    tbDebug('mqtt', 'subscribing to: '.implode(', ', array_keys($topics)));
     $mqtt->subscribe($topics);
 
     $step1=$step2=$step3=$step4=$step5=$step6=true;
@@ -84,6 +89,9 @@ function getTasmotaMQTTScan($mqtt,$topic,$user=false,$password=false,$slim=false
         $mqtt->proc(false);
         usleep(30000);
     }
+    tbDebug('mqtt', 'listen window closed, '.count($mqtt_found).
+        ' topic(s) replied: '.
+        (count($mqtt_found)?implode(', ', array_keys($mqtt_found)):'none'));
     $results=[];
     foreach($mqtt_found as $topic => $found) {
         // Reset per device. Without this one device's ip and mac leak
@@ -116,13 +124,29 @@ function getTasmotaMQTTScan($mqtt,$topic,$user=false,$password=false,$slim=false
             if(isset($found['status2'])) {
                 $status=array_merge($status,jsonTasmotaDecode($found['status2']));
             }
+            if (!isset($tmp['ip'])) {
+                tbDebug('mqtt', $topic.': replied to STATUS5 but reported '.
+                    'no ip address, cannot reach it, skipping');
+                continue;
+            }
+            tbDebug('mqtt', $topic.': usable, ip='.$tmp['ip'].' mac='.
+                (isset($tmp['mac'])?$tmp['mac']:'(none)').' name='.
+                (isset($tmp['name'])?$tmp['name']:'(none)'));
             if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
                 addTasmotaDevice($tmp['ip'], $user, $password,false,$status);
             } else {
                 $results[]=$tmp;
             }
+        } else {
+            // The gate that made issue #87 impossible to diagnose: a
+            // device that answered STATUS but never STATUS5 is dropped
+            // here without a word. STATUS5 is what carries the ip.
+            tbDebug('mqtt', $topic.': answered ('.
+                implode('+', array_keys($found)).
+                ') but no STATUS5, so no ip address, skipping');
         }
     }
+    tbDebug('mqtt', 'scan produced '.count($results).' device(s)');
     return $results;
 }
 

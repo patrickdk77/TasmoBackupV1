@@ -1,3 +1,17 @@
+##v1.08.00
+* Add OpenBeken support, discovered by scan and backed up via its own api
+* Backup and restore Tasmota32 berry scripts alongside the config
+* Add checkboxes with select-all for bulk delete, download and send-command
+* Per-row Actions dropdown replaces the always-visible buttons
+* Bulk download produces one zip holding the latest backup of each device
+* Add backup locking, a locked backup is never deleted until unlocked
+* Bulk lock the latest backup, or lock individual versions on the listing
+* Scheduled pruning skips locked backups and no longer counts them
+* Same checkbox and bulk toolbar on the per-device backup listing
+* Add Debug Logging setting, logs http, mqtt, scan, backup and restore
+* Fix downloads always named .dmp, now follows the stored file type
+* Fix listbackups warning four times and showing no device on a plain url
+
 ##v1.07.00
 * Fix duplicate devices created when a device's ip changed, now matched by mac then hostname before ip
 * Add Hostname column, toggle it like the Mac column

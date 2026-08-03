@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
-"POT-Creation-Date: 2026-08-03 01:03+0000\n"
+"POT-Creation-Date: 2026-08-03 01:40+0000\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "Redaguoti"
 msgid "AUTH"
 msgstr "AUTENTIFIKAVIMAS"
 
-#: edit.php:25 index.php:325 index.php:448 scan.php:36 settings.php:114
+#: edit.php:25 index.php:325 index.php:448 scan.php:36 settings.php:126
 #, fuzzy
 msgid "IP"
 msgstr "IP"
@@ -72,7 +72,7 @@ msgstr "PAVADINIMAS"
 msgid "SUBMIT"
 msgstr "PATEIKTI"
 
-#: edit.php:46 settings.php:161
+#: edit.php:46 settings.php:175
 #, fuzzy
 msgid "Submit"
 msgstr "Pateikti"
@@ -228,7 +228,7 @@ msgstr "Ar tikrai norite ištrinti %s"
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: index.php:448 settings.php:114
+#: index.php:448 settings.php:126
 #, fuzzy
 msgid "Name"
 msgstr "Pavadinimas"
@@ -238,7 +238,7 @@ msgstr "Pavadinimas"
 msgid "Type"
 msgstr "Tipas"
 
-#: index.php:448 settings.php:114
+#: index.php:448 settings.php:126
 #, fuzzy
 msgid "Version"
 msgstr "Versija"
@@ -248,7 +248,7 @@ msgstr "Versija"
 msgid "BuildTag"
 msgstr "Kūrimo žyma"
 
-#: index.php:451 settings.php:114
+#: index.php:451 settings.php:126
 #, fuzzy
 msgid "Last Backup"
 msgstr "Paskutinė atsarginė kopija"
@@ -304,57 +304,57 @@ msgstr "slaptažodis"
 msgid "MQTT Discover"
 msgstr "MQTT aptikimas"
 
-#: lib/functions.inc.php:972
+#: lib/functions.inc.php:1266
 #, fuzzy, php-format
 msgid "%s: Device not found."
 msgstr "%s: Įrenginys nerastas."
 
-#: lib/functions.inc.php:997
+#: lib/functions.inc.php:1291
 #, fuzzy, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr "%s: Įrenginys neatsako į status5 užklausą."
 
-#: lib/functions.inc.php:1006
+#: lib/functions.inc.php:1300
 #, fuzzy, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr "%s: Įrenginys neatsako į status2 užklausą."
 
-#: lib/functions.inc.php:1015 lib/functions.inc.php:1052
+#: lib/functions.inc.php:1314 lib/functions.inc.php:1356
 #, fuzzy, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr "%1$s: %2$s informacija atnaujinta!"
 
-#: lib/functions.inc.php:1018 lib/functions.inc.php:1055
+#: lib/functions.inc.php:1317 lib/functions.inc.php:1359
 #, fuzzy, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr "%1$s: %2$s jau yra duomenų bazėje!"
 
-#: lib/functions.inc.php:1024 lib/functions.inc.php:1063
+#: lib/functions.inc.php:1325 lib/functions.inc.php:1369
 #, fuzzy, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr "%1$s: %2$s sėkmingai pridėtas!"
 
-#: lib/functions.inc.php:1028
+#: lib/functions.inc.php:1329
 #, fuzzy, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr "%1$s: %2$s Klaida pridedant įrenginį į duomenų bazę."
 
-#: lib/functions.inc.php:1031
+#: lib/functions.inc.php:1332
 #, fuzzy, php-format
 msgid "%s: Device not responding to status request."
 msgstr "%s: Įrenginys neatsako į būsenos užklausą."
 
-#: lib/functions.inc.php:1068
+#: lib/functions.inc.php:1374
 #, fuzzy, php-format
 msgid "%s: This device already exists in the database!"
 msgstr "%s: Šis įrenginys jau yra duomenų bazėje!"
 
-#: lib/functions.inc.php:1122
+#: lib/functions.inc.php:1428
 #, fuzzy, php-format
 msgid "TasmoBackup: %s"
 msgstr "TasmoBackup: %s"
 
-#: lib/functions.inc.php:1164
+#: lib/functions.inc.php:1470
 #, fuzzy, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr "TasmoBackup %s, autorius Dan Medhurst"
@@ -572,143 +572,151 @@ msgstr "Pažymėti visus"
 msgid "Add Devices"
 msgstr "Pridėti įrenginius"
 
-#: settings.php:93 settings.php:107
+#: settings.php:105 settings.php:119
 #, fuzzy
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: settings.php:111
+#: settings.php:123
 #, fuzzy
 msgid "Setting"
 msgstr "Nustatymas"
 
-#: settings.php:111
+#: settings.php:123
 #, fuzzy
 msgid "Value"
 msgstr "Reikšmė"
 
-#: settings.php:114
+#: settings.php:126
 #, fuzzy
 msgid "Auth"
 msgstr "Autentifikavimas"
 
-#: settings.php:114
+#: settings.php:126
 #, fuzzy
 msgid "Sort Column"
 msgstr "Rikiavimo stulpelis"
 
-#: settings.php:115
+#: settings.php:127
 #, fuzzy
 msgid "Amount of Rows"
 msgstr "Eilučių skaičius"
 
-#: settings.php:116
+#: settings.php:128
 #, fuzzy
 msgid "Theme (light or dark or auto)"
 msgstr "Tema (light arba dark arba auto)"
 
-#: settings.php:117
+#: settings.php:129
 #, fuzzy
 msgid "Tasmota Default Password for web login on devices"
 msgstr ""
 "Numatytasis Tasmota slaptažodis prisijungimui prie įrenginių per naršyklę"
 
-#: settings.php:118
+#: settings.php:130
 #, fuzzy
 msgid "Update Device Name when doing Backups (Y or N)"
 msgstr "Atnaujinti įrenginio pavadinimą kuriant atsargines kopijas (Y arba N)"
 
-#: settings.php:119
+#: settings.php:131
 #, fuzzy
 msgid "Automatically Add New Devices (Y or N)"
 msgstr "Automatiškai pridėti naujus įrenginius (Y arba N)"
 
-#: settings.php:120
+#: settings.php:132
 #, fuzzy
 msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
 msgstr "Naudoti MQTT temą kaip įrenginio pavadinimą (Y arba N arba F (visa))"
 
-#: settings.php:121
+#: settings.php:133
 #, fuzzy
 msgid "Hide MAC Address column on index page (Y or N)"
 msgstr "Slėpti MAC adreso stulpelį pradiniame puslapyje (Y arba N)"
 
-#: settings.php:122
+#: settings.php:134
 #, fuzzy
 msgid "Language"
 msgstr "Kalba"
 
-#: settings.php:126
+#: settings.php:138
 #, fuzzy
 msgid "Automatic (browser)"
 msgstr "Automatinė (naršyklės)"
 
-#: settings.php:134
+#: settings.php:146
 #, fuzzy
 msgid "Hide Hostname column on index page (Y or N)"
 msgstr "Slėpti prieglobos vardo stulpelį pradiniame puslapyje (Y arba N)"
 
-#: settings.php:135
+#: settings.php:147
+msgid "Backup Tasmota32 Berry scripts (Y or N)"
+msgstr ""
+
+#: settings.php:148
+msgid "Debug Logging to the container log (Y or N)"
+msgstr ""
+
+#: settings.php:149
 #, fuzzy
 msgid "MQTT Host"
 msgstr "MQTT serveris"
 
-#: settings.php:136
+#: settings.php:150
 #, fuzzy
 msgid "MQTT Port"
 msgstr "MQTT prievadas"
 
-#: settings.php:137
+#: settings.php:151
 #, fuzzy
 msgid "MQTT Username"
 msgstr "MQTT naudotojo vardas"
 
-#: settings.php:138
+#: settings.php:152
 #, fuzzy
 msgid "MQTT Password"
 msgstr "MQTT slaptažodis"
 
-#: settings.php:139
+#: settings.php:153
 #, fuzzy
 msgid "MQTT Topic"
 msgstr "MQTT tema"
 
-#: settings.php:140
+#: settings.php:154
 #, fuzzy
 msgid "MQTT Topic Format"
 msgstr "MQTT temos formatas"
 
-#: settings.php:141
+#: settings.php:155
 #, fuzzy
 msgid "Backup-All Min Hours between backups"
 msgstr "Mažiausias valandų tarpas tarp atsarginių kopijų kuriant visas kopijas"
 
-#: settings.php:142
+#: settings.php:156
 #, fuzzy
 msgid "Backup Max Days Old to keep"
 msgstr "Kiek daugiausia dienų saugoti atsargines kopijas"
 
-#: settings.php:143
+#: settings.php:157
 #, fuzzy
 msgid "Backup Max Count to keep"
 msgstr "Kiek daugiausia atsarginių kopijų saugoti"
 
-#: settings.php:144
+#: settings.php:158
 #, fuzzy
 msgid "Backup Data Directory"
 msgstr "Atsarginių kopijų duomenų katalogas"
 
-#: settings.php:147
+#: settings.php:161
 #, fuzzy
 msgid "Save"
 msgstr "Įrašyti"
 
-#: settings.php:154
+#: settings.php:168
 #, fuzzy
 msgid "Export Devices"
 msgstr "Eksportuoti įrenginius"
 
-#: settings.php:159
+#: settings.php:173
 #, fuzzy
 msgid "CSV"
 msgstr "CSV"

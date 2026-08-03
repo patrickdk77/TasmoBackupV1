@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
-"POT-Creation-Date: 2026-08-03 01:03+0000\n"
+"POT-Creation-Date: 2026-08-03 01:40+0000\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "Редагувати"
 msgid "AUTH"
 msgstr "АВТЕНТИФІКАЦІЯ"
 
-#: edit.php:25 index.php:325 index.php:448 scan.php:36 settings.php:114
+#: edit.php:25 index.php:325 index.php:448 scan.php:36 settings.php:126
 #, fuzzy
 msgid "IP"
 msgstr "IP"
@@ -72,7 +72,7 @@ msgstr "НАЗВА"
 msgid "SUBMIT"
 msgstr "НАДІСЛАТИ"
 
-#: edit.php:46 settings.php:161
+#: edit.php:46 settings.php:175
 #, fuzzy
 msgid "Submit"
 msgstr "Надіслати"
@@ -228,7 +228,7 @@ msgstr "Ви впевнені, що хочете видалити %s"
 msgid "Delete"
 msgstr "Видалити"
 
-#: index.php:448 settings.php:114
+#: index.php:448 settings.php:126
 #, fuzzy
 msgid "Name"
 msgstr "Назва"
@@ -238,7 +238,7 @@ msgstr "Назва"
 msgid "Type"
 msgstr "Тип"
 
-#: index.php:448 settings.php:114
+#: index.php:448 settings.php:126
 #, fuzzy
 msgid "Version"
 msgstr "Версія"
@@ -248,7 +248,7 @@ msgstr "Версія"
 msgid "BuildTag"
 msgstr "Тег збірки"
 
-#: index.php:451 settings.php:114
+#: index.php:451 settings.php:126
 #, fuzzy
 msgid "Last Backup"
 msgstr "Остання резервна копія"
@@ -304,57 +304,57 @@ msgstr "пароль"
 msgid "MQTT Discover"
 msgstr "Виявити через MQTT"
 
-#: lib/functions.inc.php:972
+#: lib/functions.inc.php:1266
 #, fuzzy, php-format
 msgid "%s: Device not found."
 msgstr "%s: пристрій не знайдено."
 
-#: lib/functions.inc.php:997
+#: lib/functions.inc.php:1291
 #, fuzzy, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr "%s: пристрій не відповідає на запит status5."
 
-#: lib/functions.inc.php:1006
+#: lib/functions.inc.php:1300
 #, fuzzy, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr "%s: пристрій не відповідає на запит status2."
 
-#: lib/functions.inc.php:1015 lib/functions.inc.php:1052
+#: lib/functions.inc.php:1314 lib/functions.inc.php:1356
 #, fuzzy, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr "%1$s: інформацію про %2$s оновлено!"
 
-#: lib/functions.inc.php:1018 lib/functions.inc.php:1055
+#: lib/functions.inc.php:1317 lib/functions.inc.php:1359
 #, fuzzy, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr "%1$s: %2$s вже існує в базі даних!"
 
-#: lib/functions.inc.php:1024 lib/functions.inc.php:1063
+#: lib/functions.inc.php:1325 lib/functions.inc.php:1369
 #, fuzzy, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr "%1$s: %2$s успішно додано!"
 
-#: lib/functions.inc.php:1028
+#: lib/functions.inc.php:1329
 #, fuzzy, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr "%1$s: %2$s помилка додавання пристрою до бази даних."
 
-#: lib/functions.inc.php:1031
+#: lib/functions.inc.php:1332
 #, fuzzy, php-format
 msgid "%s: Device not responding to status request."
 msgstr "%s: пристрій не відповідає на запит статусу."
 
-#: lib/functions.inc.php:1068
+#: lib/functions.inc.php:1374
 #, fuzzy, php-format
 msgid "%s: This device already exists in the database!"
 msgstr "%s: цей пристрій вже існує в базі даних!"
 
-#: lib/functions.inc.php:1122
+#: lib/functions.inc.php:1428
 #, fuzzy, php-format
 msgid "TasmoBackup: %s"
 msgstr "TasmoBackup: %s"
 
-#: lib/functions.inc.php:1164
+#: lib/functions.inc.php:1470
 #, fuzzy, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr "TasmoBackup %s від Dan Medhurst"
@@ -572,142 +572,150 @@ msgstr "Вибрати все"
 msgid "Add Devices"
 msgstr "Додати пристрої"
 
-#: settings.php:93 settings.php:107
+#: settings.php:105 settings.php:119
 #, fuzzy
 msgid "Settings"
 msgstr "Налаштування"
 
-#: settings.php:111
+#: settings.php:123
 #, fuzzy
 msgid "Setting"
 msgstr "Параметр"
 
-#: settings.php:111
+#: settings.php:123
 #, fuzzy
 msgid "Value"
 msgstr "Значення"
 
-#: settings.php:114
+#: settings.php:126
 #, fuzzy
 msgid "Auth"
 msgstr "Автентифікація"
 
-#: settings.php:114
+#: settings.php:126
 #, fuzzy
 msgid "Sort Column"
 msgstr "Стовпець сортування"
 
-#: settings.php:115
+#: settings.php:127
 #, fuzzy
 msgid "Amount of Rows"
 msgstr "Кількість рядків"
 
-#: settings.php:116
+#: settings.php:128
 #, fuzzy
 msgid "Theme (light or dark or auto)"
 msgstr "Тема (light, dark або auto)"
 
-#: settings.php:117
+#: settings.php:129
 #, fuzzy
 msgid "Tasmota Default Password for web login on devices"
 msgstr "Типовий пароль Tasmota для входу у вебінтерфейс пристроїв"
 
-#: settings.php:118
+#: settings.php:130
 #, fuzzy
 msgid "Update Device Name when doing Backups (Y or N)"
 msgstr "Оновлювати назву пристрою під час резервного копіювання (Y або N)"
 
-#: settings.php:119
+#: settings.php:131
 #, fuzzy
 msgid "Automatically Add New Devices (Y or N)"
 msgstr "Автоматично додавати нові пристрої (Y або N)"
 
-#: settings.php:120
+#: settings.php:132
 #, fuzzy
 msgid "Use MQTT Topic as Device Name (Y or N or F (Full))"
 msgstr "Використовувати тему MQTT як назву пристрою (Y, N або F (повна))"
 
-#: settings.php:121
+#: settings.php:133
 #, fuzzy
 msgid "Hide MAC Address column on index page (Y or N)"
 msgstr "Приховати стовпець MAC-адреси на головній сторінці (Y або N)"
 
-#: settings.php:122
+#: settings.php:134
 #, fuzzy
 msgid "Language"
 msgstr "Мова"
 
-#: settings.php:126
+#: settings.php:138
 #, fuzzy
 msgid "Automatic (browser)"
 msgstr "Автоматично (браузер)"
 
-#: settings.php:134
+#: settings.php:146
 #, fuzzy
 msgid "Hide Hostname column on index page (Y or N)"
 msgstr "Приховати стовпець імені хоста на головній сторінці (Y або N)"
 
-#: settings.php:135
+#: settings.php:147
+msgid "Backup Tasmota32 Berry scripts (Y or N)"
+msgstr ""
+
+#: settings.php:148
+msgid "Debug Logging to the container log (Y or N)"
+msgstr ""
+
+#: settings.php:149
 #, fuzzy
 msgid "MQTT Host"
 msgstr "Хост MQTT"
 
-#: settings.php:136
+#: settings.php:150
 #, fuzzy
 msgid "MQTT Port"
 msgstr "Порт MQTT"
 
-#: settings.php:137
+#: settings.php:151
 #, fuzzy
 msgid "MQTT Username"
 msgstr "Ім'я користувача MQTT"
 
-#: settings.php:138
+#: settings.php:152
 #, fuzzy
 msgid "MQTT Password"
 msgstr "Пароль MQTT"
 
-#: settings.php:139
+#: settings.php:153
 #, fuzzy
 msgid "MQTT Topic"
 msgstr "Тема MQTT"
 
-#: settings.php:140
+#: settings.php:154
 #, fuzzy
 msgid "MQTT Topic Format"
 msgstr "Формат теми MQTT"
 
-#: settings.php:141
+#: settings.php:155
 #, fuzzy
 msgid "Backup-All Min Hours between backups"
 msgstr "Мінімальна кількість годин між резервними копіями для копіювання всіх"
 
-#: settings.php:142
+#: settings.php:156
 #, fuzzy
 msgid "Backup Max Days Old to keep"
 msgstr "Максимальний вік резервних копій у днях для зберігання"
 
-#: settings.php:143
+#: settings.php:157
 #, fuzzy
 msgid "Backup Max Count to keep"
 msgstr "Максимальна кількість резервних копій для зберігання"
 
-#: settings.php:144
+#: settings.php:158
 #, fuzzy
 msgid "Backup Data Directory"
 msgstr "Каталог даних резервних копій"
 
-#: settings.php:147
+#: settings.php:161
 #, fuzzy
 msgid "Save"
 msgstr "Зберегти"
 
-#: settings.php:154
+#: settings.php:168
 #, fuzzy
 msgid "Export Devices"
 msgstr "Експортувати пристрої"
 
-#: settings.php:159
+#: settings.php:173
 #, fuzzy
 msgid "CSV"
 msgstr "CSV"

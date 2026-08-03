@@ -88,6 +88,18 @@ if (isset($_POST['hide_hostname_column'])) {
     else
         dbSettingsUpdate('hide_hostname_column','N');
 }
+if (isset($_POST['backup_berry'])) {
+    if (in_array(strtolower($_POST['backup_berry']),array('y','yes','true','t')))
+        dbSettingsUpdate('backup_berry','Y');
+    else
+        dbSettingsUpdate('backup_berry','N');
+}
+if (isset($_POST['debug'])) {
+    if (in_array(strtolower($_POST['debug']),array('y','yes','true','t')))
+        dbSettingsUpdate('debug','Y');
+    else
+        dbSettingsUpdate('debug','N');
+}
 
 
 TBHeader(t('Settings'),true,'
@@ -132,6 +144,8 @@ $(document).ready(function() {
 ?>
                     </select></td></tr>
                     <tr valign='middle'><td align="right"><?php echo t('Hide Hostname column on index page (Y or N)'); ?></td><td><input type="text" name='hide_hostname_column' value='<?php echo isset($settings['hide_hostname_column'])?$settings['hide_hostname_column']:'N'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Backup Tasmota32 Berry scripts (Y or N)'); ?></td><td><input type="text" name='backup_berry' value='<?php echo isset($settings['backup_berry'])?$settings['backup_berry']:'Y'; ?>'></td></tr>
+                    <tr valign='middle'><td align="right"><?php echo t('Debug Logging to the container log (Y or N)'); ?></td><td><input type="text" name='debug' value='<?php echo isset($settings['debug'])?$settings['debug']:'N'; ?>'></td></tr>
                     <tr valign='middle'><td align="right"><?php echo t('MQTT Host'); ?></td><td><input type="text" name='mqtt_host' value='<?php if(isset($settings['mqtt_host'])) echo $settings['mqtt_host']; ?>'></td></tr>
                     <tr valign='middle'><td align="right"><?php echo t('MQTT Port'); ?></td><td><input type="text" name='mqtt_port' value='<?php echo isset($settings['mqtt_port'])?$settings['mqtt_port']:1883; ?>'></td></tr>
                     <tr valign='middle'><td align="right"><?php echo t('MQTT Username'); ?></td><td><input type="text" name='mqtt_user' value='<?php if(isset($settings['mqtt_user'])) echo $settings['mqtt_user']; ?>'></td></tr>

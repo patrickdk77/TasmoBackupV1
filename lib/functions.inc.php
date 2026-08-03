@@ -99,7 +99,10 @@ function getTasmotaScan($ip, $user, $password)
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     $isOpenBeken = looksLikeOpenBeken($ch, $data, $statusCode);
     curl_close($ch);
+    tbDebugHttp('scan', $url, $statusCode, $err,
+        'bytes='.strlen($data).' openbeken='.($isOpenBeken?'yes':'no'));
     if ($isOpenBeken) {
+        tbDebug('scan', $ip.': detected OpenBeken (type 2)');
         if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
             addTasmotaDevice($ip, $user, $password, true, false, 2);
         } else {
@@ -107,9 +110,11 @@ function getTasmotaScan($ip, $user, $password)
         }
     }
     if ($err || $statusCode != 200) {
+        tbDebug('scan', $ip.': no usable response, not a device');
         return false;
     }
     if (strpos($data, 'Tasmota') !== false) {
+        tbDebug('scan', $ip.': detected Tasmota (type 0)');
         if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
             addTasmotaDevice($ip, $user, $password, true, false, 0);
         } else {
@@ -117,12 +122,14 @@ function getTasmotaScan($ip, $user, $password)
         }
     }
     if (strpos($data, 'WLED') !== false) {
+        tbDebug('scan', $ip.': detected WLED (type 1)');
         if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
             addTasmotaDevice($ip, $user, $password, true, false, 1);
         } else {
             return 1;
         }
     }
+    tbDebug('scan', $ip.': answered but no Tasmota/WLED/OpenBeken marker');
     return false;
 }
 
@@ -141,6 +148,8 @@ function getTasmotaScanRange($iprange, $user, $password)
     );
     $range=15;
     if($range > count($iprange)) $range=count($iprange);
+    tbDebug('scan', 'range scan starting over '.count($iprange).
+        ' addresses, '.$range.' at a time');
     $master = curl_multi_init();
     for($i=0;$i<$range;$i++) {
         $url = 'http://'.rawurlencode($user).':'.rawurlencode($password).'@'. $iprange[$i] . '/';
@@ -165,6 +174,8 @@ function getTasmotaScanRange($iprange, $user, $password)
             // Checked ahead of the 200-only gate below: OpenBeken's
             // bare / redirects (302) instead of answering directly.
             if (looksLikeOpenBeken($done['handle'], $data, $statusCode)) {
+                tbDebug('scan', $url['host'].': http '.$statusCode.
+                    ', detected OpenBeken (type 2)');
                 if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
                     addTasmotaDevice($url['host'], $user, $password, true, false, 2);
                 } else {
@@ -173,6 +184,8 @@ function getTasmotaScanRange($iprange, $user, $password)
             }
             if ($statusCode == 200) {
                 if (strpos($data, 'Tasmota') !== false) {
+                    tbDebug('scan', $url['host'].
+                        ': http 200, detected Tasmota (type 0)');
                     if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
                         addTasmotaDevice($url['host'], $user, $password, true);
                     } else {
@@ -180,6 +193,8 @@ function getTasmotaScanRange($iprange, $user, $password)
                     }
                 }
                 if (strpos($data, 'WLED') !== false) {
+                    tbDebug('scan', $url['host'].
+                        ': http 200, detected WLED (type 1)');
                     if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
                         addTasmotaDevice($url['host'], $user, $password, true, false, 1);
                     } else {
@@ -204,6 +219,7 @@ function getTasmotaScanRange($iprange, $user, $password)
         }
     } while($run);
     curl_multi_close($master);
+    tbDebug('scan', 'range scan finished, '.count($result).' device(s) found');
     return $result;
 }
 
@@ -231,6 +247,8 @@ function getTasmotaStatus($ip, $user, $password, $type=0)
     $err = curl_errno($ch);
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+    tbDebugHttp('status', $url, $statusCode, $err,
+        'bytes='.strlen($data));
     if ($err || $statusCode != 200) {
         return false;
     }
@@ -269,6 +287,7 @@ function getTasmotaOldStatus($ip, $user, $password)
     $err = curl_errno($ch);
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+    tbDebugHttp('status0-old', $url, $statusCode, $err, 'bytes='.strlen($data));
     if ($err || $statusCode != 200) {
         return false;
     }
@@ -295,6 +314,7 @@ function getTasmotaStatus2($ip, $user, $password)
     $err = curl_errno($ch);
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+    tbDebugHttp('status2', $url, $statusCode, $err, 'bytes='.strlen($data));
     if ($err || $statusCode != 200) {
         return false;
     }
@@ -321,6 +341,7 @@ function getTasmotaStatus5($ip, $user, $password)
     $err = curl_errno($ch);
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+    tbDebugHttp('status5', $url, $statusCode, $err, 'bytes='.strlen($data));
     if ($err || $statusCode != 200) {
         return false;
     }
@@ -366,7 +387,59 @@ function restoreTasmotaBackup($ip, $user, $password, $filename, $type=0)
         $err = curl_errno($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        tbDebugHttp('restore', $url, $statusCode, $err,
+            'openbeken pins+startcmd');
         return (!$err && $statusCode == 200);
+    }
+
+    // A Tasmota backup taken from a device with berry scripts is a zip
+    // of config.dmp plus files/*.be (issue #85). A plain .dmp is the
+    // older shape and still restores, so old backups keep working.
+    if (intval($type)===0 && strtolower(substr($filename,-4))==='.zip') {
+        $zip = new ZipArchive();
+        if ($zip->open($filename) !== true) {
+            tbDebug('restore', $ip.': backup zip could not be opened');
+            return false;
+        }
+        $dmp = $zip->getFromName('config.dmp');
+        if ($dmp === false) {
+            $zip->close();
+            tbDebug('restore', $ip.': backup zip has no config.dmp');
+            return false;
+        }
+        $tmp = tempnam(sys_get_temp_dir(), 'tbrst');
+        file_put_contents($tmp, $dmp);
+
+        // Scripts first, then the config. The config restore reboots
+        // the device, so doing it last means the scripts are already
+        // in place when it comes back up and runs autoexec.be.
+        $scripts = 0;
+        $failed = 0;
+        for ($i = 0; $i < $zip->numFiles; $i++) {
+            $entry = $zip->getNameIndex($i);
+            if (strpos($entry, 'files/') !== 0)
+                continue;
+            $content = $zip->getFromIndex($i);
+            if ($content === false)
+                continue;
+            if (putTasmotaFile($ip, $user, $password, basename($entry),
+                    $content))
+                $scripts++;
+            else
+                $failed++;
+        }
+        $zip->close();
+        tbDebug('restore', $ip.': restored '.$scripts.' berry script(s)'.
+            ($failed?', '.$failed.' failed':''));
+
+        if ($failed > 0) {
+            // Do not reboot into a half restored script set.
+            @unlink($tmp);
+            return false;
+        }
+        $ok = restoreTasmotaBackup($ip, $user, $password, $tmp, 0);
+        @unlink($tmp);
+        return $ok;
     }
 
     // GET /rs first to set upload_file_type=UPL_SETTINGS on the device.
@@ -386,7 +459,12 @@ function restoreTasmotaBackup($ip, $user, $password, $filename, $type=0)
     $rsErr = curl_errno($rs);
     $rsCode = curl_getinfo($rs, CURLINFO_HTTP_CODE);
     curl_close($rs);
+    tbDebugHttp('restore', 'http://'.$ip.'/rs', $rsCode, $rsErr,
+        'arming settings mode');
     if ($rsErr || $rsCode != 200) {
+        tbDebug('restore', $ip.': /rs refused, not uploading. On '.
+            'Tasmota v15.5+ the referer check is on by default '.
+            '(SetOption128)');
         // Refused (referer check, wrong password, device offline): do
         // not proceed to /u2, it would report a false success.
         return false;
@@ -417,21 +495,39 @@ function restoreTasmotaBackup($ip, $user, $password, $filename, $type=0)
     $err = curl_errno($ch);
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+    tbDebugHttp('restore', $url, $statusCode, $err,
+        'uploaded '.basename($filename));
     if (!$err && $statusCode == 200) {
         return true;
     }
     return false;
 }
 
+/*
+ * The name a single backup downloads as. Split out from
+ * downloadTasmotaBackup so it can be tested without streaming a file
+ * and exiting. The extension follows the stored file: it used to be
+ * hardcoded to .dmp, which already mislabelled WLED (.zip) and
+ * OpenBeken (.json) backups, and now also Tasmota berry bundles.
+ */
+function backupDownloadName($backup)
+{
+    $filename = $backup['name'] . '-' . $backup['version'] . '-' . $backup['date'];
+    $filename = preg_replace('/(\s+|:|\.|\()/', '_', $filename);
+    $filename = preg_replace('/[^A-Za-z0-9_\-]/', '', $filename);
+    $ext = strtolower(pathinfo($backup['filename'], PATHINFO_EXTENSION));
+    if (!preg_match('/^[a-z0-9]{1,5}$/', $ext))
+        $ext = 'dmp';
+    return $filename.'.'.$ext;
+}
+
 function downloadTasmotaBackup($backup)
 {
     if(file_exists($backup['filename'])) {
-        $filename = $backup['name'] . '-' . $backup['version'] . '-' . $backup['date'];
-        $filename = preg_replace('/(\s+|:|\.|\()/', '_', $filename);
-        $filename = preg_replace('/[^A-Za-z0-9_\-]/', '', $filename);
         header("Cache-Control: no-cache private",true);
         header("Content-Description: Backup ".$backup['name']);
-        header('Content-disposition: attachment; filename="'.$filename.'.dmp"',true);
+        header('Content-disposition: attachment; filename="'.
+            backupDownloadName($backup).'"',true);
         header("Content-Type: application/octet-stream",true);
         header("Content-Transfer-Encoding: binary",true);
         header('Content-Length: '. filesize($backup['filename']),true);
@@ -582,15 +678,143 @@ function sendDeviceCommand($ip, $user, $password, $command, $type=0)
     $err = curl_errno($ch);
     $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+    tbDebugHttp('command', $url, $statusCode, $err, 'cmnd='.$command);
     return (!$err && $statusCode == 200);
 }
 
-function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
+/*
+ * Tasmota filesystem (UFS) access, used for berry scripts (issue #85).
+ *
+ * Verified against the firmware source, xdrv_50_filesystem.ino:
+ *   GET  /ufsd                 directory listing, html, each entry is
+ *                              <a href='ufsd?download=/x.be' file='x.be'>
+ *   GET  /ufsd?download=<path> the file itself
+ *   POST /ufsu?fsz=<bytes>     multipart upload, form field "ufsu",
+ *                              the part filename is the target name
+ *
+ * Unlike a settings restore there is no priming step: the POST handler
+ * sets UPL_UFSFILE itself every time. fsz is optional but worth
+ * sending, the firmware uses it for a free space check before it
+ * starts writing (webserver HandleUploadLoop, UPL_UFSFILE branch).
+ *
+ * Builds without USE_UFILESYS have no /ufsd at all and answer 404,
+ * which is the normal case for esp8266. Callers treat that as "this
+ * device has no scripts", not as an error.
+ */
+function getTasmotaBerryFiles($ip, $user, $password)
+{
+    $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.'/ufsd';
+    $ch = curl_init($url);
+    curl_setopt_array($ch, array(
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_CONNECTTIMEOUT => 12,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => 'TasmoBackup '.$GLOBALS['VERSION'],
+        CURLOPT_ENCODING => "",
+        CURLOPT_REFERER => 'http://'.$ip.'/',
+        CURLOPT_HTTPHEADER => array('Origin: http://'.$ip),
+    ));
+    $data = curl_exec($ch);
+    $err = curl_errno($ch);
+    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($err || $statusCode != 200) {
+        tbDebugHttp('berry', $url, $statusCode, $err,
+            'no filesystem on this device');
+        return array();
+    }
+
+    $files = array();
+    if (preg_match_all("/ufsd\?download=([^'\"&>]+)/i", $data, $m)) {
+        foreach ($m[1] as $path) {
+            $path = html_entity_decode($path, ENT_QUOTES, 'UTF-8');
+            if (strtolower(substr($path, -3)) !== '.be')
+                continue;
+            if (!in_array($path, $files))
+                $files[] = $path;
+        }
+    }
+    tbDebugHttp('berry', $url, $statusCode, $err,
+        count($files).' berry script(s) found');
+    return $files;
+}
+
+function getTasmotaFile($ip, $user, $password, $path)
+{
+    $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.
+        '/ufsd?download='.rawurlencode($path);
+    $ch = curl_init($url);
+    curl_setopt_array($ch, array(
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_CONNECTTIMEOUT => 12,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => 'TasmoBackup '.$GLOBALS['VERSION'],
+        CURLOPT_ENCODING => "",
+        CURLOPT_REFERER => 'http://'.$ip.'/',
+        CURLOPT_HTTPHEADER => array('Origin: http://'.$ip),
+    ));
+    $data = curl_exec($ch);
+    $err = curl_errno($ch);
+    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    tbDebugHttp('berry', $url, $statusCode, $err,
+        'bytes='.strlen($data));
+    if ($err || $statusCode != 200)
+        return false;
+    return $data;
+}
+
+function putTasmotaFile($ip, $user, $password, $name, $content)
+{
+    // Written to a temp file because CURLFile needs a path, and the
+    // multipart part filename is what the device saves it as.
+    $tmp = tempnam(sys_get_temp_dir(), 'tbufs');
+    if ($tmp === false || file_put_contents($tmp, $content) === false)
+        return false;
+
+    $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.
+        '/ufsu?fsz='.strlen($content);
+    $cfile = new CURLFile($tmp, 'application/octet-stream',
+        basename($name));
+    $ch = curl_init($url);
+    curl_setopt_array($ch, array(
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_TIMEOUT => 60,
+        CURLOPT_CONNECTTIMEOUT => 12,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => 'TasmoBackup '.$GLOBALS['VERSION'],
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => array('ufsu' => $cfile),
+        CURLOPT_ENCODING => "",
+        CURLOPT_REFERER => 'http://'.$ip.'/',
+        CURLOPT_HTTPHEADER => array('Origin: http://'.$ip, 'Expect:'),
+    ));
+    curl_exec($ch);
+    $err = curl_errno($ch);
+    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    @unlink($tmp);
+    tbDebugHttp('berry', $url, $statusCode, $err,
+        'uploaded '.basename($name).' ('.strlen($content).' bytes)');
+    return (!$err && $statusCode == 200);
+}
+
+function getTasmotaBackup($ip, $user, $password, $filename, $type=0, $berryFiles=array())
 {
     //Get Backup
 
     if(intval($type)===0) { // Tasmota
-        $fp = fopen($filename, 'w+');
+        // With berry scripts the backup becomes a zip holding
+        // config.dmp plus files/<script>.be. Without them it stays a
+        // bare config.dmp exactly as before, so nothing changes for a
+        // device with no filesystem and old backups still restore.
+        $bundling = (is_array($berryFiles) && count($berryFiles) > 0);
+        $dmpfile = $bundling
+            ? tempnam(sys_get_temp_dir(), 'tbdmp') : $filename;
+
+        $fp = fopen($dmpfile, 'w+');
         if ($fp === false) {
             return false;
         }
@@ -613,10 +837,47 @@ function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         fclose($fp);
         curl_close($ch);
+        tbDebugHttp('backup', $url, $statusCode, $err,
+            'wrote '.(file_exists($dmpfile)?filesize($dmpfile):0).
+            ' bytes to '.basename($dmpfile));
 
-        if (!$err && $statusCode == 200) {
-            return true;
+        if ($err || $statusCode != 200) {
+            if ($bundling)
+                @unlink($dmpfile);
+            return false;
         }
+        if (!$bundling)
+            return true;
+
+        // Config is in hand, now collect the scripts alongside it.
+        $zip = new ZipArchive();
+        if ($zip->open($filename, ZipArchive::CREATE|ZipArchive::OVERWRITE) === false) {
+            @unlink($dmpfile);
+            return false;
+        }
+        $zip->addFile($dmpfile, 'config.dmp');
+        $saved = 0;
+        foreach ($berryFiles as $path) {
+            $content = getTasmotaFile($ip, $user, $password, $path);
+            if ($content === false) {
+                // A script we listed but could not read means an
+                // incomplete backup, better to fail than to store a
+                // bundle that silently lost a file.
+                tbDebug('berry', $ip.': could not read '.$path.
+                    ', abandoning this backup');
+                $zip->close();
+                @unlink($dmpfile);
+                @unlink($filename);
+                return false;
+            }
+            $zip->addFromString('files/'.basename($path), $content);
+            $saved++;
+        }
+        $zip->close();
+        @unlink($dmpfile);
+        tbDebug('berry', $ip.': bundled config.dmp plus '.$saved.
+            ' berry script(s) into '.basename($filename));
+        return true;
     } else if(intval($type)===1) { // WLED
         $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.'/edit?download=cfg.json';
 
@@ -642,6 +903,8 @@ function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
         $err = curl_errno($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        tbDebugHttp('backup', $url, $statusCode, $err,
+            'wled cfg.json bytes='.strlen($cfg));
         if($err || $statusCode !== 200)
             return false;
 
@@ -657,6 +920,8 @@ function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
         $err = curl_errno($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        tbDebugHttp('backup', $url, $statusCode, $err,
+            'wled presets.json bytes='.strlen($presets));
         if($err || $statusCode !== 200)
             return false;
 
@@ -693,6 +958,8 @@ function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
         $err = curl_errno($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        tbDebugHttp('backup', $url, $statusCode, $err,
+            'openbeken api/info bytes='.strlen($infoData));
         if ($err || $statusCode != 200)
             return false;
         $info = json_decode($infoData, true);
@@ -706,6 +973,8 @@ function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
         $err = curl_errno($ch);
         $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
+        tbDebugHttp('backup', $url, $statusCode, $err,
+            'openbeken api/pins bytes='.strlen($pinsData));
         if ($err || $statusCode != 200)
             return false;
         $pins = json_decode($pinsData, true);
@@ -774,6 +1043,7 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
                 return true;
         }
     } else {
+        tbDebug('backup', $ip.': no status response, treating as offline');
         return true; // Device Offline
     }
 
@@ -822,8 +1092,12 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
     // over this row.
     if ($mac !== '' || $hostname !== '') {
         $owner = dbDeviceFind(NULL, $mac, $hostname);
-        if ($owner !== false && intval($owner) !== intval($id))
+        if ($owner !== false && intval($owner) !== intval($id)) {
+            tbDebug('backup', $ip.': answered by device id '.$owner.
+                ' but this row is id '.$id.', refusing to file the '.
+                'backup here');
             return true; // a different device holds this address now
+        }
     }
 
     $savename = preg_replace('/\s+/', '_', $name);
@@ -839,7 +1113,19 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
     $savedate = preg_replace('/(\s+|:)/', '_', $date);
     $savedate = preg_replace('/[^A-Za-z0-9_\-]/', '', $savedate);
 
+    // Berry scripts (issue #85). Only Tasmota has a filesystem to ask
+    // about, and only when the setting is on. A device with no
+    // filesystem answers 404 and gets an empty list, which keeps the
+    // backup a plain .dmp exactly as before.
+    $berryFiles = array();
+    if (intval($type)===0 &&
+            (!isset($settings['backup_berry']) ||
+             $settings['backup_berry']=='Y')) {
+        $berryFiles = getTasmotaBerryFiles($ip, $user, $password);
+    }
+
     $ext='.dmp';
+    if(intval($type)===0 && count($berryFiles)>0) $ext='.zip';
     if(intval($type)===1) $ext='.zip';
     if(intval($type)===2) $ext='.json';
 
@@ -847,7 +1133,7 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
     $saveto = $backupfolder . $savename . "/" . $savemac . "-" . $savedate . '-v' . $version . $ext;
 
     sleep(1);
-    if (getTasmotaBackup($ip, $user, $password, $saveto, $type)) {
+    if (getTasmotaBackup($ip, $user, $password, $saveto, $type, $berryFiles)) {
         $directory = $backupfolder . $savename . "/";
 /*
         // Initialize filecount variavle
@@ -861,13 +1147,17 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
         }
 */
         if (!dbNewBackup($id, $name, $version, $date, 1, $saveto, $mac, $type, $hostname)) {
+            tbDebug('backup', $ip.': downloaded but the database insert '.
+                'failed');
             return true;
         }
+        tbDebug('backup', $ip.': saved '.$saveto);
         return false;
     }
     // The download failed. Returning false here reported the backup as
     // a success, and let backupCleanup prune older good backups even
     // though nothing new was saved.
+    tbDebug('backup', $ip.': download failed, discarding partial file');
     if (file_exists($saveto))
         unlink($saveto);
     return true;
@@ -897,6 +1187,8 @@ function backupAll($docker=false)
             if($mqtt) getTasmotaMQTTScan($mqtt,$settings['mqtt_topic'],$username,$password,true);
         }
     }
+    tbDebug('backupall', ($docker?'scheduled':'manual').
+        ' run starting, minimum '.$hours.'h between backups');
     $stm = $db_handle->prepare("select * from devices where lastbackup < :date or lastbackup is NULL ");
     $stm->execute(array(":date" => date('Y-m-d H:i:s',time()-(3600*$hours))));
     $errorcount = 0;
@@ -909,6 +1201,8 @@ function backupAll($docker=false)
             backupCleanup($db_field['id']);
         }
     }
+    tbDebug('backupall', 'finished, '.$errorcount.' failed of '.
+        $totalcount.' attempted');
     return array($errorcount,$totalcount);
 }
 
@@ -1008,7 +1302,12 @@ function addTasmotaDevice($ip, $user, $password, $verified=false, $status=false,
                 }
             }
             statusIdentity($status,$type,$name,$version,$mac,$hostname);
+            tbDebug('discover', $ip.': identity mac='.
+                ($mac!==''?$mac:'(none)').' hostname='.
+                ($hostname!==''?$hostname:'(none)').' type='.$type);
             if (($id=dbDeviceFind($ip,$mac,$hostname))>0) {
+                tbDebug('discover', $ip.': matched existing device id '.
+                    $id.', updating it');
                 if (!isset($settings['autoupdate_name']) || (isset($settings['autoupdate_name']) && $settings['autoupdate_name']=='Y'))
                     $newname=$name;
                 if(dbDeviceUpdate($id,$newname,$ip,$version,$password,$mac,$type,$hostname))
@@ -1018,6 +1317,8 @@ function addTasmotaDevice($ip, $user, $password, $verified=false, $status=false,
                     return sprintf(t('%1$s: %2$s already exists in the '.
                         'database!'), $ip, $name);
             } else {
+                tbDebug('discover', $ip.': no existing device matched, '.
+                    'adding a new one');
                 if (dbDeviceAdd(isset($name)?$name:$ip, $ip,
                         isset($version)?$version:'', $password, $mac,
                         $type, $hostname)) {
@@ -1044,6 +1345,9 @@ function addTasmotaDevice($ip, $user, $password, $verified=false, $status=false,
             // dbDeviceFind decides what counts as the same device: a
             // reported identity never falls back to a plain ip match,
             // it can only adopt a row that has no identity at all.
+            tbDebug('discover', $ip.': address already known, device '.
+                'reports mac='.($mac!==''?$mac:'(none)').' hostname='.
+                ($hostname!==''?$hostname:'(none)'));
             $id=dbDeviceFind($ip,$mac,$hostname);
             if ($id>0) {
                 if (!isset($settings['autoupdate_name']) || (isset($settings['autoupdate_name']) && $settings['autoupdate_name']=='Y') && isset($name))
@@ -1057,6 +1361,8 @@ function addTasmotaDevice($ip, $user, $password, $verified=false, $status=false,
             }
             // Known address, unknown device: it is a different device
             // that inherited the address, so it gets its own row.
+            tbDebug('discover', $ip.': a different device now holds this '.
+                'address, adding it as a new device');
             if (dbDeviceAdd(isset($name)?$name:$ip, $ip,
                     isset($version)?$version:'', $password, $mac,
                     $type, $hostname)) {

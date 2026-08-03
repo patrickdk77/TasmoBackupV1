@@ -3,6 +3,14 @@ Backup the configs of all your Tasmota devices
 
 
 # Latest Changes
+* add openbeken support, discovered by scan and backed up via its own api
+* backup and restore tasmota32 berry scripts alongside the config
+* add checkboxes with select-all for bulk delete, download and send-command
+* bulk download produces one zip holding the latest backup of each device
+* add backup locking, a locked backup is never deleted until unlocked
+* scheduled pruning skips locked backups
+* add debug logging setting, logs http, mqtt, scan, backup and restore
+* fix downloads always named .dmp, now follows the stored file type
 * fix duplicate devices created when a device's ip changed (now matched by mac, then hostname, then ip)
 * add hostname column, toggle it like the mac column
 * fix failed backups being reported as successful (and pruning good backups afterward)
@@ -30,9 +38,15 @@ Backup the configs of all your Tasmota devices
 * Backup all devices
 * Remove devices
 * Download individual backups
+* Bulk select devices or backups to delete, download or lock
+* Send a console command to several devices at once
+* Lock a backup so it is never deleted, by hand or by the scheduled prune
+* Backup and restore Tasmota32 berry scripts alongside the config
+* OpenBeken devices, backed up via their own api
 * No duplicates (matched by Mac, then Hostname, then IP)
 * Optional Hostname column
 * Multi-language interface
+* Optional debug logging to the container log
 
 # To-Do
 * Parse backup configs
