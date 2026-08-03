@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
-"POT-Creation-Date: 2026-08-02 21:20+0000\n"
+"POT-Creation-Date: 2026-08-03 01:03+0000\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,22 +44,22 @@ msgstr "一部のバックアップが正常に完了しませんでした！"
 msgid "Edit Device"
 msgstr "デバイスの編集"
 
-#: edit.php:22 index.php:305
+#: edit.php:22 index.php:441
 #, fuzzy
 msgid "Edit"
 msgstr "編集"
 
-#: edit.php:25 index.php:191
+#: edit.php:25 index.php:325
 #, fuzzy
 msgid "AUTH"
 msgstr "認証"
 
-#: edit.php:25 index.php:191 index.php:310 scan.php:36 settings.php:114
+#: edit.php:25 index.php:325 index.php:448 scan.php:36 settings.php:114
 #, fuzzy
 msgid "IP"
 msgstr "IP"
 
-#: edit.php:25 index.php:191 listbackups.php:66 scan.php:36
+#: edit.php:25 index.php:325 listbackups.php:139 scan.php:36
 #, fuzzy
 msgid "NAME"
 msgstr "名前"
@@ -74,7 +74,7 @@ msgstr "送信"
 msgid "Submit"
 msgstr "送信"
 
-#: index.php:36
+#: index.php:36 index.php:135 index.php:162 index.php:183 index.php:198
 #, fuzzy
 msgid "You didn't select any devices."
 msgstr "デバイスが選択されていません。"
@@ -104,192 +104,254 @@ msgstr "バックアップに失敗しました"
 msgid "Backup completed successfully!"
 msgstr "バックアップが正常に完了しました！"
 
-#: index.php:121
+#: index.php:121 index.php:143
 #, fuzzy, php-format
 msgid "%s deleted successfully from the database."
 msgstr "%s をデータベースから正常に削除しました。"
 
-#: index.php:123
+#: index.php:123 index.php:146
 #, fuzzy, php-format
 msgid "Error deleting %s"
 msgstr "%s の削除中にエラーが発生しました"
 
-#: index.php:126
+#: index.php:126 index.php:150
 #, fuzzy, php-format
 msgid "Error deleting %1$s : %2$s"
 msgstr "%1$s の削除中にエラーが発生しました: %2$s"
 
-#: index.php:191
-#, fuzzy
-msgid "BACKUP"
-msgstr "バックアップ"
+#: index.php:169
+#, php-format
+msgid "%s: latest backup locked"
+msgstr ""
 
-#: index.php:191 listbackups.php:66
-#, fuzzy
-msgid "DELETE"
-msgstr "削除"
+#: index.php:172
+#, php-format
+msgid "%s: no backup to lock yet"
+msgstr ""
 
-#: index.php:191
-#, fuzzy
-msgid "EDIT"
-msgstr "編集"
+#: index.php:188
+msgid "No backups were available for the selected devices."
+msgstr ""
 
-#: index.php:191
+#: index.php:200 index.php:295
+msgid "Enter a command to send."
+msgstr ""
+
+#: index.php:207
+#, php-format
+msgid "%s: WLED devices do not support console commands."
+msgstr ""
+
+#: index.php:213
+#, php-format
+msgid "%s: command sent"
+msgstr ""
+
+#: index.php:216
+#, php-format
+msgid "%s: command failed"
+msgstr ""
+
+#: index.php:289
+#, fuzzy
+msgid "Are you sure you want to delete all selected devices"
+msgstr "%s を削除してもよろしいですか"
+
+#: index.php:325
+msgid "ACTIONS"
+msgstr ""
+
+#: index.php:325
 #, fuzzy
 msgid "FILES"
 msgstr "ファイル"
 
-#: index.php:191
+#: index.php:325
 #, fuzzy
 msgid "HOSTNAME"
 msgstr "ホスト名"
 
-#: index.php:191
+#: index.php:325
 #, fuzzy
 msgid "LAST BACKUP"
 msgstr "最終バックアップ"
 
-#: index.php:191 index.php:310
+#: index.php:325 index.php:448
 #, fuzzy
 msgid "MAC"
 msgstr "MAC"
 
-#: index.php:191 listbackups.php:66
+#: index.php:325 listbackups.php:139
+#, fuzzy
+msgid "Select all"
+msgstr "すべて選択"
+
+#: index.php:325 listbackups.php:139
 #, fuzzy
 msgid "VERSION"
 msgstr "バージョン"
 
-#: index.php:225 index.php:262
+#: index.php:359 index.php:395
 #, fuzzy
 msgid "Open console in new tab"
 msgstr "コンソールを新しいタブで開く"
 
-#: index.php:301
+#: index.php:434
 #, fuzzy
 msgid "Open upgrade in new tab"
 msgstr "アップグレードを新しいタブで開く"
 
-#: index.php:303
+#: index.php:436
 #, fuzzy
 msgid "List backups to download or restore"
 msgstr "ダウンロードまたは復元するバックアップを一覧表示"
 
-#: index.php:304
+#: index.php:438
+msgid "Actions"
+msgstr ""
+
+#: index.php:440
 #, fuzzy
 msgid "Backup"
 msgstr "バックアップ"
 
-#: index.php:306 listbackups.php:108
+#: index.php:443 listbackups.php:186
 #, fuzzy, php-format
 msgid "Are you sure you want to delete %s"
 msgstr "%s を削除してもよろしいですか"
 
-#: index.php:306 listbackups.php:108
+#: index.php:443 listbackups.php:179 listbackups.php:186
 #, fuzzy
 msgid "Delete"
 msgstr "削除"
 
-#: index.php:310 settings.php:114
+#: index.php:448 settings.php:114
 #, fuzzy
 msgid "Name"
 msgstr "名前"
 
-#: index.php:310
+#: index.php:448
 #, fuzzy
 msgid "Type"
 msgstr "種類"
 
-#: index.php:310 settings.php:114
+#: index.php:448 settings.php:114
 #, fuzzy
 msgid "Version"
 msgstr "バージョン"
 
-#: index.php:312
+#: index.php:450
 #, fuzzy
 msgid "BuildTag"
 msgstr "ビルドタグ"
 
-#: index.php:313 settings.php:114
+#: index.php:451 settings.php:114
 #, fuzzy
 msgid "Last Backup"
 msgstr "最終バックアップ"
 
-#: index.php:314 index.php:384
+#: index.php:452 index.php:533
 #, fuzzy
 msgid "Close"
 msgstr "閉じる"
 
-#: index.php:321
+#: index.php:461 listbackups.php:223
+msgid "selected"
+msgstr ""
+
+#: index.php:462 listbackups.php:224
+msgid "Delete Selected"
+msgstr ""
+
+#: index.php:463 listbackups.php:225
+#, fuzzy
+msgid "Download Selected"
+msgstr "ダウンロード"
+
+#: index.php:464
+#, fuzzy
+msgid "Lock Latest Backup"
+msgstr "最終バックアップ"
+
+#: index.php:465
+msgid "Command (Tasmota/OpenBeken only)"
+msgstr ""
+
+#: index.php:466
+msgid "Send Command"
+msgstr ""
+
+#: index.php:470
 #, fuzzy
 msgid "Backup All"
 msgstr "すべてバックアップ"
 
-#: index.php:322
+#: index.php:471
 #, fuzzy
 msgid "Discover"
 msgstr "検出"
 
-#: index.php:322 index.php:325
+#: index.php:471 index.php:474
 #, fuzzy
 msgid "password"
 msgstr "パスワード"
 
-#: index.php:325
+#: index.php:474
 #, fuzzy
 msgid "MQTT Discover"
 msgstr "MQTT 検出"
 
-#: lib/functions.inc.php:828
+#: lib/functions.inc.php:972
 #, fuzzy, php-format
 msgid "%s: Device not found."
 msgstr "%s: デバイスが見つかりません。"
 
-#: lib/functions.inc.php:853
+#: lib/functions.inc.php:997
 #, fuzzy, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr "%s: デバイスが status5 要求に応答しません。"
 
-#: lib/functions.inc.php:862
+#: lib/functions.inc.php:1006
 #, fuzzy, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr "%s: デバイスが status2 要求に応答しません。"
 
-#: lib/functions.inc.php:871 lib/functions.inc.php:908
+#: lib/functions.inc.php:1015 lib/functions.inc.php:1052
 #, fuzzy, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr "%1$s: %2$s の情報を更新しました！"
 
-#: lib/functions.inc.php:874 lib/functions.inc.php:911
+#: lib/functions.inc.php:1018 lib/functions.inc.php:1055
 #, fuzzy, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr "%1$s: %2$s はすでにデータベースに存在します！"
 
-#: lib/functions.inc.php:880 lib/functions.inc.php:919
+#: lib/functions.inc.php:1024 lib/functions.inc.php:1063
 #, fuzzy, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr "%1$s: %2$s を正常に追加しました！"
 
-#: lib/functions.inc.php:884
+#: lib/functions.inc.php:1028
 #, fuzzy, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr "%1$s: %2$s デバイスをデータベースに追加する際にエラーが発生しました。"
 
-#: lib/functions.inc.php:887
+#: lib/functions.inc.php:1031
 #, fuzzy, php-format
 msgid "%s: Device not responding to status request."
 msgstr "%s: デバイスが status 要求に応答しません。"
 
-#: lib/functions.inc.php:924
+#: lib/functions.inc.php:1068
 #, fuzzy, php-format
 msgid "%s: This device already exists in the database!"
 msgstr "%s: このデバイスはすでにデータベースに存在します！"
 
-#: lib/functions.inc.php:978
+#: lib/functions.inc.php:1122
 #, fuzzy, php-format
 msgid "TasmoBackup: %s"
 msgstr "TasmoBackup: %s"
 
-#: lib/functions.inc.php:1020
+#: lib/functions.inc.php:1164
 #, fuzzy, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr "TasmoBackup %s 作成者 Dan Medhurst"
@@ -369,60 +431,111 @@ msgstr ": この列を昇順に並べ替える"
 msgid ": activate to sort column descending"
 msgstr ": この列を降順に並べ替える"
 
-#: listbackups.php:29
+#: listbackups.php:29 listbackups.php:48
+#, fuzzy
+msgid "You didn't select any backups."
+msgstr "デバイスが選択されていません。"
+
+#: listbackups.php:39
+#, php-format
+msgid "%d locked backup was not deleted."
+msgid_plural "%d locked backups were not deleted."
+msgstr[0] ""
+
+#: listbackups.php:52
+msgid "None of the selected backups could be found."
+msgstr ""
+
+#: listbackups.php:76
 #, php-format
 msgid "Restore sent to %s and applied"
 msgstr ""
 
-#: listbackups.php:33
+#: listbackups.php:80
 #, php-format
 msgid "Restore sent to %s, the device reboots to apply it"
 msgstr ""
 
-#: listbackups.php:38
+#: listbackups.php:85
 #, php-format
 msgid "Restore to %s failed, the device did not accept the upload"
 msgstr ""
 
-#: listbackups.php:45
+#: listbackups.php:92
 #, fuzzy
 msgid "List Backups"
 msgstr "バックアップ一覧"
 
-#: listbackups.php:62
+#: listbackups.php:116
+#, fuzzy
+msgid "Are you sure you want to delete all selected backups"
+msgstr "%s を削除してもよろしいですか"
+
+#: listbackups.php:135
 #, fuzzy, php-format
 msgid "Listing for %s"
 msgstr "%s の一覧"
 
-#: listbackups.php:66
+#: listbackups.php:139
 #, fuzzy
 msgid "DATE"
 msgstr "日付"
 
-#: listbackups.php:66
+#: listbackups.php:139
+#, fuzzy
+msgid "DELETE"
+msgstr "削除"
+
+#: listbackups.php:139
 #, fuzzy
 msgid "FILE"
 msgstr "ファイル"
 
-#: listbackups.php:66
+#: listbackups.php:139
+msgid "LOCK"
+msgstr ""
+
+#: listbackups.php:139
 #, fuzzy
 msgid "RESTORE"
 msgstr "復元"
 
-#: listbackups.php:99
+#: listbackups.php:174
 #, fuzzy
 msgid "Download"
 msgstr "ダウンロード"
 
-#: listbackups.php:119
+#: listbackups.php:179
+msgid "Locked backups cannot be deleted"
+msgstr ""
+
+#: listbackups.php:196
+msgid "Lock"
+msgstr ""
+
+#: listbackups.php:196
+msgid "Unlock"
+msgstr ""
+
+#: listbackups.php:207
 #, fuzzy, php-format
 msgid "Are you sure you want to restore %s to this device"
 msgstr "%s をこのデバイスに復元してもよろしいですか"
 
-#: listbackups.php:119
+#: listbackups.php:207
 #, fuzzy
 msgid "Restore"
 msgstr "復元"
+
+#: listbackups.php:226
+#, fuzzy
+msgid "Lock Selected"
+msgstr "ダウンロード"
+
+#: listbackups.php:227
+#, fuzzy
+msgid "Unlock Selected"
+msgstr "ダウンロード"
 
 #: scan.php:7
 #, fuzzy
@@ -603,3 +716,11 @@ msgstr "アップグレード"
 #, fuzzy
 msgid "Upgrade Complete"
 msgstr "アップグレード完了"
+
+#, fuzzy
+#~ msgid "BACKUP"
+#~ msgstr "バックアップ"
+
+#, fuzzy
+#~ msgid "EDIT"
+#~ msgstr "編集"

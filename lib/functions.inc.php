@@ -441,6 +441,150 @@ function downloadTasmotaBackup($backup)
     return false;
 }
 
+/*
+ * One zip holding the most recent backup of each device id passed in,
+ * for the bulk "Download Selected" action. A device with no backups
+ * yet is skipped rather than failing the whole download. Streams the
+ * zip and exits on success, same convention as downloadTasmotaBackup,
+ * so a caller only has to handle the failure case.
+ */
+/*
+ * Streams a zip built from $entries (each an array with 'path' and
+ * 'name' keys) and exits on success, same convention as
+ * downloadTasmotaBackup: a caller only has to handle the false case.
+ * Shared by the device list's "Download Selected" (one backup per
+ * device) and the per-device backup listing's "Download Selected"
+ * (specific versions of one device).
+ */
+function downloadZipOf($entries, $zipnameprefix, $description)
+{
+    if (!is_array($entries) || count($entries) < 1)
+        return false;
+
+    $tmpfile = tempnam(sys_get_temp_dir(), 'tbzip');
+    $zip = new ZipArchive();
+    if ($zip->open($tmpfile, ZipArchive::OVERWRITE) === false) {
+        @unlink($tmpfile);
+        return false;
+    }
+
+    $added = 0;
+    $usednames = array();
+    foreach ($entries as $entry) {
+        if (!file_exists($entry['path']))
+            continue;
+        $entryname = $entry['name'];
+        // Two entries can share a name, keep every one.
+        if (isset($usednames[$entryname])) {
+            $usednames[$entryname]++;
+            $entryname = $usednames[$entryname].'-'.$entryname;
+        } else {
+            $usednames[$entryname] = 1;
+        }
+        $zip->addFile($entry['path'], $entryname);
+        $added++;
+    }
+    $zip->close();
+
+    if ($added < 1) {
+        @unlink($tmpfile);
+        return false;
+    }
+
+    header("Cache-Control: no-cache private",true);
+    header("Content-Description: ".$description,true);
+    header('Content-disposition: attachment; filename="'.$zipnameprefix.'-'.
+        date('Ymd-His').'.zip"',true);
+    header("Content-Type: application/zip",true);
+    header("Content-Transfer-Encoding: binary",true);
+    header('Content-Length: '. filesize($tmpfile),true);
+    readfile($tmpfile);
+    @unlink($tmpfile);
+    exit(0);
+}
+
+function downloadSelectedBackups($ids)
+{
+    if (!is_array($ids) || count($ids) < 1)
+        return false;
+
+    $entries = array();
+    foreach ($ids as $id) {
+        $device = dbDeviceId(intval($id));
+        if ($device === false)
+            continue;
+        $backups = dbBackupList($device['id']);
+        if (!is_array($backups) || count($backups) < 1)
+            continue;
+        $latest = $backups[0];
+        $entries[] = array(
+            'path' => $latest['filename'],
+            'name' => preg_replace('/[^A-Za-z0-9_\-]/', '_', $device['name']).
+                '-'.basename($latest['filename']),
+        );
+    }
+    return downloadZipOf($entries, 'tasmobackup-selected',
+        'Selected device backups');
+}
+
+/*
+ * The bulk download on the per-device backup listing: specific backup
+ * versions of one device, picked individually rather than "latest
+ * per device".
+ */
+function downloadSelectedBackupVersions($ids)
+{
+    if (!is_array($ids) || count($ids) < 1)
+        return false;
+
+    $entries = array();
+    foreach ($ids as $id) {
+        $backup = dbBackupId(intval($id));
+        if ($backup === false)
+            continue;
+        $entries[] = array(
+            'path' => $backup['filename'],
+            'name' => basename($backup['filename']),
+        );
+    }
+    return downloadZipOf($entries, 'tasmobackup-versions',
+        'Selected backup versions');
+}
+
+/*
+ * A free text console command, sent to every selected device that
+ * supports one. Tasmota and OpenBeken both expose the identical
+ * GET /cm?cmnd=... model (OpenBeken's http_fn_cm was written to match
+ * Tasmota's), WLED has no equivalent single command string, callers
+ * should skip type 1 before calling this rather than rely on it
+ * failing gracefully.
+ */
+function sendDeviceCommand($ip, $user, $password, $command, $type=0)
+{
+    if (intval($type)===1) // WLED: no free text command api
+        return false;
+
+    $url = 'http://'.rawurlencode($user).':'.rawurlencode($password)."@".$ip.
+        '/cm?cmnd='.rawurlencode($command).
+        '&user='.rawurlencode($user).'&password='.rawurlencode($password);
+    $ch = curl_init($url);
+    curl_setopt_array($ch, array(
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_TIMEOUT => 15,
+        CURLOPT_CONNECTTIMEOUT => 12,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_USERAGENT => 'TasmoBackup '.$GLOBALS['VERSION'],
+        CURLOPT_ENCODING => "",
+        CURLOPT_REFERER => 'http://'.$ip.'/',
+        CURLOPT_HTTPHEADER => array('Origin: http://'.$ip),
+    ));
+    curl_exec($ch);
+    $err = curl_errno($ch);
+    $statusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return (!$err && $statusCode == 200);
+}
+
 function getTasmotaBackup($ip, $user, $password, $filename, $type=0)
 {
     //Get Backup

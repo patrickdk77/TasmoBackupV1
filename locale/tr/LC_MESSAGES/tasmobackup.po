@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
-"POT-Creation-Date: 2026-08-02 21:20+0000\n"
+"POT-Creation-Date: 2026-08-03 01:03+0000\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,22 +45,22 @@ msgstr "Yedeklemelerin tümü başarıyla tamamlanmadı!"
 msgid "Edit Device"
 msgstr "Cihazı Düzenle"
 
-#: edit.php:22 index.php:305
+#: edit.php:22 index.php:441
 #, fuzzy
 msgid "Edit"
 msgstr "Düzenle"
 
-#: edit.php:25 index.php:191
+#: edit.php:25 index.php:325
 #, fuzzy
 msgid "AUTH"
 msgstr "KİMLİK DOĞRULAMA"
 
-#: edit.php:25 index.php:191 index.php:310 scan.php:36 settings.php:114
+#: edit.php:25 index.php:325 index.php:448 scan.php:36 settings.php:114
 #, fuzzy
 msgid "IP"
 msgstr "IP"
 
-#: edit.php:25 index.php:191 listbackups.php:66 scan.php:36
+#: edit.php:25 index.php:325 listbackups.php:139 scan.php:36
 #, fuzzy
 msgid "NAME"
 msgstr "AD"
@@ -75,7 +75,7 @@ msgstr "GÖNDER"
 msgid "Submit"
 msgstr "Gönder"
 
-#: index.php:36
+#: index.php:36 index.php:135 index.php:162 index.php:183 index.php:198
 #, fuzzy
 msgid "You didn't select any devices."
 msgstr "Hiçbir cihaz seçmediniz."
@@ -105,192 +105,254 @@ msgstr "Yedekleme başarısız oldu"
 msgid "Backup completed successfully!"
 msgstr "Yedekleme başarıyla tamamlandı!"
 
-#: index.php:121
+#: index.php:121 index.php:143
 #, fuzzy, php-format
 msgid "%s deleted successfully from the database."
 msgstr "%s veritabanından başarıyla silindi."
 
-#: index.php:123
+#: index.php:123 index.php:146
 #, fuzzy, php-format
 msgid "Error deleting %s"
 msgstr "%s silinirken hata oluştu"
 
-#: index.php:126
+#: index.php:126 index.php:150
 #, fuzzy, php-format
 msgid "Error deleting %1$s : %2$s"
 msgstr "%1$s silinirken hata oluştu : %2$s"
 
-#: index.php:191
-#, fuzzy
-msgid "BACKUP"
-msgstr "YEDEKLE"
+#: index.php:169
+#, php-format
+msgid "%s: latest backup locked"
+msgstr ""
 
-#: index.php:191 listbackups.php:66
-#, fuzzy
-msgid "DELETE"
-msgstr "SİL"
+#: index.php:172
+#, php-format
+msgid "%s: no backup to lock yet"
+msgstr ""
 
-#: index.php:191
-#, fuzzy
-msgid "EDIT"
-msgstr "DÜZENLE"
+#: index.php:188
+msgid "No backups were available for the selected devices."
+msgstr ""
 
-#: index.php:191
+#: index.php:200 index.php:295
+msgid "Enter a command to send."
+msgstr ""
+
+#: index.php:207
+#, php-format
+msgid "%s: WLED devices do not support console commands."
+msgstr ""
+
+#: index.php:213
+#, php-format
+msgid "%s: command sent"
+msgstr ""
+
+#: index.php:216
+#, php-format
+msgid "%s: command failed"
+msgstr ""
+
+#: index.php:289
+#, fuzzy
+msgid "Are you sure you want to delete all selected devices"
+msgstr "%s öğesini silmek istediğinizden emin misiniz"
+
+#: index.php:325
+msgid "ACTIONS"
+msgstr ""
+
+#: index.php:325
 #, fuzzy
 msgid "FILES"
 msgstr "DOSYALAR"
 
-#: index.php:191
+#: index.php:325
 #, fuzzy
 msgid "HOSTNAME"
 msgstr "ANA MAKİNE ADI"
 
-#: index.php:191
+#: index.php:325
 #, fuzzy
 msgid "LAST BACKUP"
 msgstr "SON YEDEK"
 
-#: index.php:191 index.php:310
+#: index.php:325 index.php:448
 #, fuzzy
 msgid "MAC"
 msgstr "MAC"
 
-#: index.php:191 listbackups.php:66
+#: index.php:325 listbackups.php:139
+#, fuzzy
+msgid "Select all"
+msgstr "Tümünü Seç"
+
+#: index.php:325 listbackups.php:139
 #, fuzzy
 msgid "VERSION"
 msgstr "SÜRÜM"
 
-#: index.php:225 index.php:262
+#: index.php:359 index.php:395
 #, fuzzy
 msgid "Open console in new tab"
 msgstr "Konsolu yeni sekmede aç"
 
-#: index.php:301
+#: index.php:434
 #, fuzzy
 msgid "Open upgrade in new tab"
 msgstr "Yükseltmeyi yeni sekmede aç"
 
-#: index.php:303
+#: index.php:436
 #, fuzzy
 msgid "List backups to download or restore"
 msgstr "İndirmek veya geri yüklemek için yedekleri listele"
 
-#: index.php:304
+#: index.php:438
+msgid "Actions"
+msgstr ""
+
+#: index.php:440
 #, fuzzy
 msgid "Backup"
 msgstr "Yedekle"
 
-#: index.php:306 listbackups.php:108
+#: index.php:443 listbackups.php:186
 #, fuzzy, php-format
 msgid "Are you sure you want to delete %s"
 msgstr "%s öğesini silmek istediğinizden emin misiniz"
 
-#: index.php:306 listbackups.php:108
+#: index.php:443 listbackups.php:179 listbackups.php:186
 #, fuzzy
 msgid "Delete"
 msgstr "Sil"
 
-#: index.php:310 settings.php:114
+#: index.php:448 settings.php:114
 #, fuzzy
 msgid "Name"
 msgstr "Ad"
 
-#: index.php:310
+#: index.php:448
 #, fuzzy
 msgid "Type"
 msgstr "Tür"
 
-#: index.php:310 settings.php:114
+#: index.php:448 settings.php:114
 #, fuzzy
 msgid "Version"
 msgstr "Sürüm"
 
-#: index.php:312
+#: index.php:450
 #, fuzzy
 msgid "BuildTag"
 msgstr "Derleme Etiketi"
 
-#: index.php:313 settings.php:114
+#: index.php:451 settings.php:114
 #, fuzzy
 msgid "Last Backup"
 msgstr "Son Yedek"
 
-#: index.php:314 index.php:384
+#: index.php:452 index.php:533
 #, fuzzy
 msgid "Close"
 msgstr "Kapat"
 
-#: index.php:321
+#: index.php:461 listbackups.php:223
+msgid "selected"
+msgstr ""
+
+#: index.php:462 listbackups.php:224
+msgid "Delete Selected"
+msgstr ""
+
+#: index.php:463 listbackups.php:225
+#, fuzzy
+msgid "Download Selected"
+msgstr "İndir"
+
+#: index.php:464
+#, fuzzy
+msgid "Lock Latest Backup"
+msgstr "Son Yedek"
+
+#: index.php:465
+msgid "Command (Tasmota/OpenBeken only)"
+msgstr ""
+
+#: index.php:466
+msgid "Send Command"
+msgstr ""
+
+#: index.php:470
 #, fuzzy
 msgid "Backup All"
 msgstr "Tümünü Yedekle"
 
-#: index.php:322
+#: index.php:471
 #, fuzzy
 msgid "Discover"
 msgstr "Keşfet"
 
-#: index.php:322 index.php:325
+#: index.php:471 index.php:474
 #, fuzzy
 msgid "password"
 msgstr "parola"
 
-#: index.php:325
+#: index.php:474
 #, fuzzy
 msgid "MQTT Discover"
 msgstr "MQTT ile Keşfet"
 
-#: lib/functions.inc.php:828
+#: lib/functions.inc.php:972
 #, fuzzy, php-format
 msgid "%s: Device not found."
 msgstr "%s: Cihaz bulunamadı."
 
-#: lib/functions.inc.php:853
+#: lib/functions.inc.php:997
 #, fuzzy, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr "%s: Cihaz status5 isteğine yanıt vermiyor."
 
-#: lib/functions.inc.php:862
+#: lib/functions.inc.php:1006
 #, fuzzy, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr "%s: Cihaz status2 isteğine yanıt vermiyor."
 
-#: lib/functions.inc.php:871 lib/functions.inc.php:908
+#: lib/functions.inc.php:1015 lib/functions.inc.php:1052
 #, fuzzy, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr "%1$s: %2$s bilgileri güncellendi!"
 
-#: lib/functions.inc.php:874 lib/functions.inc.php:911
+#: lib/functions.inc.php:1018 lib/functions.inc.php:1055
 #, fuzzy, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr "%1$s: %2$s veritabanında zaten mevcut!"
 
-#: lib/functions.inc.php:880 lib/functions.inc.php:919
+#: lib/functions.inc.php:1024 lib/functions.inc.php:1063
 #, fuzzy, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr "%1$s: %2$s Başarıyla Eklendi!"
 
-#: lib/functions.inc.php:884
+#: lib/functions.inc.php:1028
 #, fuzzy, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr "%1$s: %2$s Cihaz veritabanına eklenirken hata oluştu."
 
-#: lib/functions.inc.php:887
+#: lib/functions.inc.php:1031
 #, fuzzy, php-format
 msgid "%s: Device not responding to status request."
 msgstr "%s: Cihaz durum isteğine yanıt vermiyor."
 
-#: lib/functions.inc.php:924
+#: lib/functions.inc.php:1068
 #, fuzzy, php-format
 msgid "%s: This device already exists in the database!"
 msgstr "%s: Bu cihaz veritabanında zaten mevcut!"
 
-#: lib/functions.inc.php:978
+#: lib/functions.inc.php:1122
 #, fuzzy, php-format
 msgid "TasmoBackup: %s"
 msgstr "TasmoBackup: %s"
 
-#: lib/functions.inc.php:1020
+#: lib/functions.inc.php:1164
 #, fuzzy, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr "TasmoBackup %s, Dan Medhurst tarafından geliştirildi"
@@ -370,60 +432,112 @@ msgstr ": sütunu artan sırada sıralamak için etkinleştirin"
 msgid ": activate to sort column descending"
 msgstr ": sütunu azalan sırada sıralamak için etkinleştirin"
 
-#: listbackups.php:29
+#: listbackups.php:29 listbackups.php:48
+#, fuzzy
+msgid "You didn't select any backups."
+msgstr "Hiçbir cihaz seçmediniz."
+
+#: listbackups.php:39
+#, php-format
+msgid "%d locked backup was not deleted."
+msgid_plural "%d locked backups were not deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: listbackups.php:52
+msgid "None of the selected backups could be found."
+msgstr ""
+
+#: listbackups.php:76
 #, php-format
 msgid "Restore sent to %s and applied"
 msgstr ""
 
-#: listbackups.php:33
+#: listbackups.php:80
 #, php-format
 msgid "Restore sent to %s, the device reboots to apply it"
 msgstr ""
 
-#: listbackups.php:38
+#: listbackups.php:85
 #, php-format
 msgid "Restore to %s failed, the device did not accept the upload"
 msgstr ""
 
-#: listbackups.php:45
+#: listbackups.php:92
 #, fuzzy
 msgid "List Backups"
 msgstr "Yedekleri Listele"
 
-#: listbackups.php:62
+#: listbackups.php:116
+#, fuzzy
+msgid "Are you sure you want to delete all selected backups"
+msgstr "%s öğesini silmek istediğinizden emin misiniz"
+
+#: listbackups.php:135
 #, fuzzy, php-format
 msgid "Listing for %s"
 msgstr "%s için liste"
 
-#: listbackups.php:66
+#: listbackups.php:139
 #, fuzzy
 msgid "DATE"
 msgstr "TARİH"
 
-#: listbackups.php:66
+#: listbackups.php:139
+#, fuzzy
+msgid "DELETE"
+msgstr "SİL"
+
+#: listbackups.php:139
 #, fuzzy
 msgid "FILE"
 msgstr "DOSYA"
 
-#: listbackups.php:66
+#: listbackups.php:139
+msgid "LOCK"
+msgstr ""
+
+#: listbackups.php:139
 #, fuzzy
 msgid "RESTORE"
 msgstr "GERİ YÜKLE"
 
-#: listbackups.php:99
+#: listbackups.php:174
 #, fuzzy
 msgid "Download"
 msgstr "İndir"
 
-#: listbackups.php:119
+#: listbackups.php:179
+msgid "Locked backups cannot be deleted"
+msgstr ""
+
+#: listbackups.php:196
+msgid "Lock"
+msgstr ""
+
+#: listbackups.php:196
+msgid "Unlock"
+msgstr ""
+
+#: listbackups.php:207
 #, fuzzy, php-format
 msgid "Are you sure you want to restore %s to this device"
 msgstr "%s dosyasını bu cihaza geri yüklemek istediğinizden emin misiniz"
 
-#: listbackups.php:119
+#: listbackups.php:207
 #, fuzzy
 msgid "Restore"
 msgstr "Geri Yükle"
+
+#: listbackups.php:226
+#, fuzzy
+msgid "Lock Selected"
+msgstr "İndir"
+
+#: listbackups.php:227
+#, fuzzy
+msgid "Unlock Selected"
+msgstr "İndir"
 
 #: scan.php:7
 #, fuzzy
@@ -604,3 +718,11 @@ msgstr "Yükselt"
 #, fuzzy
 msgid "Upgrade Complete"
 msgstr "Yükseltme Tamamlandı"
+
+#, fuzzy
+#~ msgid "BACKUP"
+#~ msgstr "YEDEKLE"
+
+#, fuzzy
+#~ msgid "EDIT"
+#~ msgstr "DÜZENLE"

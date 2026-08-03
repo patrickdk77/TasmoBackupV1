@@ -189,4 +189,188 @@ test('a failed backup does not prune the older good ones', function () {
     assertFileExists($old);
 });
 
+test('the scheduled cron path never prunes a locked backup', function ()
+use ($addr) {
+    // Exercises the real chain cron actually runs: backupall.php calls
+    // backupAll(true), which calls backupCleanup() after every
+    // successful backup, which calls dbBackupTrim(). Not just
+    // dbBackupTrim() directly, so a future change to that chain (a new
+    // cleanup call site, a bypass) would be caught here too.
+    global $settings;
+    tb_reset_devices();
+    $settings['backup_minhours'] = 0; // manual-style: always due
+    $settings['backup_maxcount'] = 1;
+    $settings['backup_maxdays'] = 0;
+
+    dbDeviceAdd('CronLock', $addr, '1', '', 'AA:BB:CC:DD:EE:0E');
+    $id = dbDeviceFind(null, 'AA:BB:CC:DD:EE:0E');
+    $old = tb_backup_dir().'cronlock-old.dmp';
+    file_put_contents($old, 'old, locked');
+    dbNewBackup($id, 'CronLock', '13.4.0',
+        date('Y-m-d H:i:s', time() - 86400), 1, $old,
+        'AA:BB:CC:DD:EE:0E', 0);
+    dbBackupSetLocked(dbBackupList($id)[0]['id'], true);
+
+    tb_stub_set(array('status' => 200, 'dl' => 200));
+    backupAll(true); // the exact call backupall.php makes for cron
+
+    assertFileExists($old, 'the locked backup file was removed by cron');
+    $list = dbBackupList($id);
+    $found = false;
+    foreach ($list as $b) {
+        if ($b['filename'] === $old)
+            $found = intval($b['locked']) === 1;
+    }
+    assertTrue($found, 'the locked backup row is gone after a cron run');
+});
+
+// ---- bulk download (Download Selected) ---------------------------
+
+/*
+ * downloadSelectedBackups() streams a zip and calls exit(0) on
+ * success, which would kill this whole test file if called in
+ * process. Run in a subprocess pointed at the same throwaway sqlite
+ * database (same TB_TMP tree), so it sees the devices/backups this
+ * test just created, and capture its raw stdout as the zip bytes.
+ */
+function tb_run_download_selected($ids, $fn = 'downloadSelectedBackups')
+{
+    $idsPhp = var_export($ids, true);
+    $script = TB_TMP.'/download_probe.php';
+    file_put_contents($script,
+        "<?php\n\$db_upgrade=true;\n".
+        "require_once('".TB_TMP."/lib/functions.inc.php');\n".
+        $fn."(".$idsPhp.");\n".
+        "echo 'NO_EXIT_REACHED';\n");
+    $out = array();
+    $rc = 0;
+    exec(escapeshellarg(PHP_BINARY).' '.escapeshellarg($script).
+        ' 2>'.escapeshellarg(TB_TMP.'/download_probe.err'), $out, $rc);
+    return implode("\n", $out);
+}
+
+test('downloading a selection zips each device latest backup',
+function () {
+    tb_reset_devices();
+    dbDeviceAdd('Zip1', '10.7.7.1', '1', '', 'AA:BB:CC:DD:EE:C1');
+    dbDeviceAdd('Zip2', '10.7.7.2', '1', '', 'AA:BB:CC:DD:EE:C2');
+    $id1 = dbDeviceFind(null, 'AA:BB:CC:DD:EE:C1');
+    $id2 = dbDeviceFind(null, 'AA:BB:CC:DD:EE:C2');
+
+    $f1old = TB_TMP.'/data/backups/zip1-old.dmp';
+    $f1new = TB_TMP.'/data/backups/zip1-new.dmp';
+    $f2 = TB_TMP.'/data/backups/zip2.dmp';
+    file_put_contents($f1old, 'zip1 old content');
+    file_put_contents($f1new, 'zip1 new content');
+    file_put_contents($f2, 'zip2 content');
+    dbNewBackup($id1, 'Zip1', '1',
+        date('Y-m-d H:i:s', time() - 3600), 1, $f1old,
+        'AA:BB:CC:DD:EE:C1', 0);
+    dbNewBackup($id1, 'Zip1', '1', date('Y-m-d H:i:s'), 1, $f1new,
+        'AA:BB:CC:DD:EE:C1', 0);
+    dbNewBackup($id2, 'Zip2', '1', date('Y-m-d H:i:s'), 1, $f2,
+        'AA:BB:CC:DD:EE:C2', 0);
+
+    $raw = tb_run_download_selected(array($id1, $id2));
+    $zippath = TB_TMP.'/downloaded.zip';
+    file_put_contents($zippath, $raw);
+
+    $zip = new ZipArchive();
+    assertTrue($zip->open($zippath) === true, 'output was not a valid zip');
+    assertSame(2, $zip->numFiles,
+        'expected exactly one entry per device (the latest backup)');
+
+    $names = array();
+    for ($i = 0; $i < $zip->numFiles; $i++)
+        $names[] = $zip->getNameIndex($i);
+    $found1 = false;
+    $found2 = false;
+    foreach ($names as $n) {
+        if (strpos($n, 'zip1-new.dmp') !== false) {
+            $found1 = true;
+            assertSame('zip1 new content', $zip->getFromName($n),
+                'the newer backup should have been used, not the older one');
+        }
+        if (strpos($n, 'zip2.dmp') !== false)
+            $found2 = true;
+    }
+    assertTrue($found1, 'zip1 latest backup missing from the zip');
+    assertTrue($found2, 'zip2 backup missing from the zip');
+    $zip->close();
+});
+
+test('a device with no backups yet is skipped, not fatal', function () {
+    tb_reset_devices();
+    dbDeviceAdd('NoBackupsYet', '10.7.7.3', '1', '', 'AA:BB:CC:DD:EE:C3');
+    $id = dbDeviceFind(null, 'AA:BB:CC:DD:EE:C3');
+
+    $raw = tb_run_download_selected(array($id));
+    assertSame('NO_EXIT_REACHED', trim($raw),
+        'nothing to zip should return false, not exit and stream a zip');
+});
+
+test('an empty selection is rejected before doing any work', function () {
+    $raw = tb_run_download_selected(array());
+    assertSame('NO_EXIT_REACHED', trim($raw));
+});
+
+// ---- bulk download of specific versions (listbackups.php) ---------
+
+test('downloading selected versions zips exactly those backups',
+function () {
+    tb_reset_devices();
+    dbDeviceAdd('VerDev', '10.7.7.9', '1', '', 'AA:BB:CC:DD:EE:C9');
+    $devid = dbDeviceFind(null, 'AA:BB:CC:DD:EE:C9');
+
+    $f1 = TB_TMP.'/data/backups/ver1.dmp';
+    $f2 = TB_TMP.'/data/backups/ver2.dmp';
+    $f3 = TB_TMP.'/data/backups/ver3.dmp';
+    file_put_contents($f1, 'version one');
+    file_put_contents($f2, 'version two');
+    file_put_contents($f3, 'version three, not selected');
+    dbNewBackup($devid, 'VerDev', '1',
+        date('Y-m-d H:i:s', time() - 3600), 1, $f1,
+        'AA:BB:CC:DD:EE:C9', 0);
+    dbNewBackup($devid, 'VerDev', '1',
+        date('Y-m-d H:i:s', time() - 1800), 1, $f2,
+        'AA:BB:CC:DD:EE:C9', 0);
+    dbNewBackup($devid, 'VerDev', '1', date('Y-m-d H:i:s'), 1, $f3,
+        'AA:BB:CC:DD:EE:C9', 0);
+
+    $list = dbBackupList($devid);
+    $wantIds = array();
+    foreach ($list as $b) {
+        if (basename($b['filename']) === 'ver1.dmp' ||
+                basename($b['filename']) === 'ver2.dmp')
+            $wantIds[] = $b['id'];
+    }
+    assertCount(2, $wantIds, 'test setup did not find both target rows');
+
+    $raw = tb_run_download_selected($wantIds,
+        'downloadSelectedBackupVersions');
+    $zippath = TB_TMP.'/downloaded-versions.zip';
+    file_put_contents($zippath, $raw);
+
+    $zip = new ZipArchive();
+    assertTrue($zip->open($zippath) === true, 'output was not a valid zip');
+    assertSame(2, $zip->numFiles,
+        'expected exactly the two selected versions, not all three');
+    // locateName can validly return 0 (the first entry), assertNotEquals
+    // uses loose comparison where false == 0, so check strictly instead.
+    assertTrue($zip->locateName('ver1.dmp') !== false,
+        'ver1.dmp missing from the zip');
+    assertTrue($zip->locateName('ver2.dmp') !== false,
+        'ver2.dmp missing from the zip');
+    assertTrue($zip->locateName('ver3.dmp') === false,
+        'a version that was not selected ended up in the zip');
+    $zip->close();
+});
+
+test('an unknown backup id in the selection is skipped, not fatal',
+function () {
+    $raw = tb_run_download_selected(array(999999),
+        'downloadSelectedBackupVersions');
+    assertSame('NO_EXIT_REACHED', trim($raw));
+});
+
 tb_test_exit();

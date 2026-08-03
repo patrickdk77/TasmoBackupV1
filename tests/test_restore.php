@@ -104,4 +104,40 @@ use ($addr) {
         'the stub should have refused a referer-less /rs');
 });
 
+// ---- sendDeviceCommand (bulk "Send Command") ----------------------
+
+test('a command sent to a tasmota device reports success', function ()
+use ($addr) {
+    tb_stub_set(array('status' => 200));
+    assertTrue(sendDeviceCommand($addr, 'admin', '', 'Power Toggle', 0));
+});
+
+test('a command sent to an openbeken device reports success', function ()
+use ($addr) {
+    // Tasmota and OpenBeken share the identical GET /cm?cmnd= model,
+    // OpenBeken's http_fn_cm was written to match Tasmota's.
+    tb_stub_set(array('status' => 200, 'kind' => 'openbeken'));
+    assertTrue(sendDeviceCommand($addr, 'admin', '', 'AddChannel 1 0', 2));
+});
+
+test('wled has no command api and is refused before any request is sent',
+function () use ($addr) {
+    tb_stub_set(array('status' => 200));
+    tb_stub_clear_requests();
+    assertFalse(sendDeviceCommand($addr, 'admin', '', 'anything', 1));
+    assertCount(0, tb_stub_requests(),
+        'a request went out for a type with no command api');
+});
+
+test('a device rejecting the command reports failure', function () use (
+    $addr) {
+    tb_stub_set(array('status' => 500));
+    assertFalse(sendDeviceCommand($addr, 'admin', '', 'Restart 1', 0));
+});
+
+test('an unreachable device reports command failure', function () {
+    assertFalse(sendDeviceCommand('127.0.0.1:1', 'admin', '',
+        'Power Toggle', 0));
+});
+
 tb_test_exit();

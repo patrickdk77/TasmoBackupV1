@@ -183,6 +183,24 @@ test('deleting a device takes its backups with it', function () {
     assertSame('0', (string)dbBackupCount($id));
 });
 
+test('deleting by an unknown id returns false', function () {
+    assertFalse(dbDeviceDelById(999999));
+    assertFalse(dbDeviceDelById(0));
+});
+
+test('deleting by id takes its backups with it, same as by ip',
+function () {
+    dbDeviceAdd('ById', '10.6.6.1', '1', '', 'AA:BB:CC:DD:EE:B0');
+    $id = dbDeviceFind(null, 'AA:BB:CC:DD:EE:B0');
+    $f = TB_TMP.'/data/backups/byid.dmp';
+    file_put_contents($f, 'x');
+    dbNewBackup($id, 'ById', '1', date('Y-m-d H:i:s'), 1, $f,
+        'AA:BB:CC:DD:EE:B0', 0);
+    assertTrue(dbDeviceDelById($id));
+    assertFalse(dbDeviceId($id));
+    assertFileMissing($f, 'the backup file should be removed too');
+});
+
 // ---- rename -------------------------------------------------------
 
 test('renaming an unknown address reports failure', function () {
@@ -203,6 +221,118 @@ function () {
     $b = dbDeviceId(dbDeviceFind(null, 'AA:BB:CC:DD:EE:B1', null));
     assertSame('ShareB', $b['name'], 'the other row was renamed too');
     assertSame('10.5.5.5', $b['ip'], 'the other row was moved too');
+});
+
+// ---- locked backups (issue #88) ------------------------------------
+
+function tb_make_backup($devid, $file, $ageDays = 0)
+{
+    file_put_contents($file, 'x');
+    $date = date('Y-m-d H:i:s', time() - (86400 * $ageDays));
+    dbNewBackup($devid, 'Locking', '1', $date, 1, $file);
+    $list = dbBackupList($devid);
+    return $list[0]['id']; // most recent, matches the date just inserted
+}
+
+test('locking and unlocking a backup round trips', function () {
+    dbDeviceAdd('LockDev', '10.8.8.1', '1', '', 'AA:BB:CC:DD:EE:D1');
+    $devid = dbDeviceFind(null, 'AA:BB:CC:DD:EE:D1');
+    $bid = tb_make_backup($devid, TB_TMP.'/data/backups/lock1.dmp');
+
+    assertSame('0', (string)dbBackupId($bid)['locked']);
+    assertTrue(dbBackupSetLocked($bid, true));
+    assertSame('1', (string)dbBackupId($bid)['locked']);
+    assertTrue(dbBackupSetLocked($bid, false));
+    assertSame('0', (string)dbBackupId($bid)['locked']);
+});
+
+test('locking an unknown backup id returns false', function () {
+    assertFalse(dbBackupSetLocked(999999, true));
+});
+
+test('dbBackupLockLatest locks the most recent backup, not an older one',
+function () {
+    dbDeviceAdd('LockDev2', '10.8.8.2', '1', '', 'AA:BB:CC:DD:EE:D2');
+    $devid = dbDeviceFind(null, 'AA:BB:CC:DD:EE:D2');
+    $old = tb_make_backup($devid, TB_TMP.'/data/backups/lock2old.dmp', 5);
+    $new = tb_make_backup($devid, TB_TMP.'/data/backups/lock2new.dmp', 0);
+
+    assertTrue(dbBackupLockLatest($devid));
+    assertSame('1', (string)dbBackupId($new)['locked']);
+    assertSame('0', (string)dbBackupId($old)['locked'],
+        'the older backup should not have been locked');
+});
+
+test('dbBackupLockLatest on a device with no backups returns false',
+function () {
+    dbDeviceAdd('NoBackupsLock', '10.8.8.3', '1', '', 'AA:BB:CC:DD:EE:D3');
+    assertFalse(dbBackupLockLatest(
+        dbDeviceFind(null, 'AA:BB:CC:DD:EE:D3')));
+});
+
+test('a locked backup cannot be deleted through dbBackupDel', function () {
+    dbDeviceAdd('LockDev4', '10.8.8.4', '1', '', 'AA:BB:CC:DD:EE:D4');
+    $devid = dbDeviceFind(null, 'AA:BB:CC:DD:EE:D4');
+    $bid = tb_make_backup($devid, TB_TMP.'/data/backups/lock4.dmp');
+    dbBackupSetLocked($bid, true);
+
+    assertFalse(dbBackupDel($bid), 'a locked backup reported as deleted');
+    assertFileExists(TB_TMP.'/data/backups/lock4.dmp');
+    assertNotEquals(false, dbBackupId($bid), 'the row was removed anyway');
+
+    dbBackupSetLocked($bid, false);
+    assertTrue(dbBackupDel($bid), 'unlocking should allow delete again');
+    assertFileMissing(TB_TMP.'/data/backups/lock4.dmp');
+});
+
+test('dbBackupTrim by count never removes a locked backup', function () {
+    dbDeviceAdd('LockDev5', '10.8.8.5', '1', '', 'AA:BB:CC:DD:EE:D5');
+    $devid = dbDeviceFind(null, 'AA:BB:CC:DD:EE:D5');
+    $locked = tb_make_backup($devid, TB_TMP.'/data/backups/lock5a.dmp', 10);
+    dbBackupSetLocked($locked, true);
+    for ($i = 0; $i < 4; $i++)
+        tb_make_backup($devid, TB_TMP.'/data/backups/lock5b'.$i.'.dmp',
+            3 - $i);
+
+    // 1 locked + 4 unlocked = 5 total, keep 2.
+    dbBackupTrim($devid, 0, 2);
+
+    assertNotEquals(false, dbBackupId($locked),
+        'the locked backup was removed by a count trim');
+    assertSame('1', (string)dbBackupId($locked)['locked']);
+    // The count budget applies only to the unlocked pool, so 2 of the
+    // 4 unlocked backups survive alongside the 1 locked one.
+    assertSame('3', (string)dbBackupCount($devid));
+});
+
+test('dbBackupTrim by age never removes a locked backup', function () {
+    dbDeviceAdd('LockDev6', '10.8.8.6', '1', '', 'AA:BB:CC:DD:EE:D6');
+    $devid = dbDeviceFind(null, 'AA:BB:CC:DD:EE:D6');
+    $locked = tb_make_backup($devid, TB_TMP.'/data/backups/lock6.dmp', 90);
+    dbBackupSetLocked($locked, true);
+
+    dbBackupTrim($devid, 30, 0); // remove anything older than 30 days
+
+    assertNotEquals(false, dbBackupId($locked),
+        'an old locked backup was removed by an age trim');
+    assertFileExists(TB_TMP.'/data/backups/lock6.dmp');
+});
+
+test('deleting a device preserves its locked backups', function () {
+    // "never deleted, ever, unless unlocked" is taken literally: even
+    // removing the device itself must not take a locked backup with
+    // it, dbBackupTrim(...,$all=true) is what dbDeviceDelById uses to
+    // wipe a device's backups, and it is built on the same filter.
+    dbDeviceAdd('LockDev7', '10.8.8.7', '1', '', 'AA:BB:CC:DD:EE:D7');
+    $devid = dbDeviceFind(null, 'AA:BB:CC:DD:EE:D7');
+    $locked = tb_make_backup($devid, TB_TMP.'/data/backups/lock7.dmp');
+    dbBackupSetLocked($locked, true);
+
+    assertTrue(dbDeviceDelById($devid));
+    assertFalse(dbDeviceId($devid), 'the device itself should be gone');
+    assertNotEquals(false, dbBackupId($locked),
+        'the locked backup was deleted along with its device');
+    assertFileExists(TB_TMP.'/data/backups/lock7.dmp');
 });
 
 tb_test_exit();

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TasmoBackup 1.07.00\n"
 "Report-Msgid-Bugs-To: https://github.com/danmed/TasmoBackupV1/issues\n"
-"POT-Creation-Date: 2026-08-02 21:20+0000\n"
+"POT-Creation-Date: 2026-08-03 01:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,19 +46,19 @@ msgstr ""
 msgid "Edit Device"
 msgstr ""
 
-#: edit.php:22 index.php:305
+#: edit.php:22 index.php:441
 msgid "Edit"
 msgstr ""
 
-#: edit.php:25 index.php:191
+#: edit.php:25 index.php:325
 msgid "AUTH"
 msgstr ""
 
-#: edit.php:25 index.php:191 index.php:310 scan.php:36 settings.php:114
+#: edit.php:25 index.php:325 index.php:448 scan.php:36 settings.php:114
 msgid "IP"
 msgstr ""
 
-#: edit.php:25 index.php:191 listbackups.php:66 scan.php:36
+#: edit.php:25 index.php:325 listbackups.php:139 scan.php:36
 msgid "NAME"
 msgstr ""
 
@@ -70,7 +70,7 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: index.php:36
+#: index.php:36 index.php:135 index.php:162 index.php:183 index.php:198
 msgid "You didn't select any devices."
 msgstr ""
 
@@ -97,169 +97,230 @@ msgstr ""
 msgid "Backup completed successfully!"
 msgstr ""
 
-#: index.php:121
+#: index.php:121 index.php:143
 #, php-format
 msgid "%s deleted successfully from the database."
 msgstr ""
 
-#: index.php:123
+#: index.php:123 index.php:146
 #, php-format
 msgid "Error deleting %s"
 msgstr ""
 
-#: index.php:126
+#: index.php:126 index.php:150
 #, php-format
 msgid "Error deleting %1$s : %2$s"
 msgstr ""
 
-#: index.php:191
-msgid "BACKUP"
+#: index.php:169
+#, php-format
+msgid "%s: latest backup locked"
 msgstr ""
 
-#: index.php:191 listbackups.php:66
-msgid "DELETE"
+#: index.php:172
+#, php-format
+msgid "%s: no backup to lock yet"
 msgstr ""
 
-#: index.php:191
-msgid "EDIT"
+#: index.php:188
+msgid "No backups were available for the selected devices."
 msgstr ""
 
-#: index.php:191
+#: index.php:200 index.php:295
+msgid "Enter a command to send."
+msgstr ""
+
+#: index.php:207
+#, php-format
+msgid "%s: WLED devices do not support console commands."
+msgstr ""
+
+#: index.php:213
+#, php-format
+msgid "%s: command sent"
+msgstr ""
+
+#: index.php:216
+#, php-format
+msgid "%s: command failed"
+msgstr ""
+
+#: index.php:289
+msgid "Are you sure you want to delete all selected devices"
+msgstr ""
+
+#: index.php:325
+msgid "ACTIONS"
+msgstr ""
+
+#: index.php:325
 msgid "FILES"
 msgstr ""
 
-#: index.php:191
+#: index.php:325
 msgid "HOSTNAME"
 msgstr ""
 
-#: index.php:191
+#: index.php:325
 msgid "LAST BACKUP"
 msgstr ""
 
-#: index.php:191 index.php:310
+#: index.php:325 index.php:448
 msgid "MAC"
 msgstr ""
 
-#: index.php:191 listbackups.php:66
+#: index.php:325 listbackups.php:139
+msgid "Select all"
+msgstr ""
+
+#: index.php:325 listbackups.php:139
 msgid "VERSION"
 msgstr ""
 
-#: index.php:225 index.php:262
+#: index.php:359 index.php:395
 msgid "Open console in new tab"
 msgstr ""
 
-#: index.php:301
+#: index.php:434
 msgid "Open upgrade in new tab"
 msgstr ""
 
-#: index.php:303
+#: index.php:436
 msgid "List backups to download or restore"
 msgstr ""
 
-#: index.php:304
+#: index.php:438
+msgid "Actions"
+msgstr ""
+
+#: index.php:440
 msgid "Backup"
 msgstr ""
 
-#: index.php:306 listbackups.php:108
+#: index.php:443 listbackups.php:186
 #, php-format
 msgid "Are you sure you want to delete %s"
 msgstr ""
 
-#: index.php:306 listbackups.php:108
+#: index.php:443 listbackups.php:179 listbackups.php:186
 msgid "Delete"
 msgstr ""
 
-#: index.php:310 settings.php:114
+#: index.php:448 settings.php:114
 msgid "Name"
 msgstr ""
 
-#: index.php:310
+#: index.php:448
 msgid "Type"
 msgstr ""
 
-#: index.php:310 settings.php:114
+#: index.php:448 settings.php:114
 msgid "Version"
 msgstr ""
 
-#: index.php:312
+#: index.php:450
 msgid "BuildTag"
 msgstr ""
 
-#: index.php:313 settings.php:114
+#: index.php:451 settings.php:114
 msgid "Last Backup"
 msgstr ""
 
-#: index.php:314 index.php:384
+#: index.php:452 index.php:533
 msgid "Close"
 msgstr ""
 
-#: index.php:321
+#: index.php:461 listbackups.php:223
+msgid "selected"
+msgstr ""
+
+#: index.php:462 listbackups.php:224
+msgid "Delete Selected"
+msgstr ""
+
+#: index.php:463 listbackups.php:225
+msgid "Download Selected"
+msgstr ""
+
+#: index.php:464
+msgid "Lock Latest Backup"
+msgstr ""
+
+#: index.php:465
+msgid "Command (Tasmota/OpenBeken only)"
+msgstr ""
+
+#: index.php:466
+msgid "Send Command"
+msgstr ""
+
+#: index.php:470
 msgid "Backup All"
 msgstr ""
 
-#: index.php:322
+#: index.php:471
 msgid "Discover"
 msgstr ""
 
-#: index.php:322 index.php:325
+#: index.php:471 index.php:474
 msgid "password"
 msgstr ""
 
-#: index.php:325
+#: index.php:474
 msgid "MQTT Discover"
 msgstr ""
 
-#: lib/functions.inc.php:828
+#: lib/functions.inc.php:972
 #, php-format
 msgid "%s: Device not found."
 msgstr ""
 
-#: lib/functions.inc.php:853
+#: lib/functions.inc.php:997
 #, php-format
 msgid "%s: Device not responding to status5 request."
 msgstr ""
 
-#: lib/functions.inc.php:862
+#: lib/functions.inc.php:1006
 #, php-format
 msgid "%s: Device not responding to status2 request."
 msgstr ""
 
-#: lib/functions.inc.php:871 lib/functions.inc.php:908
+#: lib/functions.inc.php:1015 lib/functions.inc.php:1052
 #, php-format
 msgid "%1$s: %2$s information has been updated!"
 msgstr ""
 
-#: lib/functions.inc.php:874 lib/functions.inc.php:911
+#: lib/functions.inc.php:1018 lib/functions.inc.php:1055
 #, php-format
 msgid "%1$s: %2$s already exists in the database!"
 msgstr ""
 
-#: lib/functions.inc.php:880 lib/functions.inc.php:919
+#: lib/functions.inc.php:1024 lib/functions.inc.php:1063
 #, php-format
 msgid "%1$s: %2$s Added Successfully!"
 msgstr ""
 
-#: lib/functions.inc.php:884
+#: lib/functions.inc.php:1028
 #, php-format
 msgid "%1$s: %2$s Error adding device to database."
 msgstr ""
 
-#: lib/functions.inc.php:887
+#: lib/functions.inc.php:1031
 #, php-format
 msgid "%s: Device not responding to status request."
 msgstr ""
 
-#: lib/functions.inc.php:924
+#: lib/functions.inc.php:1068
 #, php-format
 msgid "%s: This device already exists in the database!"
 msgstr ""
 
-#: lib/functions.inc.php:978
+#: lib/functions.inc.php:1122
 #, php-format
 msgid "TasmoBackup: %s"
 msgstr ""
 
-#: lib/functions.inc.php:1020
+#: lib/functions.inc.php:1164
 #, php-format
 msgid "TasmoBackup %s by Dan Medhurst"
 msgstr ""
@@ -324,53 +385,100 @@ msgstr ""
 msgid ": activate to sort column descending"
 msgstr ""
 
-#: listbackups.php:29
+#: listbackups.php:29 listbackups.php:48
+msgid "You didn't select any backups."
+msgstr ""
+
+#: listbackups.php:39
+#, php-format
+msgid "%d locked backup was not deleted."
+msgid_plural "%d locked backups were not deleted."
+msgstr[0] ""
+msgstr[1] ""
+
+#: listbackups.php:52
+msgid "None of the selected backups could be found."
+msgstr ""
+
+#: listbackups.php:76
 #, php-format
 msgid "Restore sent to %s and applied"
 msgstr ""
 
-#: listbackups.php:33
+#: listbackups.php:80
 #, php-format
 msgid "Restore sent to %s, the device reboots to apply it"
 msgstr ""
 
-#: listbackups.php:38
+#: listbackups.php:85
 #, php-format
 msgid "Restore to %s failed, the device did not accept the upload"
 msgstr ""
 
-#: listbackups.php:45
+#: listbackups.php:92
 msgid "List Backups"
 msgstr ""
 
-#: listbackups.php:62
+#: listbackups.php:116
+msgid "Are you sure you want to delete all selected backups"
+msgstr ""
+
+#: listbackups.php:135
 #, php-format
 msgid "Listing for %s"
 msgstr ""
 
-#: listbackups.php:66
+#: listbackups.php:139
 msgid "DATE"
 msgstr ""
 
-#: listbackups.php:66
+#: listbackups.php:139
+msgid "DELETE"
+msgstr ""
+
+#: listbackups.php:139
 msgid "FILE"
 msgstr ""
 
-#: listbackups.php:66
+#: listbackups.php:139
+msgid "LOCK"
+msgstr ""
+
+#: listbackups.php:139
 msgid "RESTORE"
 msgstr ""
 
-#: listbackups.php:99
+#: listbackups.php:174
 msgid "Download"
 msgstr ""
 
-#: listbackups.php:119
+#: listbackups.php:179
+msgid "Locked backups cannot be deleted"
+msgstr ""
+
+#: listbackups.php:196
+msgid "Lock"
+msgstr ""
+
+#: listbackups.php:196
+msgid "Unlock"
+msgstr ""
+
+#: listbackups.php:207
 #, php-format
 msgid "Are you sure you want to restore %s to this device"
 msgstr ""
 
-#: listbackups.php:119
+#: listbackups.php:207
 msgid "Restore"
+msgstr ""
+
+#: listbackups.php:226
+msgid "Lock Selected"
+msgstr ""
+
+#: listbackups.php:227
+msgid "Unlock Selected"
 msgstr ""
 
 #: scan.php:7

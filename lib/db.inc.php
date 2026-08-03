@@ -44,6 +44,7 @@ if ($db_handle && $db_upgrade) {
             date datetime DEFAULT NULL,
             filename varchar(1080),
             data text,
+            locked int(1) NOT NULL DEFAULT 0,
             INDEX (deviceid,date) )
         ");
 
@@ -72,6 +73,13 @@ if ($db_handle && $db_upgrade) {
         if($cnt<1) {
             $db_handle->exec("ALTER TABLE devices ADD COLUMN hostname varchar(128) NOT NULL DEFAULT '' AFTER mac;");
         }
+
+        $stm=$db_handle->prepare("SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA='".$GLOBALS['DBName']."' AND TABLE_NAME='backups' AND COLUMN_NAME='locked';");
+        $stm->execute();
+        $cnt=intval($stm->fetchColumn());
+        if($cnt<1) {
+            $db_handle->exec("ALTER TABLE backups ADD COLUMN locked int(1) NOT NULL DEFAULT 0;");
+        }
     }
 
     if ($GLOBALS['DBType']=='sqlite') {
@@ -95,7 +103,8 @@ if ($db_handle && $db_upgrade) {
             version varchar(128) NOT NULL,
             date datetime DEFAULT NULL,
             filename varchar(1080),
-            data text )
+            data text,
+            locked INTEGER NOT NULL DEFAULT 0 )
         ");
 
         $db_handle->exec("CREATE INDEX IF NOT EXISTS backupsdeviceid
@@ -121,6 +130,10 @@ if ($db_handle && $db_upgrade) {
         }
         try {
             @$db_handle->exec("ALTER TABLE devices ADD COLUMN hostname varchar(128) NOT NULL DEFAULT ''");
+        } catch (PDOException $e) {
+        }
+        try {
+            @$db_handle->exec("ALTER TABLE backups ADD COLUMN locked INTEGER NOT NULL DEFAULT 0");
         } catch (PDOException $e) {
         }
         error_reporting($curstate);
@@ -368,16 +381,34 @@ function dbBackupList($id,$days=0)
     return $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function dbBackupCount($id)
+function dbBackupCount($id,$unlockedOnly=false)
 {
     global $db_handle;
 
-    $stm = $db_handle->prepare("select count(*) from backups where deviceid = :id");
+    $cond = $unlockedOnly ? " and (locked = 0 or locked is null)" : "";
+    $stm = $db_handle->prepare("select count(*) from backups where deviceid = :id".$cond);
     $stm->bindValue(':id', $id, PDO::PARAM_INT);
     if (!$stm->execute()) {
         return false;
     }
     return $stm->fetchColumn();
+}
+
+function dbBackupSetLocked($backupid, $locked)
+{
+    global $db_handle;
+    $stm = $db_handle->prepare("update backups set locked = :locked where id = :id");
+    $stm->bindValue(':locked', $locked?1:0, PDO::PARAM_INT);
+    $stm->bindValue(':id', intval($backupid), PDO::PARAM_INT);
+    return $stm->execute() && $stm->rowCount() > 0;
+}
+
+function dbBackupLockLatest($deviceid)
+{
+    $list = dbBackupList($deviceid);
+    if (!is_array($list) || count($list) < 1)
+        return false;
+    return dbBackupSetLocked($list[0]['id'], true);
 }
 
 function dbBackupTrim($id,$days,$count,$all=false)
@@ -392,11 +423,18 @@ function dbBackupTrim($id,$days,$count,$all=false)
     $result=dbBackupList($id,$days);
     if(!is_array($result))
         return false;
+    // Locked backups are excluded outright: never a removal candidate,
+    // and never counted against the max-count budget either, locking
+    // one is meant to preserve it on top of the normal rotation, not
+    // shrink how many regular backups that rotation otherwise keeps.
+    $result=array_values(array_filter($result, function($b) {
+        return intval($b['locked'])!==1;
+    }));
     if(count($result)<1)
         return true;
     if($count>0) {
-        $backups=dbBackupCount($id);
-        $count=($backups-$count); // Number to save - total backups - Number over age = number to remove
+        $unlocked=dbBackupCount($id,true);
+        $count=($unlocked-$count); // Number to save - total backups - Number over age = number to remove
         if($count>count($result))
             $count=count($result);
     } else {
@@ -411,6 +449,7 @@ function dbBackupTrim($id,$days,$count,$all=false)
         }
         dbDeviceBackups($id);
     }
+    return true;
 }
 
 function dbBackupDel($id)
@@ -422,6 +461,8 @@ function dbBackupDel($id)
         return false;
     $row=$stm->fetch(PDO::FETCH_ASSOC);
     if(!is_array($row)) // nothing to delete, do not report success
+        return false;
+    if(intval($row['locked'])===1) // locked backups are never deleted
         return false;
     if(isset($row['filename']))
         unlink($row['filename']);
@@ -486,6 +527,21 @@ function dbDeviceRename($oldip, $name, $ip, $password, $mac=NULL)
     return $stm->execute();
 }
 
+function dbDeviceDelById($id)
+{
+    global $db_handle;
+    $id=intval($id);
+    if($id==0)
+        return false;
+    dbBackupTrim($id,0,0,true);
+    $stm = $db_handle->prepare("delete from devices where id = :id");
+    $stm->bindValue(':id', $id, PDO::PARAM_INT);
+    // execute() is true whenever the statement ran without error, even
+    // when no row matched the id, rowCount() is what actually says
+    // whether a device was deleted.
+    return $stm->execute() && $stm->rowCount() > 0;
+}
+
 function dbDeviceDel($ip)
 {
     global $db_handle;
@@ -493,13 +549,7 @@ function dbDeviceDel($ip)
     $stm->bindValue(':ip', $ip, PDO::PARAM_STR);
     if (!$stm->execute())
         return false;
-    $id=intval($stm->fetchColumn());
-    if($id==0)
-        return false;
-    dbBackupTrim($id,0,0,true);
-    $stm = $db_handle->prepare("delete from devices where id = :id");
-    $stm->bindValue(':id', $id, PDO::PARAM_INT);
-    return $stm->execute();
+    return dbDeviceDelById($stm->fetchColumn());
 }
 
 function dbDeviceUpdate($id=NULL,$name=NULL,$ip=NULL,$version=NULL,$password=NULL,$mac=NULL,$type=NULL,$hostname=NULL)
