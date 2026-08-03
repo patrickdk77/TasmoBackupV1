@@ -20,6 +20,54 @@ function setupMQTT($server, $port=1883, $user, $password)
     return $mqtt;
 }
 
+/*
+ * Turns one device's collected STATUS replies into the ip / mac / name
+ * triple the scan needs. Split out of getTasmotaMQTTScan so it can be
+ * tested without a broker; $status is filled in by reference because
+ * the caller passes the merged document on to addTasmotaDevice.
+ *
+ * The ip key has three spellings and none of the boundaries is 5.12.0,
+ * which is what the comments here used to claim: "IP" up to v5.5.0,
+ * "IPaddress" with a lowercase a for v5.5.1 to v5.6.1, then "IPAddress"
+ * from v5.7.0 on. The middle spelling matched neither branch, so those
+ * devices were dropped with "reported no ip address" even though their
+ * http interface worked. tbStatusValue matches case insensitively,
+ * which collapses the last two, and the alias list covers the first.
+ *   src: sonoff/sonoff.ino:1783 @v5.5.0, :1808 @v5.6.1,
+ *        sonoff/language/en-GB.h D_CMND_IPADDRESS @v5.7.0
+ */
+function mqttDeviceIdentity($found, $topic, &$status)
+{
+    global $settings;
+
+    $tmp = array();
+    $status = array_merge(jsonTasmotaDecode($found['status5']));
+    $net = isset($status['StatusNET']) ? $status['StatusNET'] : null;
+    if (($v=tbStatusValue($net, array('IPAddress','IP'))) !== '')
+        $tmp['ip']=$v;
+    if (($v=tbStatusValue($net, array('Mac'))) !== '')
+        $tmp['mac']=$v;
+    if(isset($found['status'])) {
+        $status=array_merge($status,jsonTasmotaDecode($found['status']));
+        if(isset($settings['use_topic_as_name']) && $settings['use_topic_as_name']=='F')
+            $tmp['name']=trim(str_replace(array('/stat','stat/'),array('',''),$topic)," \t\r\n\v\0/");
+        else {
+            if (isset($status['Status']['Topic']))
+                $tmp['name']=$status['Status']['Topic'];
+        }
+        if(!isset($settings['use_topic_as_name']) || $settings['use_topic_as_name']=='N') {
+            if (isset($status['Status']['DeviceName']) && strlen(preg_replace('/\s+/', '',$status['Status']['DeviceName']))>0)
+                $tmp['name']=$status['Status']['DeviceName'];
+            else if (tasmotaFriendlyName($status) !== '')
+                $tmp['name']=tasmotaFriendlyName($status);
+        }
+    }
+    if(isset($found['status2'])) {
+        $status=array_merge($status,jsonTasmotaDecode($found['status2']));
+    }
+    return $tmp;
+}
+
 function getTasmotaMQTTScan($mqtt,$topic,$user=false,$password=false,$slim=false)
 {
     GLOBAL $mqtt_found,$settings;
@@ -99,31 +147,7 @@ function getTasmotaMQTTScan($mqtt,$topic,$user=false,$password=false,$slim=false
         $tmp=array();
         $status=array('Topic'=>$topic);
         if(isset($found['status5'])) {
-            $status=array_merge(jsonTasmotaDecode($found['status5']));
-            if(isset($status['StatusNET']['IP']))		// < 5.12.0
-                $tmp['ip']=$status['StatusNET']['IP'];
-            if(isset($status['StatusNET']['IPAddress']))	// >= 5.12.0
-                $tmp['ip']=$status['StatusNET']['IPAddress'];
-            if(isset($status['StatusNET']['Mac']))
-                $tmp['mac']=$status['StatusNET']['Mac'];
-            if(isset($found['status'])) {
-                $status=array_merge($status,jsonTasmotaDecode($found['status']));
-                if(isset($settings['use_topic_as_name']) && $settings['use_topic_as_name']=='F')
-                    $tmp['name']=trim(str_replace(array('/stat','stat/'),array('',''),$topic)," \t\r\n\v\0/");
-                else {
-                    if (isset($status['Status']['Topic']))
-                        $tmp['name']=$status['Status']['Topic'];
-                }
-                if(!isset($settings['use_topic_as_name']) || $settings['use_topic_as_name']=='N') {
-                    if (isset($status['Status']['DeviceName']) && strlen(preg_replace('/\s+/', '',$status['Status']['DeviceName']))>0)
-                        $tmp['name']=$status['Status']['DeviceName'];
-                    else if (isset($status['Status']['FriendlyName'][0]))
-                        $tmp['name']=$status['Status']['FriendlyName'][0];
-                }
-            }
-            if(isset($found['status2'])) {
-                $status=array_merge($status,jsonTasmotaDecode($found['status2']));
-            }
+            $tmp=mqttDeviceIdentity($found, $topic, $status);
             if (!isset($tmp['ip'])) {
                 tbDebug('mqtt', $topic.': replied to STATUS5 but reported '.
                     'no ip address, cannot reach it, skipping');

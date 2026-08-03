@@ -46,6 +46,18 @@ function jsonTasmotaDecode($json)
         $replace = [ "", "", "", ",", ",", ",", ",", ",", ",", ",", ",", ",",
             ",", ",", ",", "", ":\"NaN\",", ":\"NaN\"}", ];
         $string = str_replace( $remove, $replace, $string );
+        // The literal list above only covers ":nan," and ":nan}". Bare
+        // inf came out of the same code path, and neither token is
+        // caught inside an array. dtostrfd was a plain passthrough to
+        // the core dtostrf until v6.3.0 added the isnan/isinf guard
+        // that writes "null" instead.
+        //   src: sonoff/support.ino:197-200 @v6.2.1 vs :197-205 @v6.3.0
+        $string = preg_replace_callback(
+            '/([:\[,]\s*)(-?)(nan|inf)(?=\s*[,\]\}])/i',
+            function ($m) {
+                return $m[1].'"'.$m[2].
+                    (strtolower($m[3]) === 'nan' ? 'NaN' : 'Inf').'"';
+            }, $string );
         //remove everything befor ethe first {
         $string = strstr( $string, '{' );
         $data=json_decode($string,true);
@@ -54,6 +66,56 @@ function jsonTasmotaDecode($json)
         }
     }
     return $data;
+}
+
+/*
+ * Reads one value out of a Status block, tolerating the key spellings
+ * old firmware used.
+ *
+ * Two things move: the key changed outright across releases (StatusFWR
+ * carried "Program" before v5.7.0, StatusNET carried "Host" before
+ * v5.5.1), and between v5.7.0 and v5.10.0 the wire keys were taken
+ * straight from the build's language header, so a Dutch image emits
+ * "Versie" and a German one "MAC". v5.11.0 moved the wire keys into
+ * i18n.h as D_JSON_* and they have been stable since.
+ *
+ * Matching is case insensitive, which is what covers de-DE's "MAC"
+ * against en-GB's "Mac" and WLED-era "IPaddress" against "IPAddress",
+ * because PHP array keys are case sensitive and these differ only in
+ * case. The alias list covers the genuine renames.
+ *   src: sonoff/sonoff.ino:1790 @v5.6.1 ("Program") vs :1787 @v5.7.0,
+ *        sonoff/language/nl-NL.h:197 @v5.10.0 (D_VERSION "Versie"),
+ *        sonoff/language/de-DE.h:122 @v5.10.0 (D_MAC "MAC")
+ */
+function tbStatusValue($block, $names)
+{
+    if (!is_array($block))
+        return '';
+    foreach ($names as $want) {
+        foreach ($block as $k => $v) {
+            if (strcasecmp((string)$k, $want) === 0 && is_scalar($v))
+                return (string)$v;
+        }
+    }
+    return '';
+}
+
+/*
+ * Status.FriendlyName is an array from v5.13.1 on, but a bare string
+ * before that. isset($fn[0]) is true for a non-empty PHP string too and
+ * $str[0] is its first byte, so indexing it blind renamed a v5.12.0
+ * "Kitchen Light" to "K" instead of falling through.
+ *   src: sonoff/sonoff.ino:1712 @v5.12.0 (scalar %s) vs :1269 @v5.13.1
+ *        (array [%s])
+ */
+function tasmotaFriendlyName($status)
+{
+    if (!isset($status['Status']['FriendlyName']))
+        return '';
+    $fn = $status['Status']['FriendlyName'];
+    if (is_array($fn))
+        return isset($fn[0]) && is_scalar($fn[0]) ? (string)$fn[0] : '';
+    return is_scalar($fn) ? (string)$fn : '';
 }
 
 /*
@@ -129,8 +191,45 @@ function getTasmotaScan($ip, $user, $password)
             return 1;
         }
     }
+    // Nothing matched by page content. Before v5.10.0 the root page
+    // carried no program name at all: HTTP_END was just
+    // "</div></body></html>", and the version footer that embeds
+    // D_PROGRAMNAME was only added at v5.10.0. So a working 3.9.13
+    // through 5.9.1 device could never be registered by any path,
+    // because the manual Discover form and the mqtt autoadd both come
+    // through here with $verified false. Ask the device directly.
+    //   src: sonoff/webserver.ino:279-281 + sonoff.h:23 @v5.10.0;
+    //        HTTP_END has no program name at v5.0.0 through v5.9.1
+    if (looksLikeOldTasmota($ip, $user, $password)) {
+        tbDebug('scan', $ip.': no page marker, but it answers Status 0 '.
+            'like a pre-5.10.0 Tasmota (type 0)');
+        if (isset($settings['autoadd_scan']) && $settings['autoadd_scan']=='Y') {
+            addTasmotaDevice($ip, $user, $password, true, false, 0);
+        } else {
+            return 0;
+        }
+    }
     tbDebug('scan', $ip.': answered but no Tasmota/WLED/OpenBeken marker');
     return false;
+}
+
+/*
+ * Positive identification for firmware too old to name itself on its
+ * root page. Only called after the page markers have all missed, so it
+ * costs one extra request per unrecognised host, not per scan.
+ *
+ * A Status 0 reply is proof enough: no other device on the network
+ * answers /cm?cmnd=status%200 with a Status block. Old firmware also
+ * answers the plaintext "STATUS = {...}" form, which
+ * jsonTasmotaDecode already normalises.
+ */
+function looksLikeOldTasmota($ip, $user, $password)
+{
+    $status = getTasmotaStatus($ip, $user, $password, 0);
+    if (!is_array($status))
+        return false;
+    return isset($status['Status']) || isset($status['StatusFWR']) ||
+        isset($status['StatusNET']);
 }
 
 function getTasmotaScanRange($iprange, $user, $password)
@@ -550,10 +649,25 @@ function restoreTasmotaBackup($ip, $user, $password, $filename, $type=0)
     curl_close($ch);
     tbDebugHttp('restore', $url, $statusCode, $err,
         'uploaded '.basename($filename));
-    if (!$err && $statusCode == 200) {
-        return true;
+    if ($err || $statusCode != 200)
+        return false;
+
+    // HandleUploadDone renders its result page at HTTP 200 whether or
+    // not upload_error is set, so the status code says nothing about
+    // whether the settings were accepted. The rejections that matter
+    // all take that path: CRC validation (v6.1.0), the crc32 branch
+    // (v6.7.1) and the config_version chip-family check (v8.3.0) each
+    // set upload_error and leave Settings untouched.
+    //   src: sonoff/webserver.ino:1162-1192 @v5.10.0,
+    //        tasmota/xdrv_01_webserver.ino:2675-2695 @v9.1.0,
+    //        tasmota_xdrv_driver/xdrv_01_9_webserver.ino:3472 @v15.5.0
+    if (preg_match('/upload\s*failed|file\s*invalid|not\s*compatible|'.
+            'magic\s*byte|wrong\s*version/i', (string)$result)) {
+        tbDebug('restore', $ip.': the device answered 200 but its page '.
+            'reports the upload was rejected, config not changed');
+        return false;
     }
-    return false;
+    return true;
 }
 
 /*
@@ -952,6 +1066,29 @@ function getTasmotaBackup($ip, $user, $password, $filename, $type=0, $berryFiles
                 @unlink($dmpfile);
             return false;
         }
+
+        // A dump is an opaque binary blob. In user webserver mode
+        // (WebServer 1) Tasmota does not refuse /dl, it renders the
+        // main page instead, so a 200 alone is not evidence of a
+        // config. Storing that HTML used to count as a good backup and
+        // let backupCleanup prune the real ones.
+        //   src: sonoff/webserver.ino:918 + HttpUser :546-553 @v5.10.0,
+        //        tasmota_xdrv_driver/xdrv_01_9_webserver.ino:776 @v15.5.0
+        $head = '';
+        if (($hf = @fopen($dmpfile, 'rb')) !== false) {
+            $head = (string)fread($hf, 16);
+            fclose($hf);
+        }
+        $dsize = file_exists($dmpfile) ? filesize($dmpfile) : 0;
+        if ($dsize < 1 || preg_match('/^\s*</', $head)) {
+            tbDebug('backup', $ip.': /dl returned '.$dsize.' bytes of '.
+                (preg_match('/^\s*</', $head) ? 'html, the device is '.
+                'probably in WebServer 1 (user) mode' : 'nothing').
+                ', not storing it as a config');
+            @unlink($dmpfile);
+            return false;
+        }
+
         if (!$bundling)
             return true;
 
@@ -1125,19 +1262,38 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
 
     if ($status=getTasmotaStatus($ip, $user, $password, $type)) {
         if(intval($type)===0) { // Tasmota
+            // These need the same isset the discovery path already has
+            // at addTasmotaDevice. getTasmotaStatus2/5 return whatever
+            // jsonTasmotaDecode produced, which can be a truthy array
+            // that does not hold the block we asked for. A device with
+            // WebLog 0 answers every /cm with HTTP 200 and
+            // {"WARNING":"Enable weblog 2 if response expected"}, which
+            // used to splice in NULL and file a version-less, mac-less
+            // backup that then let backupCleanup prune the good ones.
+            //   src: tasmota/xdrv_01_webserver.ino:3069 @v9.1.0
             if (!isset($status['StatusFWR'])) {
                 sleep(1);
-                if ($status2=getTasmotaStatus2($ip, $user, $password)) {
+                $status2=getTasmotaStatus2($ip, $user, $password);
+                if (isset($status2['StatusFWR']))
                     $status['StatusFWR']=$status2['StatusFWR'];
-                } else
+                else {
+                    tbDebug('backup', $ip.': no StatusFWR after a '.
+                        'status2 retry, refusing to file an '.
+                        'unidentified backup');
                     return true; // Device Offline
+                }
             }
 	    if (!isset($status['StatusNET'])) {
                 sleep(1);
-                if ($status5=getTasmotaStatus5($ip, $user, $password)) {
+                $status5=getTasmotaStatus5($ip, $user, $password);
+                if (isset($status5['StatusNET']))
                     $status['StatusNET']=$status5['StatusNET'];
-                } else
+                else {
+                    tbDebug('backup', $ip.': no StatusNET after a '.
+                        'status5 retry, refusing to file an '.
+                        'unidentified backup');
                     return true; // Device Offline
+                }
             }
         }
         if(intval($type)===1) { // WLED
@@ -1155,10 +1311,15 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
 
     $hostname = '';
     if(intval($type)===0) { // Tasmota
-        $version = $status['StatusFWR']['Version'];
-        $mac = strtoupper($status['StatusNET']['Mac']);
-        if (isset($status['StatusNET']['Hostname']))
-            $hostname = $status['StatusNET']['Hostname'];
+        // Read through tbStatusValue, same as statusIdentity, so the
+        // pre-v5.7.0 "Program" key and the localized "Versie"/"MAC"
+        // spellings resolve instead of warning and leaving these null.
+        $version = tbStatusValue($status['StatusFWR'],
+            array('Version','Program','Versie','Wersja'));
+        $mac = strtoupper(tbStatusValue($status['StatusNET'],
+            array('Mac')));
+        $hostname = tbStatusValue($status['StatusNET'],
+            array('Hostname','Host'));
 
         if (!isset($settings['autoupdate_name']) || (isset($settings['autoupdate_name']) && $settings['autoupdate_name']=='Y')) {
             if(isset($settings['use_topic_as_name']) && $settings['use_topic_as_name']=='F') {
@@ -1169,8 +1330,8 @@ function backupSingle($id, $name, $ip, $user, $password, $type=0)
                 if(!isset($settings['use_topic_as_name']) || $settings['use_topic_as_name']=='N') {
                     if (isset($status['Status']['DeviceName']) && strlen(preg_replace('/\s+/', '',$status['Status']['DeviceName']))>0)
                         $name=$status['Status']['DeviceName'];
-                    else if (isset($status['Status']['FriendlyName'][0]))
-                        $name=$status['Status']['FriendlyName'][0];
+                    else if (tasmotaFriendlyName($status) !== '')
+                        $name=tasmotaFriendlyName($status);
                 }
             }
         }
@@ -1330,16 +1491,19 @@ function statusIdentity($status, $type, &$name, &$version, &$mac, &$hostname)
             if(!isset($settings['use_topic_as_name']) || $settings['use_topic_as_name']=='N') {
                 if (isset($status['Status']['DeviceName']) && strlen(preg_replace('/\s+/', '',$status['Status']['DeviceName']))>0)
                     $name=$status['Status']['DeviceName'];
-                else if (isset($status['Status']['FriendlyName'][0]))
-                    $name=$status['Status']['FriendlyName'][0];
+                else if (tasmotaFriendlyName($status) !== '')
+                    $name=tasmotaFriendlyName($status);
             }
         }
-        if (isset($status['StatusFWR']['Version']))
-            $version=$status['StatusFWR']['Version'];
-        if (isset($status['StatusNET']['Mac']))
-            $mac=strtoupper($status['StatusNET']['Mac']);
-        if (isset($status['StatusNET']['Hostname']))
-            $hostname=$status['StatusNET']['Hostname'];
+        if (($v=tbStatusValue(isset($status['StatusFWR'])?$status['StatusFWR']:null,
+                array('Version','Program','Versie','Wersja'))) !== '')
+            $version=$v;
+        if (($v=tbStatusValue(isset($status['StatusNET'])?$status['StatusNET']:null,
+                array('Mac'))) !== '')
+            $mac=strtoupper($v);
+        if (($v=tbStatusValue(isset($status['StatusNET'])?$status['StatusNET']:null,
+                array('Hostname','Host'))) !== '')
+            $hostname=$v;
     } else if (intval($type)===1) { // WLED
         if(isset($status['info']['name']))
             $name=trim($status['info']['name']);

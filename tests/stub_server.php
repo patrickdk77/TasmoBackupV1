@@ -137,7 +137,92 @@ function tb_stub_status($fw)
             'Hostname' => 'kitchen-eth', 'IPAddress' => '0.0.0.0',
             'Mac' => 'AA:BB:CC:DD:EE:F0');
     }
+
+    // ---- pre-13 shapes ------------------------------------------------
+    //
+    // Boundaries all come from tests/COMPAT-RESEARCH.md, which cites the
+    // firmware file and line at each release tag. Only the fields this
+    // app actually reads are modelled; the rest of the blocks above are
+    // carried along unchanged so the JSON stays realistic in size.
+
+    // Status.DeviceName does not exist until v8.3.1, so on anything
+    // older FriendlyName is what naming falls back to.
+    if (in_array($fw, array('3.9.13','3.9.20','5.0','5.7','5.7-nl',
+            '5.7-de','5.10','5.12','6.3','6.5','9.3','10.0'), true))
+        unset($status['Status']['DeviceName']);
+
+    // FriendlyName is a bare string up to v5.12.0, an array from
+    // v5.13.1.  src: sonoff/sonoff.ino:1712 @v5.12.0 vs :1269 @v5.13.1
+    if (in_array($fw, array('3.9.13','3.9.20','5.0','5.7','5.7-nl',
+            '5.7-de','5.10','5.12'), true))
+        $status['Status']['FriendlyName'] = 'Kitchen Light';
+
+    // StatusNET carried Host, not Hostname, before v5.5.1, and the ip
+    // key moved IP -> IPaddress -> IPAddress across v5.5.0/v5.5.1/v5.7.0.
+    if ($fw === '3.9.13' || $fw === '3.9.20' || $fw === '5.0') {
+        $status['StatusNET']['Host'] = $status['StatusNET']['Hostname'];
+        unset($status['StatusNET']['Hostname']);
+        $status['StatusNET']['IP'] = $status['StatusNET']['IPAddress'];
+        unset($status['StatusNET']['IPAddress']);
+    }
+    if ($fw === '5.5.1' || $fw === '5.6.1') {
+        $status['StatusNET']['IPaddress'] = $status['StatusNET']['IPAddress'];
+        unset($status['StatusNET']['IPAddress']);
+        $status['Status']['FriendlyName'] = 'Kitchen Light';
+        unset($status['Status']['DeviceName']);
+    }
+
+    // StatusFWR carried Program, not Version, before v5.7.0.
+    //   src: sonoff/sonoff.ino:1790 @v5.6.1 vs :1787 @v5.7.0
+    $fwrver = array('3.9.13' => '3.9.13', '3.9.20' => '3.9.20',
+        '5.0' => '5.0.0', '5.5.1' => '5.5.1', '5.6.1' => '5.6.1',
+        '5.7' => '5.7.0', '5.7-nl' => '5.7.0', '5.7-de' => '5.7.0',
+        '5.10' => '5.10.0', '5.12' => '5.12.0', '6.3' => '6.3.0',
+        '6.5' => '6.5.0', '9.3' => '9.3.1', '10.0' => '10.0.0');
+    if (isset($fwrver[$fw])) {
+        $status['StatusFWR']['Version'] = $fwrver[$fw];
+        if (version_compare($fwrver[$fw], '5.7.0', '<')) {
+            $status['StatusFWR']['Program'] =
+                $status['StatusFWR']['Version'];
+            unset($status['StatusFWR']['Version']);
+        }
+    }
+
+    // v5.7.0 to v5.10.0 took the wire keys straight from the build's
+    // language header, so a Dutch image spells the version key "Versie"
+    // and a German one spells the mac key "MAC".
+    //   src: language/nl-NL.h:197 and de-DE.h:122 @v5.10.0
+    if ($fw === '5.7-nl') {
+        $status['StatusFWR']['Versie'] = $status['StatusFWR']['Version'];
+        unset($status['StatusFWR']['Version']);
+    }
+    if ($fw === '5.7-de') {
+        $status['StatusNET']['MAC'] = $status['StatusNET']['Mac'];
+        unset($status['StatusNET']['Mac']);
+    }
     return $status;
+}
+
+/*
+ * The subset of Status 0 that a given "Status <n>" request returns.
+ * The real device answers each numbered request with only its own
+ * block, which is what makes the app's status2 / status5 fallbacks
+ * meaningful. Serving the whole of Status 0 for every cmnd, as this
+ * stub used to, made those fallbacks impossible to exercise.
+ */
+function tb_stub_status_block($status, $n)
+{
+    $map = array('0' => null, '1' => 'StatusPRM', '2' => 'StatusFWR',
+        '3' => 'StatusLOG', '4' => 'StatusMEM', '5' => 'StatusNET',
+        '6' => 'StatusMQT', '7' => 'StatusTIM', '11' => 'StatusSTS');
+    if ($n === '' || $n === '0')
+        return $status;
+    if (!isset($map[$n]) || $map[$n] === null)
+        return array();
+    $key = $map[$n];
+    if (!isset($status[$key]))
+        return array();
+    return array($key => $status[$key]);
 }
 
 $status = tb_stub_status(isset($conf['fw']) ? (string)$conf['fw'] : '13');
@@ -174,6 +259,17 @@ if ($path === '/') {
     if ($conf['status'] != 200)
         return tb_stub_fail($conf['status']);
     header('Content-Type: text/html');
+    // Before v5.10.0 the root page named nothing: HTTP_END was only
+    // "</div></body></html>" and the version footer carrying
+    // D_PROGRAMNAME did not exist yet.
+    //   src: sonoff/webserver.ino:279-281 + sonoff.h:23 @v5.10.0
+    if (!empty($conf['nomarker'])) {
+        echo '<html><head><title>Kitchen Light - Main Menu</title>'.
+            '</head><body><div style="text-align:center;">'.
+            '<button>Toggle</button><button>Configuration</button>'.
+            '</div></body></html>';
+        return;
+    }
     $kind = isset($conf['kind']) && $conf['kind'] === 'wled'
         ? 'WLED' : 'Tasmota';
     echo '<html><head><title>'.$kind.'</title></head><body>'.
@@ -192,8 +288,57 @@ if ($path === '/index') {
 if ($path === '/cm') {
     if ($conf['status'] != 200)
         return tb_stub_fail($conf['status']);
+    if (isset($conf['body'])) {
+        header('Content-Type: application/json');
+        echo $conf['body'];
+        return;
+    }
+
+    // With WebLog below 2 the device answers every command with HTTP
+    // 200 and a WARNING object instead of the block asked for. This is
+    // the shape that used to get spliced in as NULL.
+    //   src: tasmota/xdrv_01_webserver.ino:3069 @v9.1.0
+    if (!empty($conf['weblog0'])) {
+        header('Content-Type: application/json');
+        echo '{"WARNING":"Enable weblog 2 if response expected"}';
+        return;
+    }
+
+    // Honour the requested block. cmnd is "Status 0", "Status 2", ...
+    $cmnd = isset($_GET['cmnd']) ? trim($_GET['cmnd']) : 'Status 0';
+    $n = '0';
+    if (preg_match('/^status\s*(\d*)$/i', $cmnd, $m))
+        $n = $m[1] === '' ? '' : $m[1];
+    $body = tb_stub_status_block($status, $n);
+
+    // Before the JSON-only era the numbered blocks came back as a
+    // plaintext, newline separated "STATUS = {...}" transcript, which
+    // jsonTasmotaDecode exists to normalise.
+    //   src: sonoff/webserver.ino:1353-1370 @v5.10.0
+    if (!empty($conf['plaintext'])) {
+        header('Content-Type: text/plain');
+        if ($n === '' || $n === '0') {
+            $lines = array();
+            $labels = array('StatusPRM' => 'STATUS1',
+                'StatusFWR' => 'STATUS2', 'StatusLOG' => 'STATUS3',
+                'StatusMEM' => 'STATUS4', 'StatusNET' => 'STATUS5',
+                'StatusTIM' => 'STATUS7');
+            $lines[] = 'STATUS = '.json_encode(
+                array('Status' => $status['Status']));
+            foreach ($labels as $k => $label) {
+                if (isset($status[$k]))
+                    $lines[] = $label.' = '.json_encode(array($k => $status[$k]));
+            }
+            echo implode("\n", $lines);
+        } else {
+            $label = ($n === '2') ? 'STATUS2' : 'STATUS'.$n;
+            echo $label.' = '.json_encode($body);
+        }
+        return;
+    }
+
     header('Content-Type: application/json');
-    echo isset($conf['body']) ? $conf['body'] : json_encode($status);
+    echo json_encode($body);
     return;
 }
 
@@ -208,6 +353,16 @@ if ($path === '/json') {
 if ($path === '/dl') {
     if ($conf['dl'] != 200)
         return tb_stub_fail($conf['dl']);
+    // In user webserver mode (WebServer 1) Tasmota does not refuse /dl,
+    // it renders the main page at HTTP 200 instead.
+    //   src: sonoff/webserver.ino:918 + HttpUser :546-553 @v5.10.0
+    if (!empty($conf['webserver_user'])) {
+        header('Content-Type: text/html');
+        echo '<html><head><title>Kitchen Light - Main Menu</title>'.
+            '</head><body><div>'.str_repeat('menu ', 400).
+            '</div></body></html>';
+        return;
+    }
     header('Content-Type: application/octet-stream');
     echo str_repeat("\x01\x02\x03\x04", 1024); // stand-in config.dmp
     return;
@@ -391,6 +546,16 @@ if ($path === '/u2') {
     if ($conf['u2'] != 200)
         return tb_stub_fail($conf['u2']);
     http_response_code(200);
+    // HandleUploadDone renders its result page at 200 whether or not
+    // upload_error is set, so a rejected upload looks identical at the
+    // status line and differs only in the body.
+    //   src: tasmota/xdrv_01_webserver.ino:2675-2695 @v9.1.0
+    if (!empty($conf['u2_reject'])) {
+        echo '<html><body><div style="text-align:center;">'.
+            "<b>Upload Failed</b><br><font color='red'>".
+            'File invalid</font></div></body></html>';
+        return;
+    }
     echo 'Upload Successful';
     return;
 }

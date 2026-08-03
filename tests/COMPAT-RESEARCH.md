@@ -633,3 +633,134 @@ _Failure:_ make test passes green while backupSingle emits three PHP warnings an
 I checked this specifically and found no correctness defect. /ufsd did not exist before v9.3.0 (tasmota/xdrv_50_filesystem.ino is absent at v9.2.0), confirmed against the route lists at v5.10.0 sonoff/webserver.ino:323-347 and v6.5.0 sonoff/xdrv_01_webserver.ino:482-490. An unknown path falls to HandleNotFound, which sends a plain 404 in every version I read (v5.10.0 sonoff/webserver.ino:1598-1620, v6.5.0 :2110-2130, v8.5.1 tasmota/xdrv_01_webserver.ino:3186-3206, v9.1.0 :3143-3163), so getTasmotaBerryFiles:722 returns array(), $ext stays '.dmp' at lines 1127-1128 and getTasmotaBackup takes the unchanged plain-dump path -- old backups and old restores are unaffected. Even a `WebServer 1` device, which answers /ufsd with the root page at 200, yields no regex match at line 729. The only cost is one extra request (CURLOPT_CONNECTTIMEOUT 12, CURLOPT_TIMEOUT 30) per device per backup on every pre-9.3.0 device, because the probe at lines 1121-1125 is gated only on type and the backup_berry setting, with no firmware-version condition even though $status['StatusFWR']['Version'] is already in hand at that point.
 
 _Failure:_ A fleet of 40 Tasmota 8.x devices: each scheduled backup makes 40 pointless /ufsd requests that 404. No wrong data is stored and no backup fails; the run just takes longer, and for a host that is down each probe burns the full 12s connect timeout before the /dl attempt burns it again.
+---
+
+# App-side verdicts (checked by hand 2026-08-03, post-workflow)
+
+The workflow's refutation pass was killed part way. These nine old-Tasmota
+findings were re-checked directly against the current tree instead. Only
+the APP half is verified here; the firmware half is the sourced citation
+in each finding above, at a named file and line at a named release tag.
+
+Line numbers below are current as of this file being written, after the
+WLED restore work shifted lib/functions.inc.php by roughly 107 lines.
+
+| # | claim | app side | evidence |
+|---|-------|----------|----------|
+| 32 | scan marker absent < v5.10.0 | CONFIRMED | `strpos($data,'Tasmota')` is the only test, both in getTasmotaScan and getTasmotaScanRange |
+| 33 | scalar FriendlyName yields one character | CONFIRMED | three sites index `['FriendlyName'][0]`: functions.inc.php:1172, :1333, mqtt.inc.php:120 |
+| 34 | StatusFWR.Version read unguarded | CONFIRMED | functions.inc.php:1158 has no isset, but statusIdentity:1337 does. The two identity readers genuinely disagree |
+| 35 | StatusNET.Mac read unguarded | CONFIRMED | functions.inc.php:1159 has no isset, but statusIdentity:1339 does |
+| 36 | status2/status5 spliced without an existence check | CONFIRMED | functions.inc.php:1131 and :1138 assign blind; addTasmotaDevice:1403 and :1394 have exactly the guard that is missing |
+| 37 | /dl stores any 200 body as a dump | CONFIRMED | only `$err \|\| $statusCode != 200` is tested, no size, content type or CRC check |
+| 38 | /u2 200 treated as restore success | CONFIRMED | `if (!$err && $statusCode == 200) return true;`, the body is never inspected |
+| 39 | jsonTasmotaDecode repairs nan but not inf | CONFIRMED | functions.inc.php:45 repair list holds ":nan," and ":nan}" and no inf form |
+| 40 | MQTT misses the IPaddress spelling | CONFIRMED | mqtt.inc.php:103-106 tests only `IP` and `IPAddress`. The inline comments naming 5.12.0 as the boundary are also wrong: the real sequence is IP through v5.5.0, IPaddress v5.5.1-v5.6.1, IPAddress from v5.7.0 |
+
+Nothing was refuted. Findings 34, 35 and 36 are the same defect three
+times over, and in each case the correctly guarded version of the same
+code already exists a few hundred lines away, which is good evidence the
+guards were simply never carried across rather than deliberately omitted.
+
+## Supported floor
+
+3.9.13. `/dl` and `/rs` were introduced there as one feature; v3.9.12 and
+earlier register only /cn /md /w1 /w0 /mq /dm /lg /co /sv /rt /up /u1 and
+have no config download over HTTP by any route. 2.x is out of scope
+permanently, not as a matter of effort.
+
+Boundaries that shape the fixtures, all from the research above:
+- 3.9.20  ?user=&password= on /cm appears
+- v5.5.1  StatusNET ip key becomes IPaddress (lowercase a) until v5.6.1
+- v5.7.0  StatusFWR key Program becomes Version; ip key becomes IPAddress
+- v5.7.0 to v5.10.0  wire keys come from the language headers, so de/nl/pl
+          builds emit MAC / Versie / Wersja
+- v5.10.0 "Tasmota" first appears in the root page, so scan can see it
+- v5.12.0 last release with scalar FriendlyName; array from v5.13.1
+- v6.3.0  inf and nan replaced with null at the source
+- v6.5.0  /dl gains a password gate
+- v8.3.1  Status.DeviceName appears
+- v9.3.1  HTTP basic auth starts working on /cm
+- v10.0.0 referer check and SetOption128 exist at all
+- v13.1.0 esp32 dumps become tar wrapped and larger than 4096 bytes
+- v15.5.0 referer default flips, but only for fresh or reset configs
+
+---
+
+# Progress log
+
+## 2026-08-03 03:0x, all nine confirmed defects fixed
+
+| # | fix |
+|---|-----|
+| 32 | `looksLikeOldTasmota()` probes Status 0 when every page marker misses, so 3.9.13-5.9.1 can be registered |
+| 33 | `tasmotaFriendlyName()` handles scalar and array; replaced all three `['FriendlyName'][0]` sites |
+| 34 | version read via `tbStatusValue(..., Version/Program/Versie/Wersja)` |
+| 35 | mac read via `tbStatusValue(..., Mac)`, case insensitive so de-DE "MAC" resolves |
+| 36 | both status2/status5 splices now `isset`-guarded and bail, matching addTasmotaDevice |
+| 37 | `/dl` result rejected when empty or when the body starts with `<` (WebServer 1 serves the root page at 200) |
+| 38 | `/u2` result body scanned for a rejection message; 200 alone no longer means success |
+| 39 | `jsonTasmotaDecode` gained a regex pass covering bare inf, -inf, and nan/inf inside arrays |
+| 40 | mqtt ip read via `tbStatusValue(..., IPAddress/IP)`, which collapses the v5.5.1-v5.6.1 "IPaddress"; wrong 5.12.0 comments replaced with the real boundaries |
+
+Two shared helpers were added rather than nine separate patches:
+`tbStatusValue($block, $names)` for case-insensitive key lookup with
+aliases, and `tasmotaFriendlyName($status)`.
+
+Suite after the fixes: 15 files, all green. No test yet proves any of
+these, that is the next chunk.
+
+## Still to do
+- version-aware `tb_stub_status()` across 3.9.13 to 15.5
+- `/cm` honouring the cmnd argument so Status 2 / Status 5 are reachable
+- a negative test per defect above
+
+## 2026-08-03, tests added and coverage proven
+
+tests/test_tasmota_legacy.php, 29 tests. Fixtures for 3.9.13, 3.9.20,
+5.0, 5.5.1, 5.6.1, 5.7 (plus nl and de localized variants), 5.10, 5.12,
+6.3, 6.5, 9.3, 10.0, alongside the existing 13/14/15/esp32.
+
+Stub changes: tb_stub_status() is version aware; /cm honours the cmnd
+argument and serves only the requested block, so the status2 and
+status5 fallbacks are reachable for the first time; new conf knobs
+`plaintext` (the newline separated STATUS transcript era), `weblog0`
+(200 plus a WARNING object), `nomarker` (a root page naming nothing),
+`webserver_user` (/dl answering with the root page) and `u2_reject`
+(200 with a rejection in the body).
+
+Coverage was proven by reverting each fix in a throwaway copy and
+confirming the matching test fails. All nine are covered:
+
+| # | test that fails when the fix is reverted |
+|---|------------------------------------------|
+| 32 | a device whose root page names nothing is still identified |
+| 33 | a scalar FriendlyName is read whole (+ the naming test) |
+| 34 | a backup from a Program-era device records its version |
+| 35 | a backup from a german build keeps its mac identity |
+| 36 | a weblog 0 device is treated as unusable, not backed up blind |
+| 37 | an html page from /dl is not stored as a config |
+| 38 | a rejected upload is not reported as a successful restore |
+| 39 | bare inf / negative inf / nan inside an array |
+| 40 | mqtt discovery accepts a v5.5.1-v5.6.1 IPaddress reply |
+
+Finding 40 initially had no behavioural coverage, because the tests
+exercised tbStatusValue directly and that helper survives a revert of
+the call site. The ip/mac/name extraction was therefore split out of
+getTasmotaMQTTScan into mqttDeviceIdentity(), which is testable without
+a broker, and the revert check now fails as it should.
+
+Full suite: 16 files, 249 tests, green.
+
+## Not done
+- Finding 41's remaining fixtures: no test yet drives a Tasmota 6.x or
+  7.x specific shape, they are covered only by the shared 5.x/13.x
+  fixtures.
+- Finding 42 (the unconditional /ufsd probe costing one round trip on
+  pre-9.3.0 devices) is left alone. It is correct, just wasteful, and
+  gating it on the version in hand is a behaviour change I did not want
+  to make unattended.
+- The v15.5.0 referer gate is still modelled only on /rs, not on /dl,
+  /cm, /ufsd, /ufsu and POST /u2 which are equally gated (finding 25).
+- The stub's referer check is still presence-only, so a wrong-value
+  Referer cannot be caught (finding 26).
